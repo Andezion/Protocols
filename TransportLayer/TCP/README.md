@@ -4,6 +4,8 @@
 
 ## Теория 
 
+![photo1](photos/image.png)
+
 
 
 ## Процесс 

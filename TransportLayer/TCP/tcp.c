@@ -79,12 +79,16 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
     FD_SET(sockfd, &rfds);
 
     struct timeval tv;
+    struct timeval *tvp = NULL;
+    
+    if (timeout_ms >= 0) {
+        tv.tv_sec = timeout_ms / 1000;
+        tv.tv_usec = (timeout_ms % 1000) * 1000;
+        tvp = &tv;
+    }
 
-    tv.tv_sec = timeout_ms / 1000;
-    tv.tv_usec = (timeout_ms % 1000) * 1000;
-
-    int rv = select(sockfd + 1, &rfds, NULL, NULL, &tv);
-    if (rv <= 0) { 
+    int rv = select(sockfd + 1, &rfds, NULL, NULL, tvp);
+    if (rv <= 0) {
         return -1;
     }
 
@@ -169,7 +173,7 @@ int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen,
     uint32_t seq, ack;
     uint8_t flags;
 
-    if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 0) < 0) {
+    if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, -1) < 0) {
         return -1;
     }
 

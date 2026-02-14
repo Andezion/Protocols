@@ -11,6 +11,7 @@
 #include <sys/time.h> // для gettimeofday
 #include <unistd.h> // для close
 
+// наша структура заголовка TCP-подобного протокола, упакованная для предотвращения добавления компилятором выравнивания между полями
 struct __attribute__((packed)) simple_tcp_hdr {
     uint16_t src_port;
     uint16_t dst_port;

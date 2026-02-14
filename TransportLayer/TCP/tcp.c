@@ -62,19 +62,19 @@ int tcp_send_packet(int sockfd, const struct sockaddr *dest, socklen_t destlen,
     iov[1].iov_len = len; // длина наших данных
 
     struct msghdr msg = { 0 }; // структура для описания сообщения, которое мы будем отправлять, она позволяет нам указать адрес назначения, вектор буферов и другие параметры отправки
-    msg.msg_name = (void *) dest;
-    msg.msg_namelen = destlen;
-    msg.msg_iov = iov;
-    msg.msg_iovlen = (len > 0 ? 2 : 1);
+    msg.msg_name = (void *) dest; // куда шлём
+    msg.msg_namelen = destlen; // длина адреса назначения
+    msg.msg_iov = iov; // указатель на вектор буферов, который мы хотим отправить
+    msg.msg_iovlen = (len > 0 ? 2 : 1); // количество элементов в векторе буферов, если у нас есть данные для отправки, то мы отправляем и заголовок и данные, иначе мы отправляем только заголовок
 
-    ssize_t sent = sendmsg(sockfd, &msg, 0);
+    ssize_t sent = sendmsg(sockfd, &msg, 0); // отправляем наше сообщение, если отправка прошла успешно, то sendmsg вернет количество байт, которые были отправлены, иначе он вернет -1 и установит errno
     return (sent < 0) ? -1 : 0;
 }
 
 ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
                         uint32_t *seq, uint32_t *ack, uint8_t *flags,
                         void *buf, size_t buflen, int timeout_ms) {
-    fd_set rfds;
+    fd_set rfds; // множество дескрипторов для функции select, которая позволяет нам ждать, пока сокет станет готовым для чтения, с возможностью указать таймаут, чтобы мы не ждали вечно, если ничего не придет
 
     FD_ZERO(&rfds);
     FD_SET(sockfd, &rfds);

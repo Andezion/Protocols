@@ -13,13 +13,13 @@
 
 // наша структура заголовка TCP-подобного протокола, упакованная для предотвращения добавления компилятором выравнивания между полями
 struct __attribute__((packed)) simple_tcp_hdr {
-    uint16_t src_port;
-    uint16_t dst_port;
-    uint32_t seq;
-    uint32_t ack;
-    uint8_t  flags;
-    uint8_t  _pad;
-    uint16_t window;
+    uint16_t src_port; // куда шлём
+    uint16_t dst_port; // откуда пришло
+    uint32_t seq; // номер нашей последовательности
+    uint32_t ack; // номер подтверждения, который мы ожидаем от другой стороны
+    uint8_t  flags; // наши флаги 
+    uint8_t  _pad; // наше место свободных байтов
+    uint16_t window; // размер окна, смотри схему
 };
 
 int udp_socket_bind(uint16_t port) {

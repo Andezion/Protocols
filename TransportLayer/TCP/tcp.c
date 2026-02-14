@@ -149,23 +149,28 @@ int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
     uint32_t seq, ack; // храним номер последовательности и номер подтверждения, которые мы получаем в ответе
     uint8_t flags; // храним флаги, которые мы получаем в ответе
 
+    // ждем ответ на наш SYN пакет, если мы не получаем его в течение 5 секунд или если происходит ошибка, то возвращаем -1
     if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 5000) < 0) {
         return -1;
     }
 
+    // проверяем, что мы получили SYN-ACK пакет, если нет, то это ошибка, и мы возвращаем -1
     if (!(flags & TCP_FLAG_SYN) || !(flags & TCP_FLAG_ACK)) {
         return -1;
     }
 
+    // проверяем, что номер подтверждения, который мы получили, соответствует нашему ISN + 1, если нет, то это ошибка, и мы возвращаем -1
     if (ack != isn + 1) { 
         return -1;
     }
 
+    // отправляем ACK пакет с нашим ISN + 1 и номером подтверждения, который мы получили от сервера + 1, если отправка не удалась, то возвращаем -1
     uint32_t server_isn = seq;
     if (tcp_send_packet(sockfd, servaddr, addrlen, isn+1, server_isn + 1, TCP_FLAG_ACK, NULL, 0) < 0) {
         return -1;
     }
 
+    // если нам нужно вернуть ISN клиента, то мы записываем его в указатель, который был передан в функцию
     if (out_isn) {
         *out_isn = isn;
     }

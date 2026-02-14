@@ -117,14 +117,14 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
 
     *flags = hdr.flags; // флаги
 
-    size_t payload = r - sizeof(hdr);
-    if (payload && buf && buflen) {
+    size_t payload = r - sizeof(hdr); // это общее количество байт минус размер нашего заголовка
+    if (payload && buf && buflen) { // если у нас есть данные в пакете и у нас есть буфер для их хранения, то мы копируем данные в наш буфер, но не больше размера нашего буфера, чтобы избежать переполнения
         size_t tocopy = (payload < buflen) ? payload : buflen;
         memcpy(buf, tmp + sizeof(hdr), tocopy);
     }
 
-    *srclen = len;
-    return (ssize_t) payload;
+    *srclen = len; 
+    return (ssize_t) payload; // возвращаем количество байт данных, которые мы получили, без учета заголовка
 }
 
 static uint32_t gen_isn(void) {

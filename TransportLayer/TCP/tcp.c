@@ -127,17 +127,18 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
     return (ssize_t) payload; // возвращаем количество байт данных, которые мы получили, без учета заголовка
 }
 
+// функция для генерации начального числа
 static uint32_t gen_isn(void) {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (uint32_t) ((tv.tv_sec ^ tv.tv_usec) & 0xffffffff);
+    struct timeval tv; // тут храним время
+    gettimeofday(&tv, NULL); // получаем текущее время
+    return (uint32_t) ((tv.tv_sec ^ tv.tv_usec) & 0xffffffff); // генерируем начальное число последовательности, используя текущее время, чтобы оно было разным при каждом запуске программы, мы используем XOR между секундами и микросекундами, а затем берем только младшие 32 бита, чтобы получить uint32_t
 }
 
 int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
                 uint32_t *out_isn) {
     uint32_t isn = gen_isn();
     
-    if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)
+    if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)  
         return -1;
 
     struct sockaddr_storage src;

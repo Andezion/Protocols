@@ -104,17 +104,18 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
         return -1;
     }
 
+    // проверяем, что мы получили достаточно байт для нашего заголовка, если нет, то это ошибка, и мы возвращаем -1
     if ((size_t)r < sizeof(struct simple_tcp_hdr)) {
         return -1;
     }
 
-    struct simple_tcp_hdr hdr;
-    memcpy(&hdr, tmp, sizeof(hdr));
+    struct simple_tcp_hdr hdr; // создаем снова структуру нашу 
+    memcpy(&hdr, tmp, sizeof(hdr)); // копируем туда дату 
 
-    *seq = ntohl(hdr.seq);
-    *ack = ntohl(hdr.ack);
+    *seq = ntohl(hdr.seq); // номер последовательности
+    *ack = ntohl(hdr.ack); // номер подтверждения
 
-    *flags = hdr.flags;
+    *flags = hdr.flags; // флаги
 
     size_t payload = r - sizeof(hdr);
     if (payload && buf && buflen) {

@@ -1,10 +1,10 @@
 #ifndef SIMPLE_TCP_H
 #define SIMPLE_TCP_H
 
-#include <stdint.h>
-#include <stddef.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#include <stdint.h> // для uint16_t, uint32_t и uint8_t
+#include <stddef.h> // для size_t
+#include <sys/types.h> // для ssize_t
+#include <sys/socket.h> // для struct sockaddr и socklen_t
 
 #define TCP_FLAG_FIN 0x01
 #define TCP_FLAG_SYN 0x02

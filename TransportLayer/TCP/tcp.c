@@ -98,6 +98,7 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
     unsigned char tmp[65536]; // наш буфер для данных
     socklen_t len = *srclen; // длина нашего буфера
 
+    // вызываем recvfrom чтобы получить данные из сокета, если данные были успешно получены, то recvfrom вернет количество байт, иначе он вернет -1 и установит errno
     ssize_t r = recvfrom(sockfd, tmp, sizeof(tmp), 0, src, &len);
     if (r <= 0) {
         return -1;

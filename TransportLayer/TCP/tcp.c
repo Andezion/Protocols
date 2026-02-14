@@ -76,25 +76,27 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
                         void *buf, size_t buflen, int timeout_ms) {
     fd_set rfds; // множество дескрипторов для функции select, которая позволяет нам ждать, пока сокет станет готовым для чтения, с возможностью указать таймаут, чтобы мы не ждали вечно, если ничего не придет
 
-    FD_ZERO(&rfds);
-    FD_SET(sockfd, &rfds);
+    FD_ZERO(&rfds); // инициализируем множество дескрипторов, очищая его от всех дескрипторов 
+    FD_SET(sockfd, &rfds); // добавляем наш сокет в множество дескрипторов, чтобы мы могли ждать его готовности для чтения
 
-    struct timeval tv;
-    struct timeval *tvp = NULL;
+    struct timeval tv; // сколько будем ждать до того, как мы решим, что ничего не придет, и вернем 0, если timeout_ms >= 0, иначе мы будем ждать вечно, пока не придет что-то или не произойдет ошибка
+    struct timeval *tvp = NULL; // указатель на нашу структуру, которая передаётся в select чтобы указать таймаут
     
+    // тут просто настраиваем структуру timeval, если нам нужно использовать таймаут, иначе мы оставляем tvp равным NULL, чтобы select ждал вечно
     if (timeout_ms >= 0) {
         tv.tv_sec = timeout_ms / 1000;
         tv.tv_usec = (timeout_ms % 1000) * 1000;
         tvp = &tv;
     }
 
+    // вызываем select который будет ждать готовность сокета к чтению, если сокет станет готовым, то select вернет количество готовых дескрипторов (в нашем случае 1), если произойдет ошибка, то select вернет -1, если истечет таймаут, то select вернет 0
     int rv = select(sockfd + 1, &rfds, NULL, NULL, tvp);
     if (rv <= 0) {
         return -1;
     }
 
-    unsigned char tmp[65536];
-    socklen_t len = *srclen;
+    unsigned char tmp[65536]; // наш буфер для данных
+    socklen_t len = *srclen; // длина нашего буфера
 
     ssize_t r = recvfrom(sockfd, tmp, sizeof(tmp), 0, src, &len);
     if (r <= 0) {

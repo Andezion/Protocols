@@ -13,7 +13,8 @@
 #define TCP_FLAG_ACK 0x10
 #define TCP_FLAG_URG 0x20
 
-int udp_socket_bind(uint16_t port);
+// функция для того чтобы "открыть" сокет и занять его
+int udp_socket_bind(uint16_t port); // передаём порт, а взвращаем дескриптор сокета
 
 int tcp_send_packet(int sockfd, const struct sockaddr *dest, socklen_t destlen,
                     uint32_t seq, uint32_t ack, uint8_t flags,

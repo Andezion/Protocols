@@ -23,18 +23,18 @@ struct __attribute__((packed)) simple_tcp_hdr {
 };
 
 int udp_socket_bind(uint16_t port) {
-    int s = socket(AF_INET, SOCK_DGRAM, 0);
-    if (s < 0) { 
+    int s = socket(AF_INET, SOCK_DGRAM, 0); // создаём UDP сокет, который мы будем использовать для имитации TCP
+    if (s < 0) { // может не получится если порт уже занят или по другим причинам, тогда возвращаем -1
         return -1;
     }
 
-    struct sockaddr_in addr = {0};
+    struct sockaddr_in addr = {0}; // просто создание структуры 
 
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    addr.sin_port = htons(port);
+    addr.sin_family = AF_INET; // мы используем IPv4
+    addr.sin_addr.s_addr = htonl(INADDR_ANY); // мы будем принимать пакеты, адресованные любому из наших IP-адресов
+    addr.sin_port = htons(port); // мы будем слушать на этом порту
 
-    if (bind(s, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+    if (bind(s, (struct sockaddr *) &addr, sizeof(addr)) < 0) { // пытаемся забить сокет на нужный порт
         close(s);
         return -1;
     }

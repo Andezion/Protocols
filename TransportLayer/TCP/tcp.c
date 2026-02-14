@@ -178,22 +178,26 @@ int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
     return 0;
 }
 
+// функция для принятия входящего соединения, заполняет clientaddr и clientlen, а также возвращает ISN клиента и сервера, возвращает 0 при успехе, -1 при ошибке
 int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen,
                uint32_t *client_isn, uint32_t *server_isn) {
-    struct sockaddr_storage src;
-    socklen_t srclen = sizeof(src);
+    struct sockaddr_storage src; // храним адрес источника, от которого мы получаем SYN пакет
+    socklen_t srclen = sizeof(src); // храним длину адреса источника
+ 
+    uint32_t seq, ack; // храним номер последовательности и номер подтверждения, которые мы получаем в SYN пакете
+    uint8_t flags; // храним флаги, которые мы получаем в SYN пакете
 
-    uint32_t seq, ack;
-    uint8_t flags;
-
+    // ждем SYN пакет от клиента, если мы не получаем его или если происходит ошибка, то возвращаем -1
     if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, -1) < 0) {
         return -1;
     }
 
+    // проверяем, что мы получили SYN пакет, если нет, то это ошибка, и мы возвращаем -1
     if (!(flags & TCP_FLAG_SYN)) { 
         return -1;
     }
 
+    // если нам нужно заполнить адрес клиента, то мы копируем его из src в clientaddr, если указатель clientaddr не NULL и если указатель addrlen не NULL и если длина адреса клиента меньше или равна тому, что может поместиться в clientaddr, то мы копируем адрес и обновляем длину, иначе мы не заполняем clientaddr и не обновляем addrlen
     if (clientaddr && addrlen) {
         if (*addrlen >= srclen) {
             memcpy(clientaddr, &src, srclen);
@@ -201,19 +205,22 @@ int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen,
         }
     }
 
-    uint32_t c_isn = seq;
-    uint32_t s_isn = gen_isn();
+    uint32_t c_isn = seq; // сохраняем ISN клиента, который мы получили в SYN пакете
+    uint32_t s_isn = gen_isn(); // генерируем ISN сервера, который мы будем использовать в нашем SYN-ACK пакете
 
+    // отправляем SYN-ACK пакет с нашим ISN и номером подтверждения, который соответствует ISN клиента + 1, если отправка не удалась, то возвращаем -1
     if (tcp_send_packet(sockfd, (struct sockaddr *) &src, srclen, s_isn, c_isn + 1, TCP_FLAG_SYN|TCP_FLAG_ACK, NULL, 0) < 0) {
         return -1;
     }
 
-    srclen = sizeof(src);
+    srclen = sizeof(src); // сбрасываем длину адреса источника, чтобы мы могли использовать её для получения ответа от клиента
 
+    // ждем ACK пакет от клиента, если мы не получаем его в течение 5 секунд или если происходит ошибка, то возвращаем -1
     if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 5000) < 0) {
         return -1;
     }
 
+    // проверяем, что мы получили ACK пакет, если нет, то это ошибка, и мы возвращаем -1
     if (!(flags & TCP_FLAG_ACK)) {
         return -1;
     }

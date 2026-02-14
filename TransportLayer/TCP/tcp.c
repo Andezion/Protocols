@@ -1,15 +1,15 @@
 #include "tcp.h"
 
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/select.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <unistd.h>
+#include <arpa/inet.h> // для inet_ntop и ntohs
+#include <netinet/in.h> // для struct sockaddr_in
+#include <stddef.h> // для size_t
+#include <stdio.h> // для printf и perror 
+#include <stdlib.h> // для exit
+#include <string.h> // для memset и memcpy
+#include <sys/select.h> // для select
+#include <sys/socket.h> // для socket, bind, sendmsg, recvfrom и struct msghdr
+#include <sys/time.h> // для gettimeofday
+#include <unistd.h> // для close
 
 struct __attribute__((packed)) simple_tcp_hdr {
     uint16_t src_port;

@@ -26,11 +26,13 @@ ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
                         uint32_t *seq, uint32_t *ack, uint8_t *flags,
                         void *buf, size_t buflen, int timeout_ms); // передаём дескриптор сокета, буфер для хранения адреса источника, указатель на длину адреса, указатели для хранения номера последовательности, номера подтверждения и флагов, буфер для данных, размер буфера и время ожидания в миллисекундах
 
+// функции для установления и принятия соединения, возвращают 0 при успехе, -1 при ошибке
 int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
-                uint32_t *out_isn);
+                uint32_t *out_isn); // передаём дескриптор сокета, адрес сервера, длину адреса и указатель для хранения начального номера последовательности (ISN) клиента
 
+// функция для принятия входящего соединения, заполняет clientaddr и clientlen, а также возвращает ISN клиента и сервера
 int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen,
-               uint32_t *client_isn, uint32_t *server_isn);
+               uint32_t *client_isn, uint32_t *server_isn); // передаём дескриптор сокета, буфер для хранения адреса клиента, указатель на длину адреса, указатели для хранения начального номера последовательности (ISN) клиента и сервера
 
 #endif 
 

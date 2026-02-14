@@ -6,9 +6,9 @@
 #include <sys/types.h> // для ssize_t
 #include <sys/socket.h> // для struct sockaddr и socklen_t
 
-#define TCP_FLAG_FIN 0x01
-#define TCP_FLAG_SYN 0x02
-#define TCP_FLAG_RST 0x04
+#define TCP_FLAG_FIN 0x01 // флаг для завершения соединения
+#define TCP_FLAG_SYN 0x02 // флаг для установления соединения, используется при открытии соединения, чтобы синхронизировать начальные номера последовательности (ISN) между клиентом и сервером
+#define TCP_FLAG_RST 0x04 // флаг для сброса соединения, используется для немедленного закрытия соединения и уведомления другой стороны о проблеме
 #define TCP_FLAG_PSH 0x08
 #define TCP_FLAG_ACK 0x10
 #define TCP_FLAG_URG 0x20

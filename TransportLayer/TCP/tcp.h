@@ -16,9 +16,10 @@
 // функция для того чтобы "открыть" сокет и занять его
 int udp_socket_bind(uint16_t port); // передаём порт, а взвращаем дескриптор сокета
 
+// функция для отправки tcp пакета
 int tcp_send_packet(int sockfd, const struct sockaddr *dest, socklen_t destlen,
                     uint32_t seq, uint32_t ack, uint8_t flags,
-                    const void *data, size_t len);
+                    const void *data, size_t len); // передаём дескриптор сокета, адрес назначения, длину адреса, номер последовательности, номер подтверждения, флаги и данные для отправки
 
 ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
                         uint32_t *seq, uint32_t *ack, uint8_t *flags,

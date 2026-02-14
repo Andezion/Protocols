@@ -35,7 +35,7 @@ int udp_socket_bind(uint16_t port) {
     addr.sin_port = htons(port); // мы будем слушать на этом порту
 
     if (bind(s, (struct sockaddr *) &addr, sizeof(addr)) < 0) { // пытаемся забить сокет на нужный порт
-        close(s);
+        close(s); // может не получится если порт уже занят или по другим причинам, тогда закрываем сокет и возвращаем -1
         return -1;
     }
 
@@ -45,17 +45,17 @@ int udp_socket_bind(uint16_t port) {
 int tcp_send_packet(int sockfd, const struct sockaddr *dest, socklen_t destlen,
                     uint32_t seq, uint32_t ack, uint8_t flags,
                     const void *data, size_t len) {
-    struct simple_tcp_hdr h;
-    memset(&h, 0, sizeof(h));
+    struct simple_tcp_hdr h; // создаем пакет наш
+    memset(&h, 0, sizeof(h)); // выделяем память для заголовка и обнуляем её
 
-    h.src_port = 0;
-    h.dst_port = 0;
-    h.seq = htonl(seq);
-    h.ack = htonl(ack);
-    h.flags = flags;
-    h.window = htons(0);
+    h.src_port = 0; // поменять!
+    h.dst_port = 0; // поменять! 
+    h.seq = htonl(seq); // номер последовательности, который мы хотим отправить, преобразуем его в сетевой порядок байтов
+    h.ack = htonl(ack); // номер подтверждения, который мы ожидаем от другой стороны, преобразуем его в сетевой порядок байтов
+    h.flags = flags; // наши флаги 
+    h.window = htons(0); // наше окно
 
-    struct iovec iov[2];
+    struct iovec iov[2]; // структура для описания вектора буферов, который мы будем отправлять, она позволяет нам отправлять заголовок и данные в одном вызове sendmsg без необходимости копировать их в один буфер
     iov[0].iov_base = &h;
     iov[0].iov_len = sizeof(h);
     iov[1].iov_base = (void*)data;

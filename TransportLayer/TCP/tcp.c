@@ -143,11 +143,11 @@ int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
     if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)  {
         return -1;
     }
-    struct sockaddr_storage src;
-    socklen_t srclen = sizeof(src);
+    struct sockaddr_storage src; // храним адрес источника, от которого мы получаем ответ
+    socklen_t srclen = sizeof(src); // храним длину адреса источника
 
-    uint32_t seq, ack;
-    uint8_t flags;
+    uint32_t seq, ack; // храним номер последовательности и номер подтверждения, которые мы получаем в ответе
+    uint8_t flags; // храним флаги, которые мы получаем в ответе
 
     if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 5000) < 0) {
         return -1;

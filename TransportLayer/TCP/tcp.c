@@ -134,13 +134,15 @@ static uint32_t gen_isn(void) {
     return (uint32_t) ((tv.tv_sec ^ tv.tv_usec) & 0xffffffff); // генерируем начальное число последовательности, используя текущее время, чтобы оно было разным при каждом запуске программы, мы используем XOR между секундами и микросекундами, а затем берем только младшие 32 бита, чтобы получить uint32_t
 }
 
+// функция для установления соединения, возвращает 0 при успехе, -1 при ошибке
 int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
                 uint32_t *out_isn) {
-    uint32_t isn = gen_isn();
+    uint32_t isn = gen_isn(); // генерируем число
     
-    if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)  
+    // отправляем SYN пакет с нашим ISN, если отправка не удалась, то возвращаем -1
+    if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)  {
         return -1;
-
+    }
     struct sockaddr_storage src;
     socklen_t srclen = sizeof(src);
 

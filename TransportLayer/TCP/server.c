@@ -19,13 +19,15 @@ int main(void) {
     socklen_t clientlen = sizeof(client); // храним длину адреса клиента, она может быть разной для IPv4 и IPv6, поэтому мы используем socklen_t, который достаточно большой для хранения любого адреса
     uint32_t client_isn, server_isn; // храним ISN клиента и сервера, которые мы получаем в процессе рукопожатия
 
+    // ждем входящее соединение, если рукопожатие прошло успешно, то мы заполняем client, clientlen, client_isn и server_isn, иначе мы возвращаем -1
     if (tcp_accept(s, (struct sockaddr*)&client, &clientlen, &client_isn, &server_isn) == 0) {
-        char host[INET6_ADDRSTRLEN];
+        char host[INET6_ADDRSTRLEN]; // буфер для хранения строки с IP адресом клиента, мы используем INET6_ADDRSTRLEN, который достаточно большой для хранения любого IPv4 или IPv6 адреса в текстовом виде
 
+        // если клиент использует IPv4, то мы преобразуем его адрес в строку и выводим его на экран, иначе мы просто говорим, что мы приняли соединение от клиента без указания его адреса
         if (client.ss_family == AF_INET) {
-            struct sockaddr_in *a = (struct sockaddr_in *) &client;
+            struct sockaddr_in *a = (struct sockaddr_in *) &client; // если это IPv4, то мы приводим адрес клиента к типу struct sockaddr_in
 
-            inet_ntop(AF_INET, &a->sin_addr, host, sizeof(host));
+            inet_ntop(AF_INET, &a->sin_addr, host, sizeof(host)); // преобразуем его IP адрес в строку и сохраняем её в host
             printf("Accepted connection from %s: %u\n", host, ntohs(a->sin_port));
         }
 

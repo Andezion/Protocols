@@ -14,10 +14,10 @@ int main(void) {
 
     printf("Server listening on UDP port %u (simulated TCP)\n", port);
 
-    struct sockaddr_storage client;
+    struct sockaddr_storage client; // храним адрес клиента, который подключается
 
-    socklen_t clientlen = sizeof(client);
-    uint32_t client_isn, server_isn;
+    socklen_t clientlen = sizeof(client); // храним длину адреса клиента, она может быть разной для IPv4 и IPv6, поэтому мы используем socklen_t, который достаточно большой для хранения любого адреса
+    uint32_t client_isn, server_isn; // храним ISN клиента и сервера, которые мы получаем в процессе рукопожатия
 
     if (tcp_accept(s, (struct sockaddr*)&client, &clientlen, &client_isn, &server_isn) == 0) {
         char host[INET6_ADDRSTRLEN];

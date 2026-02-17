@@ -4,8 +4,8 @@
 #include "tcp.h"
 
 int main(void) {
-    uint16_t port = 12345;
-    int s = udp_socket_bind(port);
+    uint16_t port = 12345; // тут просто выбрали порт, можно любой выбрать от 1024 до 65535, но он должен быть свободным
+    int s = udp_socket_bind(port); // тут его бронируем
 
     if (s < 0) {
         perror("bind");

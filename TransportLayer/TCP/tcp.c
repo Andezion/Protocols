@@ -33,13 +33,14 @@ int tcp_socket_bind(uint16_t port) {
         return -1;
     }
 
-    struct sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family      = AF_INET;
+    struct sockaddr_in addr; // структура для хранения адреса (IP + порт)
+    memset(&addr, 0, sizeof(addr)); // обнуляем структуру перед заполнением
+    addr.sin_family      = AF_INET; // семейство адресов - IPv4
     addr.sin_addr.s_addr = htonl(INADDR_ANY); // принимаем соединения на всех сетевых интерфейсах
-    addr.sin_port        = htons(port);
+    addr.sin_port        = htons(port); // порт в сетевом порядке байт (big-endian)
 
-    if (bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    // Привязываем сокет к адресу и порту а если порт уже занят, bind() вернёт ошибку
+    if (bind(s, (struct sockaddr *) & addr, sizeof(addr)) < 0) {
         perror("tcp_socket_bind: bind");
         close(s);
         return -1;

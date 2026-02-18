@@ -1,244 +1,111 @@
 #include "tcp.h"
 
-#include <arpa/inet.h> // для inet_ntop и ntohs
-#include <netinet/in.h> // для struct sockaddr_in
-#include <stddef.h> // для size_t
-#include <stdio.h> // для printf и perror 
-#include <stdlib.h> // для exit
-#include <string.h> // для memset и memcpy
-#include <sys/select.h> // для select
-#include <sys/socket.h> // для socket, bind, sendmsg, recvfrom и struct msghdr
-#include <sys/time.h> // для gettimeofday
-#include <unistd.h> // для close
+#include <arpa/inet.h>  // для htons, inet_ntop
+#include <netinet/in.h> // для struct sockaddr_in, INADDR_ANY
+#include <stddef.h>     // для size_t
+#include <stdio.h>      // для perror
+#include <string.h>     // для memset
+#include <sys/socket.h> // для socket, bind, listen, accept, connect, send, recv, setsockopt
+#include <unistd.h>     // для close
 
-// наша структура заголовка TCP-подобного протокола, упакованная для предотвращения добавления компилятором выравнивания между полями
-struct __attribute__((packed)) simple_tcp_hdr {
-    uint16_t src_port; // куда шлём
-    uint16_t dst_port; // откуда пришло
-    uint32_t seq; // номер нашей последовательности
-    uint32_t ack; // номер подтверждения, который мы ожидаем от другой стороны
-    uint8_t  flags; // наши флаги 
-    uint8_t  _pad; // наше место свободных байтов
-    uint16_t window; // размер окна, смотри схему
-};
-
-int udp_socket_bind(uint16_t port) {
-    int s = socket(AF_INET, SOCK_DGRAM, 0); // создаём UDP сокет, который мы будем использовать для имитации TCP
-    if (s < 0) { // может не получится если порт уже занят или по другим причинам, тогда возвращаем -1
+// Создаёт TCP-сокет (SOCK_STREAM) без привязки к порту
+// SOCK_STREAM - потоковый сокет: данные передаются надёжно, в порядке отправки,
+// без потерь и дублирования. Ядро само управляет SYN/ACK, повторами и окном
+int tcp_socket(void) {
+    int s = socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) {
+        perror("tcp_socket: socket");
         return -1;
     }
 
-    struct sockaddr_in addr = {0}; // просто создание структуры 
+    // SO_REUSEADDR позволяет повторно занять порт сразу после закрытия сокета,
+    // что удобно при частом перезапуске сервера во время разработки
+    int opt = 1;
+    setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
-    addr.sin_family = AF_INET; // мы используем IPv4
-    addr.sin_addr.s_addr = htonl(INADDR_ANY); // мы будем принимать пакеты, адресованные любому из наших IP-адресов
-    addr.sin_port = htons(port); // мы будем слушать на этом порту
+    return s;
+}
 
-    if (bind(s, (struct sockaddr *) &addr, sizeof(addr)) < 0) { // пытаемся забить сокет на нужный порт
-        close(s); // может не получится если порт уже занят или по другим причинам, тогда закрываем сокет и возвращаем -1
+// Создаёт TCP-сокет и привязывает его к указанному порту на всех интерфейсах
+int tcp_socket_bind(uint16_t port) {
+    int s = tcp_socket();
+    if (s < 0) {
+        return -1;
+    }
+
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family      = AF_INET;
+    addr.sin_addr.s_addr = htonl(INADDR_ANY); // принимаем соединения на всех сетевых интерфейсах
+    addr.sin_port        = htons(port);
+
+    if (bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+        perror("tcp_socket_bind: bind");
+        close(s);
         return -1;
     }
 
     return s;
 }
 
-int tcp_send_packet(int sockfd, const struct sockaddr *dest, socklen_t destlen,
-                    uint32_t seq, uint32_t ack, uint8_t flags,
-                    const void *data, size_t len) {
-    struct simple_tcp_hdr h; // создаем пакет наш
-    memset(&h, 0, sizeof(h)); // выделяем память для заголовка и обнуляем её
-
-    h.src_port = 0; // поменять!
-    h.dst_port = 0; // поменять! 
-    h.seq = htonl(seq); // номер последовательности, который мы хотим отправить, преобразуем его в сетевой порядок байтов
-    h.ack = htonl(ack); // номер подтверждения, который мы ожидаем от другой стороны, преобразуем его в сетевой порядок байтов
-    h.flags = flags; // наши флаги 
-    h.window = htons(0); // наше окно
-
-    struct iovec iov[2]; // структура для описания вектора буферов, который мы будем отправлять, она позволяет нам отправлять заголовок и данные в одном вызове sendmsg без необходимости копировать их в один буфер
-    iov[0].iov_base = &h; // первый элемент вектора указывает на наш заголовок
-    iov[0].iov_len = sizeof(h); // длина нашего заголовка
-    iov[1].iov_base = (void *)data; // второй элемент вектора указывает на наши данные, которые мы хотим отправить
-    iov[1].iov_len = len; // длина наших данных
-
-    struct msghdr msg = { 0 }; // структура для описания сообщения, которое мы будем отправлять, она позволяет нам указать адрес назначения, вектор буферов и другие параметры отправки
-    msg.msg_name = (void *) dest; // куда шлём
-    msg.msg_namelen = destlen; // длина адреса назначения
-    msg.msg_iov = iov; // указатель на вектор буферов, который мы хотим отправить
-    msg.msg_iovlen = (len > 0 ? 2 : 1); // количество элементов в векторе буферов, если у нас есть данные для отправки, то мы отправляем и заголовок и данные, иначе мы отправляем только заголовок
-
-    ssize_t sent = sendmsg(sockfd, &msg, 0); // отправляем наше сообщение, если отправка прошла успешно, то sendmsg вернет количество байт, которые были отправлены, иначе он вернет -1 и установит errno
-    return (sent < 0) ? -1 : 0;
-}
-
-ssize_t tcp_recv_packet(int sockfd, struct sockaddr *src, socklen_t *srclen,
-                        uint32_t *seq, uint32_t *ack, uint8_t *flags,
-                        void *buf, size_t buflen, int timeout_ms) {
-    fd_set rfds; // множество дескрипторов для функции select, которая позволяет нам ждать, пока сокет станет готовым для чтения, с возможностью указать таймаут, чтобы мы не ждали вечно, если ничего не придет
-
-    FD_ZERO(&rfds); // инициализируем множество дескрипторов, очищая его от всех дескрипторов 
-    FD_SET(sockfd, &rfds); // добавляем наш сокет в множество дескрипторов, чтобы мы могли ждать его готовности для чтения
-
-    struct timeval tv; // сколько будем ждать до того, как мы решим, что ничего не придет, и вернем 0, если timeout_ms >= 0, иначе мы будем ждать вечно, пока не придет что-то или не произойдет ошибка
-    struct timeval *tvp = NULL; // указатель на нашу структуру, которая передаётся в select чтобы указать таймаут
-    
-    // тут просто настраиваем структуру timeval, если нам нужно использовать таймаут, иначе мы оставляем tvp равным NULL, чтобы select ждал вечно
-    if (timeout_ms >= 0) {
-        tv.tv_sec = timeout_ms / 1000;
-        tv.tv_usec = (timeout_ms % 1000) * 1000;
-        tvp = &tv;
-    }
-
-    // вызываем select который будет ждать готовность сокета к чтению, если сокет станет готовым, то select вернет количество готовых дескрипторов (в нашем случае 1), если произойдет ошибка, то select вернет -1, если истечет таймаут, то select вернет 0
-    int rv = select(sockfd + 1, &rfds, NULL, NULL, tvp);
-    if (rv <= 0) {
+// Переводит сокет в пассивный режим: сокет начинает принимать входящие соединения
+// backlog - размер очереди полностью установленных соединений, ожидающих accept()
+int tcp_listen(int sockfd, int backlog) {
+    if (listen(sockfd, backlog) < 0) {
+        perror("tcp_listen: listen");
         return -1;
     }
-
-    unsigned char tmp[65536]; // наш буфер для данных
-    socklen_t len = *srclen; // длина нашего буфера
-
-    // вызываем recvfrom чтобы получить данные из сокета, если данные были успешно получены, то recvfrom вернет количество байт, иначе он вернет -1 и установит errno
-    ssize_t r = recvfrom(sockfd, tmp, sizeof(tmp), 0, src, &len);
-    if (r <= 0) {
-        return -1;
-    }
-
-    // проверяем, что мы получили достаточно байт для нашего заголовка, если нет, то это ошибка, и мы возвращаем -1
-    if ((size_t)r < sizeof(struct simple_tcp_hdr)) {
-        return -1;
-    }
-
-    struct simple_tcp_hdr hdr; // создаем снова структуру нашу 
-    memcpy(&hdr, tmp, sizeof(hdr)); // копируем туда дату 
-
-    *seq = ntohl(hdr.seq); // номер последовательности
-    *ack = ntohl(hdr.ack); // номер подтверждения
-
-    *flags = hdr.flags; // флаги
-
-    size_t payload = r - sizeof(hdr); // это общее количество байт минус размер нашего заголовка
-    if (payload && buf && buflen) { // если у нас есть данные в пакете и у нас есть буфер для их хранения, то мы копируем данные в наш буфер, но не больше размера нашего буфера, чтобы избежать переполнения
-        size_t tocopy = (payload < buflen) ? payload : buflen;
-        memcpy(buf, tmp + sizeof(hdr), tocopy);
-    }
-
-    *srclen = len; 
-    return (ssize_t) payload; // возвращаем количество байт данных, которые мы получили, без учета заголовка
-}
-
-// функция для генерации начального числа
-static uint32_t gen_isn(void) {
-    struct timeval tv; // тут храним время
-    gettimeofday(&tv, NULL); // получаем текущее время
-    return (uint32_t) ((tv.tv_sec ^ tv.tv_usec) & 0xffffffff); // генерируем начальное число последовательности, используя текущее время, чтобы оно было разным при каждом запуске программы, мы используем XOR между секундами и микросекундами, а затем берем только младшие 32 бита, чтобы получить uint32_t
-}
-
-// функция для установления соединения, возвращает 0 при успехе, -1 при ошибке
-int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen,
-                uint32_t *out_isn) {
-    uint32_t isn = gen_isn(); // генерируем число
-    
-    // отправляем SYN пакет с нашим ISN, если отправка не удалась, то возвращаем -1
-    if (tcp_send_packet(sockfd, servaddr, addrlen, isn, 0, TCP_FLAG_SYN, NULL, 0) < 0)  {
-        return -1;
-    }
-    struct sockaddr_storage src; // храним адрес источника, от которого мы получаем ответ
-    socklen_t srclen = sizeof(src); // храним длину адреса источника
-
-    uint32_t seq, ack; // храним номер последовательности и номер подтверждения, которые мы получаем в ответе
-    uint8_t flags; // храним флаги, которые мы получаем в ответе
-
-    // ждем ответ на наш SYN пакет, если мы не получаем его в течение 5 секунд или если происходит ошибка, то возвращаем -1
-    if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 5000) < 0) {
-        return -1;
-    }
-
-    // проверяем, что мы получили SYN-ACK пакет, если нет, то это ошибка, и мы возвращаем -1
-    if (!(flags & TCP_FLAG_SYN) || !(flags & TCP_FLAG_ACK)) {
-        return -1;
-    }
-
-    // проверяем, что номер подтверждения, который мы получили, соответствует нашему ISN + 1, если нет, то это ошибка, и мы возвращаем -1
-    if (ack != isn + 1) { 
-        return -1;
-    }
-
-    // отправляем ACK пакет с нашим ISN + 1 и номером подтверждения, который мы получили от сервера + 1, если отправка не удалась, то возвращаем -1
-    uint32_t server_isn = seq;
-    if (tcp_send_packet(sockfd, servaddr, addrlen, isn+1, server_isn + 1, TCP_FLAG_ACK, NULL, 0) < 0) {
-        return -1;
-    }
-
-    // если нам нужно вернуть ISN клиента, то мы записываем его в указатель, который был передан в функцию
-    if (out_isn) {
-        *out_isn = isn;
-    }
-
     return 0;
 }
 
-// функция для принятия входящего соединения, заполняет clientaddr и clientlen, а также возвращает ISN клиента и сервера, возвращает 0 при успехе, -1 при ошибке
-int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen,
-               uint32_t *client_isn, uint32_t *server_isn) {
-    struct sockaddr_storage src; // храним адрес источника, от которого мы получаем SYN пакет
-    socklen_t srclen = sizeof(src); // храним длину адреса источника
- 
-    uint32_t seq, ack; // храним номер последовательности и номер подтверждения, которые мы получаем в SYN пакете
-    uint8_t flags; // храним флаги, которые мы получаем в SYN пакете
-
-    // ждем SYN пакет от клиента, если мы не получаем его или если происходит ошибка, то возвращаем -1
-    if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, -1) < 0) {
+// Принимает одно входящее TCP-соединение (блокируется до его прихода)
+// Трёхстороннее рукопожатие (SYN -> SYN-ACK -> ACK) ядро завершает до возврата
+// из accept(), поэтому мы получаем уже готовый к использованию дескриптор
+int tcp_accept(int sockfd, struct sockaddr *clientaddr, socklen_t *addrlen) {
+    int conn = accept(sockfd, clientaddr, addrlen);
+    if (conn < 0) {
+        perror("tcp_accept: accept");
         return -1;
     }
+    return conn;
+}
 
-    // проверяем, что мы получили SYN пакет, если нет, то это ошибка, и мы возвращаем -1
-    if (!(flags & TCP_FLAG_SYN)) { 
+// Устанавливает TCP-соединение с сервером
+// Под капотом ядро отправляет SYN, ждёт SYN-ACK и отвечает ACK -
+// всё это происходит внутри connect(), нам вручную ничего делать не нужно
+int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen) {
+    if (connect(sockfd, servaddr, addrlen) < 0) {
+        perror("tcp_connect: connect");
         return -1;
     }
+    return 0;
+}
 
-    // если нам нужно заполнить адрес клиента, то мы копируем его из src в clientaddr, если указатель clientaddr не NULL и если указатель addrlen не NULL и если длина адреса клиента меньше или равна тому, что может поместиться в clientaddr, то мы копируем адрес и обновляем длину, иначе мы не заполняем clientaddr и не обновляем addrlen
-    if (clientaddr && addrlen) {
-        if (*addrlen >= srclen) {
-            memcpy(clientaddr, &src, srclen);
-            *addrlen = srclen;
+// Отправляет ровно len байт данных
+// Один вызов send() может передать меньше байт, чем запрошено (при переполнении
+// буфера ядра), поэтому повторяем отправку до полной передачи всех данных
+ssize_t tcp_send(int sockfd, const void *data, size_t len) {
+    size_t      sent = 0;
+    const char *ptr  = (const char *)data;
+
+    while (sent < len) {
+        ssize_t n = send(sockfd, ptr + sent, len - sent, 0);
+        if (n < 0) {
+            perror("tcp_send: send");
+            return -1;
         }
+        sent += (size_t)n;
     }
 
-    uint32_t c_isn = seq; // сохраняем ISN клиента, который мы получили в SYN пакете
-    uint32_t s_isn = gen_isn(); // генерируем ISN сервера, который мы будем использовать в нашем SYN-ACK пакете
+    return (ssize_t)sent;
+}
 
-    // отправляем SYN-ACK пакет с нашим ISN и номером подтверждения, который соответствует ISN клиента + 1, если отправка не удалась, то возвращаем -1
-    if (tcp_send_packet(sockfd, (struct sockaddr *) &src, srclen, s_isn, c_isn + 1, TCP_FLAG_SYN|TCP_FLAG_ACK, NULL, 0) < 0) {
-        return -1;
+// Принимает до buflen байт данных из установленного соединения
+// Возвращает 0, если сторона закрыла соединение (прислала FIN)
+ssize_t tcp_recv(int sockfd, void *buf, size_t buflen) {
+    ssize_t n = recv(sockfd, buf, buflen, 0);
+    if (n < 0) {
+        perror("tcp_recv: recv");
     }
-
-    srclen = sizeof(src); // сбрасываем длину адреса источника, чтобы мы могли использовать её для получения ответа от клиента
-
-    // ждем ACK пакет от клиента, если мы не получаем его в течение 5 секунд или если происходит ошибка, то возвращаем -1
-    if (tcp_recv_packet(sockfd, (struct sockaddr *) &src, &srclen, &seq, &ack, &flags, NULL, 0, 5000) < 0) {
-        return -1;
-    }
-
-    // проверяем, что мы получили ACK пакет, если нет, то это ошибка, и мы возвращаем -1
-    if (!(flags & TCP_FLAG_ACK)) {
-        return -1;
-    }
-
-    // проверяем, что номер подтверждения, который мы получили, соответствует нашему ISN + 1, если нет, то это ошибка, и мы возвращаем -1
-    if (ack != s_isn + 1) {
-        return -1;
-    }
-
-    // если нам нужно вернуть ISN клиента и ISN сервера, то мы записываем их в указатели, которые были переданы в функцию
-    if (client_isn) {
-        *client_isn = c_isn;
-    }
-
-    // если нам нужно вернуть ISN сервера, то мы записываем его в указатель, который был передан в функцию
-    if (server_isn) {
-        *server_isn = s_isn;
-    }
-
-    return 0;
+    return n;
 }

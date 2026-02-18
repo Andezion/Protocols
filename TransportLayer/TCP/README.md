@@ -4,6 +4,31 @@
 
 ## Теория 
 
+```
+#include <stdint.h>    // для uint16_t
+#include <stddef.h>    // для size_t
+#include <sys/types.h> // для ssize_t
+#include <sys/socket.h> // для struct sockaddr и socklen_t
+
+/*
+ * TCP-флаги (приведены для справки - при использовании SOCK_STREAM
+ * ядро управляет ими автоматически, нам вручную их выставлять не нужно):
+ *
+ *  FIN - завершение соединения (инициирует четырёхстороннее закрытие)
+ *  SYN - синхронизация ISN при трёхстороннем рукопожатии
+ *  RST - немедленный сброс соединения при ошибке
+ *  PSH - немедленная передача данных без ожидания заполнения буфера
+ *  ACK - подтверждение получения данных
+ *  URG - пакет содержит срочные (out-of-band) данные
+ */
+#define TCP_FLAG_FIN 0x01
+#define TCP_FLAG_SYN 0x02
+#define TCP_FLAG_RST 0x04
+#define TCP_FLAG_PSH 0x08
+#define TCP_FLAG_ACK 0x10
+#define TCP_FLAG_URG 0x20
+```
+
 ![photo1](photos/image.png)
 
 - `Source port` - занимает 16 бит и это порт источника. То есть порт хоста, **ОТ КОТОРОГО** исходит запрос. 

@@ -84,9 +84,9 @@ int tcp_connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen) 
 // Отправляет ровно len байт данных
 // Один вызов send() может передать меньше байт, чем запрошено (при переполнении
 // буфера ядра), поэтому повторяем отправку до полной передачи всех данных
-ssize_t tcp_send(int sockfd, const void *data, size_t len) {
+ssize_t tcp_send(int sockfd, const void * data, size_t len) {
     size_t      sent = 0;
-    const char *ptr  = (const char *)data;
+    const char *ptr  = (const char *) data;
 
     while (sent < len) {
         ssize_t n = send(sockfd, ptr + sent, len - sent, 0);
@@ -94,15 +94,15 @@ ssize_t tcp_send(int sockfd, const void *data, size_t len) {
             perror("tcp_send: send");
             return -1;
         }
-        sent += (size_t)n;
+        sent += (size_t) n;
     }
 
-    return (ssize_t)sent;
+    return (ssize_t) sent;
 }
 
 // Принимает до buflen байт данных из установленного соединения
 // Возвращает 0, если сторона закрыла соединение (прислала FIN)
-ssize_t tcp_recv(int sockfd, void *buf, size_t buflen) {
+ssize_t tcp_recv(int sockfd, void * buf, size_t buflen) {
     ssize_t n = recv(sockfd, buf, buflen, 0);
     if (n < 0) {
         perror("tcp_recv: recv");

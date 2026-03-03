@@ -2,7 +2,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "../tcp.h"
+#include "../../tcp.h"
 
 int main(void) {
     const char *server_ip   = "127.0.0.1";

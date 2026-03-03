@@ -156,3 +156,15 @@ int tcp_listen(int sockfd, int backlog) {
 ---
 
 Чтобы прочитать больше или разобраться ещё лучше - надо почитать [этот сайт](http://www.tcpipguide.com/index.htm)
+
+**Как собрать и запустить пример из папки `TransportLayer/TCP/echo_server/C`**
+```bash
+cd TransportLayer/TCP/echo_server/C
+gcc -I../.. ../../tcp.c client.c -o tcp_client
+gcc -I../.. ../../tcp.c server.c -o tcp_server
+
+# В одном терминале запустите сервер:
+./tcp_server
+# В другом — клиента:
+./tcp_client
+```

@@ -2,7 +2,7 @@
 name = "rust_echo_server"
 version = "0.0.1"
 authors = ["Vlad Cool"]
-edition = "2026"
+edition = "2024"
 
 [dependencies]
 hyper = "0.13.4"

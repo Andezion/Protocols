@@ -271,3 +271,13 @@ gcc -I../.. ../../tcp.c server.c -o tcp_server
 # В другом - клиента:
 ./tcp_client
 ```
+
+**Как собрать и запустить пример из папки `TransportLayer/TCP/echo_server/Go`**
+```bash
+# В одном терминале запустить сервер:
+cd TransportLayer/TCP/echo_server/Go/server
+go run server.go
+# В другом - клиента:
+cd TransportLayer/TCP/echo_server/Go/client
+go run client.go
+```

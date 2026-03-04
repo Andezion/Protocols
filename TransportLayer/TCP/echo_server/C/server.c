@@ -2,7 +2,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "../../tcp.h"
+#include "tcp.h"
 
 int main(void) {
     uint16_t port = 12345;

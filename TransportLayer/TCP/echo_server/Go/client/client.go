@@ -15,6 +15,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to %s: %v", addr, err)
 	}
+
 	defer conn.Close()
 
 	fmt.Printf("Connected to server %s\n", addr)

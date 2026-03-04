@@ -1,4 +1,4 @@
-use std::{io, net::{TcpListener, TcpStream}, thread};
+use std::{io::{self, Read, Write}, net::{TcpListener, TcpStream}, thread};
 
 fn main() -> io::Result<()> {
     let listener = TcpListener::bind(":8090")?;
@@ -17,5 +17,33 @@ fn main() -> io::Result<()> {
         }
     }
 
+    Ok(())
+}
+
+fn handle_client(mut stream: TcpStream) {
+    let peer = match stream.peer_addr() {
+        Ok(a) => a.to_string(),
+        Err(_) => String::from("unknown"),
+    };
+
+    let mut buf = [0u8; 1024];
+    loop {
+        match stream.read(&mut buf) {
+            Ok(0) => {
+                println!("Client {} disconnected", peer);
+                break;
+            }
+            Ok(n) => {
+                if let Err(e) = stream.write_all(&buf[..n]) {
+                    eprintln!("Failed to write to {}: {}", peer, e);
+                    break;
+                }
+            }
+            Err(e) => {
+                eprintln!("Read error from {}: {}", peer, e);
+                break;
+            }
+        }
+    }
 }
 

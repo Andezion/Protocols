@@ -8,7 +8,17 @@ int main() {
     boost::asio::io_context io_context;
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(),8090));
     
-    
+    while (true) {
+        tcp::socket socket(io_context);
+        acceptor.accept(socket);
+        
+        std::string message = "Hello from the server!";
+
+        boost::asio::streambuf buffer;
+        boost::asio::read_until(socket, buffer, '\n');
+
+        boost::asio::write(socket, boost::asio::buffer(message + "\n"));
+    }
     
     return 0;
 }

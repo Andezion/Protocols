@@ -1,5 +1,6 @@
 #include <string>
 #include <boost/asio.hpp>
+#include <iostream>
 
 using boost::asio::ip::tcp;
 
@@ -7,6 +8,8 @@ int main() {
     boost::asio::io_context io_context;
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(),8090));
     
+    std::cout << "Server is running on port 8090..." << std::endl;
+
     while (true) {
         tcp::socket socket(io_context);
         acceptor.accept(socket);

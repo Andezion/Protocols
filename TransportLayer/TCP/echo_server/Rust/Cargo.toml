@@ -1,3 +1,10 @@
 [package]
 name = "rust_echo_server"
 version = "0.0.1"
+authors = ["Vlad Cool"]
+edition = "2026"
+
+[dependencies]
+hyper = "0.13.4"
+tokio = { version = "0.2", features = ["full"] }
+futures = "0.3.0"

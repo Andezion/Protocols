@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"fmt"
 	"log"
 	"net"
@@ -15,18 +14,27 @@ func main() {
 
 	fmt.Println("Echo server is listening on port 8090...")
 
-	clients := list.New()
-
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			log.Println("Failed to accept connection:", err)
-			continue
-		}
-		fmt.Println("New client connected:", conn.RemoteAddr())
-		clients.PushBack(conn)
-
-		go handleClient(conn, clients)
+	conn, err := listener.Accept()
+	if err != nil {
+		log.Fatal(err)
 	}
 
+	fmt.Printf("Client connected: %s\n", conn.RemoteAddr().String())
+
+	buf := make([]byte, 1024)
+	n, err := conn.Read(buf)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Received from client: %s\n", string(buf[:n]))
+
+	_, err = conn.Write(buf[:n])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Echoed back to client.")
+
+	conn.Close()
 }

@@ -281,3 +281,15 @@ go run server.go
 cd TransportLayer/TCP/echo_server/Go/client
 go run client.go
 ```
+
+**Как собрать и запустить пример из папки `TransportLayer/TCP/echo_server/Rust`**
+```bash
+# Cначала сбилдить
+cd TransportLayer/TCP/echo_server/Rust
+cargo build
+
+# В одном терминале запустить сервер:
+./target/debug/server
+# В другом - клиента:
+./target/debug/client
+```

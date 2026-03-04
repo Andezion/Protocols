@@ -293,3 +293,16 @@ cargo build
 # В другом - клиента:
 ./target/debug/client
 ```
+
+**Как собрать и запустить пример из папки `TransportLayer/TCP/echo_server/C++`**
+```bash
+# Cначала сбилдить
+cd TransportLayer/TCP/echo_server/C++
+g++ -std=c++17 -O2 server.cpp -o server -lboost_system -lpthread
+g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
+
+# В одном терминале запустить сервер:
+./server
+# В другом - клиента:
+./client
+```

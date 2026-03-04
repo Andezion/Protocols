@@ -1,0 +1,11 @@
+/home/andezion/Desktop/Network/TransportLayer/TCP/echo_server/Rust/target/debug/deps/socket2-17090fa9daff039d.d: /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/lib.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sockaddr.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/socket.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/utils.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sys/unix.rs
+
+/home/andezion/Desktop/Network/TransportLayer/TCP/echo_server/Rust/target/debug/deps/libsocket2-17090fa9daff039d.rlib: /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/lib.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sockaddr.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/socket.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/utils.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sys/unix.rs
+
+/home/andezion/Desktop/Network/TransportLayer/TCP/echo_server/Rust/target/debug/deps/libsocket2-17090fa9daff039d.rmeta: /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/lib.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sockaddr.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/socket.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/utils.rs /home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sys/unix.rs
+
+/home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/lib.rs:
+/home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sockaddr.rs:
+/home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/socket.rs:
+/home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/utils.rs:
+/home/andezion/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.3.19/src/sys/unix.rs:

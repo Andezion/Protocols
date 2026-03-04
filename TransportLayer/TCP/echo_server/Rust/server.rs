@@ -1,9 +1,9 @@
 use std::{io::{self, Read, Write}, net::{TcpListener, TcpStream}, thread};
 
 fn main() -> io::Result<()> {
-    let listener = TcpListener::bind(":8090")?;
+    let listener = TcpListener::bind("127.0.0.1:8090")?;
 
-    println!("Echo server is running on :8090");
+    println!("Echo server is running on 127.0.0.1:8090");
 
     for stream in listener.incoming() {
         match stream {

@@ -8,3 +8,11 @@ edition = "2024"
 hyper = "0.13.4"
 tokio = { version = "0.2", features = ["full"] }
 futures = "0.3.0"
+
+[[bin]]
+name = "server"
+path = "server.rs"
+
+[[bin]]
+name = "client"
+path = "client.rs"

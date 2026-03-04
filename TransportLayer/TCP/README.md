@@ -206,7 +206,29 @@ printf("Accepted connection from %s:%u\n", host, ntohs(client.sin_port));
     ``` 
     - Сервер же в это время готовиться принять сообщение 
     ```c
+    // Читаем данные от клиента.
+    char    buf[256];
+    ssize_t n = tcp_recv(conn, buf, sizeof(buf) - 1);
+    if (n > 0) {
+        buf[n] = '\0';
+        printf("Received: %s", buf);
 
+        // Отправляем ответ.
+        const char *reply = "Hello from TCP server!\n";
+        tcp_send(conn, reply, strlen(reply));
+    }
+    ```
+    - И клиент уже после этого готовиться послушать что ему сказал сервер: 
+    ```c
+    // Читаем ответ сервера
+    char    buf[256];
+    ssize_t n = tcp_recv(s, buf, sizeof(buf) - 1);
+    if (n > 0) {
+        buf[n] = '\0';
+        printf("Server replied: %s", buf);
+    } else if (n == 0) {
+        printf("Server closed the connection.\n");
+    }
     ```
 
 ![photo3](photos/image2.png)

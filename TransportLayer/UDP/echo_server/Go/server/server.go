@@ -7,34 +7,25 @@ import (
 )
 
 func main() {
-	listener, err := net.ListenPacket("udp", ":8090")
+	pc, err := net.ListenPacket("udp", ":8090")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer pc.Close()
 
 	fmt.Println("Echo server is listening on port 8090...")
 
-	conn, err := listener.(*net.UDPConn).ReadFromUDP(make([]byte, 0))
+	buf := make([]byte, 2048)
+
+	n, addr, err := pc.ReadFrom(buf)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("read error:", err)
 	}
 
-	fmt.Printf("Client connected: %s\n", conn.String())
+	fmt.Printf("Received %d bytes from %s: %s\n", n, addr.String(), string(buf[:n]))
 
-	buf := make([]byte, 1024)
-	n, addr, err := listener.ReadFrom(buf)
+	_, err = pc.WriteTo(buf[:n], addr)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("write error:", err)
 	}
-
-	fmt.Printf("Received from client: %s\n", string(buf[:n]))
-
-	_, err = listener.WriteTo(buf[:n], addr)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Echoed back to client.")
-
-	conn.Close()
 }

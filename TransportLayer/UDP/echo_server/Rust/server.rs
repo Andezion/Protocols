@@ -1,22 +1,17 @@
-use std::io::{self, Read, Write};
-use std::net::UdpListener;
+use std::io;
+use std::net::UdpSocket;
 
 fn main() -> io::Result<()> {
-    let listener = UdpListener::bind("0.0.0.0:8090")?;S
-    println!("One-shot echo server listening on 0.0.0.0:8090");
-
-    len (mut stream, addr) = listener.accept()?;
-    println!("Client connected: {}", addr);
+    let socket = UdpSocket::bind("0.0.0.0:8090")?;
+    println!("One-shot UDP echo server listening on 0.0.0.0:8090");
 
     let mut buf = [0u8; 1024];
-    let n = stream.read(&mut buf)?;
-    if n == 0 {
-        println!("Client sent no data");
-        return Ok(());
-    }
-
+    let (n, src) = socket.recv_from(&mut buf)?;
+    
+    println!("Received {} bytes from {}", n, src);
     println!("Received: {}", String::from_utf8_lossy(&buf[..n]));
-    stream.write_all(&buf[..n])?;
+
+    socket.send_to(&buf[..n], src)?;
     println!("Echoed back and exiting.");
 
     Ok(())

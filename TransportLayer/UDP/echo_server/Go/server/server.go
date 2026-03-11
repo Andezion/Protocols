@@ -14,7 +14,7 @@ func main() {
 
 	fmt.Println("Echo server is listening on port 8090...")
 
-	conn, err := listener.ReadFrom()
+	conn, err := listener.Accept()
 	if err != nil {
 		log.Fatal(err)
 	}

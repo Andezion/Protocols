@@ -20,7 +20,8 @@ int main() {
     boost::asio::streambuf response;
     boost::asio::read_until(socket, response, '\n');
 
-    std::cout << std::string{buffers_begin(response.data()), buffers_end(response.data())};
+    std::string client_msg{buffers_begin(response.data()), buffers_end(response.data())};
+    std::cout << "Received from server: " << client_msg << std::endl;
 
     return 0;
 }

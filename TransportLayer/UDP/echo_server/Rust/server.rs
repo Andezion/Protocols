@@ -15,5 +15,9 @@ fn main() -> io::Result<()> {
         return Ok(());
     }
 
-    
+    println!("Received: {}", String::from_utf8_lossy(&buf[..n]));
+    stream.write_all(&buf[..n])?;
+    println!("Echoed back and exiting.");
+
+    Ok(())
 }

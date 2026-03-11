@@ -10,17 +10,15 @@ int main() {
     
     std::cout << "Server is running on port 8090..." << std::endl;
 
-    while (true) {
-        tcp::socket socket(io_context);
-        acceptor.accept(socket);
+    tcp::socket socket(io_context);
+    acceptor.accept(socket);
         
-        std::string message = "Hello from the server!";
+    std::string message = "Hello from the server!";
 
-        boost::asio::streambuf buffer;
-        boost::asio::read_until(socket, buffer, '\n');
+    boost::asio::streambuf buffer;
+    boost::asio::read_until(socket, buffer, '\n');
 
-        boost::asio::write(socket, boost::asio::buffer(message + "\n"));
-    }
+    boost::asio::write(socket, boost::asio::buffer(message + "\n"));
     
     return 0;
 }

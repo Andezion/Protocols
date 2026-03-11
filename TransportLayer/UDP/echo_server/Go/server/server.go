@@ -14,7 +14,7 @@ func main() {
 
 	fmt.Println("Echo server is listening on port 8090...")
 
-	conn, err := listener.Accept()
+	conn, err := listener.(*net.UDPConn).ReadFromUDP(make([]byte, 0))
 	if err != nil {
 		log.Fatal(err)
 	}

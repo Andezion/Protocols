@@ -8,5 +8,12 @@ fn main() -> io::Result<()> {
     len (mut stream, addr) = listener.accept()?;
     println!("Client connected: {}", addr);
 
+    let mut buf = [0u8; 1024];
+    let n = stream.read(&mut buf)?;
+    if n == 0 {
+        println!("Client sent no data");
+        return Ok(());
+    }
+
     
 }

@@ -18,7 +18,9 @@ int main() {
 
     char reply[1024];
     udp::endpoint sender;
+
     size_t len = socket.receive_from(boost::asio::buffer(reply), sender);
+    
     std::string received(reply, len);
     std::cout << "Server reply: " << received << std::endl;
 

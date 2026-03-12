@@ -11,6 +11,15 @@ int main() {
 
     std::cout << "UDP Echo Server is running on port 8090..." << std::endl;
 
-    
+    std::string message = "Hello from the server!";
 
+    char data[1024];
+    udp::endpoint sender_endpoint;
+    size_t length = socket.receive_from(boost::asio::buffer(data), sender_endpoint);
+
+    std::cout << "Received from client: " << message << std::endl;
+
+    socket.send_to(boost::asio::buffer(message), sender_endpoint);
+
+    return 0;
 }

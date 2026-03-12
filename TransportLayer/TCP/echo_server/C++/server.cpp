@@ -5,6 +5,7 @@
 using boost::asio::ip::tcp;
 
 int main() {
+    // Создаём место куда будет бросать информацию 
     boost::asio::io_context io_context;
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(),8090));
     

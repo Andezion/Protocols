@@ -11,24 +11,25 @@ int main() {
 
     std::cout << "UDP Echo Server is running on port 8090..." << std::endl;
 
-    for (;;) {
-        char data[1024];
-        udp::endpoint sender_endpoint;
-        boost::system::error_code ec;
+    char data[1024];
+    udp::endpoint sender_endpoint;
+    boost::system::error_code ec;
 
-        size_t length = socket.receive_from(boost::asio::buffer(data), sender_endpoint, 0, ec);
-        if (ec) {
-            std::cerr << "Receive error: " << ec.message() << std::endl;
-            continue;
-        }
+    size_t length = socket.receive_from(boost::asio::buffer(data), sender_endpoint, 0, ec);
+    if (ec) {
+        std::cerr << "Receive error: " << ec.message() << std::endl;
+        return 1;
+    }
 
-        std::string received(data, length);
-        std::cout << "Received from client (" << sender_endpoint.address().to_string() << ":" << sender_endpoint.port() << "): " << received << std::endl;
+    std::string received(data, length);
+    std::cout << "Received from client (" << sender_endpoint.address().to_string() << ":" << sender_endpoint.port() << "): " << received << std::endl;
 
-        std::string message = "Echo: " + received;
-        socket.send_to(boost::asio::buffer(message), sender_endpoint, 0, ec);
-        if (ec) std::cerr << "Send error: " << ec.message() << std::endl;
-        }
+    std::string message = "Echo: " + received;
+    socket.send_to(boost::asio::buffer(message), sender_endpoint, 0, ec);
+    if (ec) {
+        std::cerr << "Send error: " << ec.message() << std::endl;
+        return 1;
+    }
 
     return 0;
 }

@@ -5,7 +5,6 @@ fn main() -> io::Result<()> {
     let listener = TcpListener::bind("0.0.0.0:8090")?;
     println!("One-shot echo server listening on 0.0.0.0:8090");
 
-    // Accept exactly one connection, read once, echo once, exit.
     let (mut stream, addr) = listener.accept()?;
     println!("Client connected: {}", addr);
 

@@ -22,9 +22,9 @@ int main() {
     }
 
     std::string received(data, length);
-    std::cout << "Received from client (" << sender_endpoint.address().to_string() << ":" << sender_endpoint.port() << "): " << received << std::endl;
+    std::cout << "Received from client: " << sender_endpoint.address().to_string() << ":" << sender_endpoint.port() << " " << received << std::endl;
 
-    std::string message = "Echo: " + received;
+    std::string message = "Hello from server!";
     socket.send_to(boost::asio::buffer(message), sender_endpoint, 0, ec);
     if (ec) {
         std::cerr << "Send error: " << ec.message() << std::endl;

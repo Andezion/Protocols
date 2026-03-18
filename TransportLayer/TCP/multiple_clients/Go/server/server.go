@@ -27,7 +27,7 @@ func handleConnection(conn net.Conn) {
 }
 
 func main() {
-	listner, err := net.Listen("tcp", ":8090")
+	listener, err := net.Listen("tcp", ":8090")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +35,7 @@ func main() {
 	fmt.Println("Echo server is listening on port 8090...")
 
 	for {
-		conn, err := listner.Accept()
+		conn, err := listener.Accept()
 		if err != nil {
 			log.Fatal(err)
 		}

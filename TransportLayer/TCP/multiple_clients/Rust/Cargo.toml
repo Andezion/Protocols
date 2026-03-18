@@ -1,3 +1,4 @@
 [package]
 name = "tcp_multi_server"
 version = "0.0.1"
+authors = ["Vlad Cool"]

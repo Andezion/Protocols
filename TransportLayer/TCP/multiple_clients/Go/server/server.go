@@ -6,8 +6,9 @@ import (
 	"net"
 )
 
+// Этот сервер может обрабатывать несколько клиентов одновременно, используя горутины
 func handleConnection(conn net.Conn) {
-	defer conn.Close()
+	defer conn.Close() // точно закрываем соединение после обработки клиента
 
 	buf := make([]byte, 1024)
 	n, err := conn.Read(buf)

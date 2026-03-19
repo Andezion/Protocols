@@ -3,3 +3,7 @@
 #include <iostream>
 
 using boost::asio::ip::tcp;
+
+int main() {
+    
+}

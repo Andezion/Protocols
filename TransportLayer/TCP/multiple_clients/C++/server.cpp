@@ -10,6 +10,7 @@ int main() {
 
     std::cout << "Server is running on port 8090..." << std::endl;
 
+    // и вот тут единственная разница - у нас бесконечный цикл
     while (true) {
         tcp::socket socket(io_context);
         acceptor.accept(socket);

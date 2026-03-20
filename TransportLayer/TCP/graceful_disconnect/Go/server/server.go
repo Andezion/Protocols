@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net"
 )
 
@@ -10,4 +11,6 @@ func main() {
 		panic(err)
 		// log.Fatal(err)
 	}
+
+	fmt.Println("Server is listening on port 8090...")
 }

@@ -1,3 +1,10 @@
 [package]
 name = "graceful_close"
 version = "0.0.1"
+authors = ["Vlad Cool"]
+
+[dependencies]
+
+[[bin]]
+name = "server"
+path = "server.rs"

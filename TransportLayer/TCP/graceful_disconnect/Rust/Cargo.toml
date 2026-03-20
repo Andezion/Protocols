@@ -1,2 +1,3 @@
 [package]
 name = "graceful_close"
+version = "0.0.1"

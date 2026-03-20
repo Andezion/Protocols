@@ -8,3 +8,7 @@ authors = ["Vlad Cool"]
 [[bin]]
 name = "server"
 path = "server.rs"
+
+[[bin]]
+name = "client"
+path = "client.rs"

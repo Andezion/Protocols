@@ -1,5 +1,5 @@
 use std::io::{self, Read, Write};
-use std::net::{TcpListener, TcpStream};
+use std::net::TcpListener;
 
 fn main() -> io::Result<()> {
     let listener = TcpListener::bind("0.0.0.0:8090")?;
@@ -35,6 +35,4 @@ fn main() -> io::Result<()> {
             }
         });
     }
-
-    listener.close()?;
 }

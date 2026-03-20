@@ -2,6 +2,7 @@
 name = "graceful_close"
 version = "0.0.1"
 authors = ["Vlad Cool"]
+edition = "2024"
 
 [dependencies]
 

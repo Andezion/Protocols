@@ -16,6 +16,4 @@ fn main() -> io::Result<()> {
         socket.send_to(&buf[..n], src)?; // Отправляем обратно полученные данные
         println!("Echoed back to {}", src);
     }
-
-    Ok(())
 }

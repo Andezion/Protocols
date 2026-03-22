@@ -11,5 +11,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer listener.Close()
+	for {
+		buf := make([]byte, 2048)
+		n, addr, err := listener.ReadFrom(buf)
+		if err != nil {
+			log.Println("read error:", err)
+			continue
+		}
+
+		log.Printf("Received %d bytes from %s: %s\n", n, addr.String(), string(buf[:n]))
+		_, err = listener.WriteTo(buf[:n], addr)
+		if err != nil {
+			log.Println("write error:", err)
+		}
+	}
 }

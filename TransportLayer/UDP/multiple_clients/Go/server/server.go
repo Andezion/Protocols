@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"net"
@@ -26,18 +25,10 @@ func main() {
 
 		fmt.Printf("Received %d bytes from %s: %s\n", n, addr.String(), string(buf[:n]))
 
-		go func(data []byte, clientAddr net.Addr) {
-			scanner := bufio.NewScanner(bufio.NewReaderSize(nil, len(data)))
-			scanner.Split(bufio.ScanLines)
+		_, err = listener.WriteTo(buf[:n], addr)
+		if err != nil {
+			log.Println("write error:", err)
+		}
 
-			for scanner.Scan() {
-				line := scanner.Text()
-				fmt.Printf("Processing line from %s: %s\n", clientAddr.String(), line)
-				_, err := listener.WriteTo([]byte(line), clientAddr)
-				if err != nil {
-					log.Println("write error:", err)
-				}
-			}
-		}(buf[:n], addr)
 	}
 }

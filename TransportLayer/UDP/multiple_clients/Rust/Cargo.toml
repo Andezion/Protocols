@@ -1,3 +1,5 @@
 [package]
 name = "rust_multi_server"
 version = "0.0.1"
+authors = ["Vlad Cool"]
+edition = "2024"

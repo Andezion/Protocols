@@ -33,6 +33,7 @@ func main() {
 				return
 			}
 
+			// Понтовое эхо обратно клиенту
 			fmt.Printf("Received from client %s: %s\n", c.RemoteAddr().String(), string(buf[:n]))
 			_, err = c.Write(buf[:n])
 			if err != nil {

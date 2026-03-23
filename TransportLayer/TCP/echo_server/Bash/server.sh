@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-name="daun"
+echo "What is your name?"
+read name
 
-echo "hello, $name"
-echo "zalupa"
-
-echo "huesosy $1"
+echo "Hi there $name"
+echo "Welcome to gayclub!"

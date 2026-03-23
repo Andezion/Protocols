@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-my_array=("value 1" "value 2" "value 3" "value 4")
+echo "Starting TCP echo server on port 12345..."
+while true; do
+    # Listen for incoming connections on port 12345
+    nc -l -p 12345 -c 'xargs -n1 echo'
+done
 
-echo "${my_array[1]}"
-
-echo "${my_array[-1]}"
-
-echo "${my_array[@]}"
-
-echo "${#my_array[@]}"
+    

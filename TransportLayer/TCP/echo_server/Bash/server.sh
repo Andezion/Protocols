@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-echo "What is your name?"
-read name
+my_array=("value 1" "value 2" "value 3" "value 4")
 
-echo "Hi there $name"
-echo "Welcome to gayclub!"
+echo "${my_array[1]}"
+
+echo "${my_array[-1]}"
+
+echo "${my_array[@]}"
+
+echo "${#my_array[@]}"

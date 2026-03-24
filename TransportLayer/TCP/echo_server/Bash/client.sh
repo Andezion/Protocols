@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "Hello, TCP Echo Server!" | nc localhost 12345
+{ echo "Hello from Client"; sleep 1; } | nc localhost 12345
 

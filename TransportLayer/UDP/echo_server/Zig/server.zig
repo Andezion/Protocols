@@ -1,20 +1,25 @@
 const std = @import("std");
+const posix = std.posix;
 
 pub fn main() !void {
+    const sock = try posix.socket(posix.AF.INET, posix.SOCK.DGRAM, 0);
+    defer posix.close(sock);
+
     const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
-    var server = try address.listen(.{ .reuse_address = true });
-    defer server.deinit();
+    try posix.bind(sock, &address.any, address.getOsSockLen());
 
     std.debug.print("UDP echo server listening on port 12345...\n", .{});
 
     while (true) {
         var buf: [1024]u8 = undefined;
-        const n = try server.recvFrom(&buf);
-        if (n == 0) {
-            continue;
-        }
+        var client_addr: posix.sockaddr = undefined;
+        var client_addr_len: posix.socklen_t = @sizeOf(posix.sockaddr);
+
+        const n = try posix.recvfrom(sock, &buf, 0, &client_addr, &client_addr_len);
+        if (n == 0) continue;
+
         const msg = buf[0..n];
         std.debug.print("Client says: {s}", .{msg});
-        try server.sendTo(msg, address);
+        _ = try posix.sendto(sock, msg, 0, &client_addr, client_addr_len);
     }
 }

@@ -1,26 +1,22 @@
-const http = @import("http");
 const std = @import("std");
 
 pub fn main() !void {
-    const allocator = std.heap.page_allocator;
-    const server = try http.Server.init(allocator, 8080);
+    const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
+    var server = try address.listen(.{ .reuse_address = true });
     defer server.deinit();
+
+    std.debug.print("TCP echo server listening on port 12345...\n", .{});
 
     while (true) {
         const conn = try server.accept();
-        defer conn.close();
+        defer conn.stream.close();
 
-        const request = try conn.readRequest();
-        defer request.deinit();
+        var buf: [1024]u8 = undefined;
+        const n = try conn.stream.read(&buf);
+        if (n == 0) continue;
 
-        const response = http.Response{
-            .statusCode = 200,
-            .headers = &[_]http.Header{
-                .{ .name = "Content-Type", .value = "text/plain" },
-            },
-            .body = "Hello, World!",
-        };
-
-        try conn.writeResponse(response);
+        const msg = buf[0..n];
+        std.debug.print("Client says: {s}", .{msg});
+        try conn.stream.writeAll("Hello from server!\n");
     }
 }

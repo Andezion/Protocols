@@ -1,23 +1,13 @@
 const std = @import("std");
-const http = @import("http");
 
 pub fn main() !void {
-    const allocator = std.heap.page_allocator;
-    const client = try http.Client.init(allocator);
-    defer client.deinit();
+    const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
+    const stream = try std.net.tcpConnectToAddress(address);
+    defer stream.close();
 
-    const request = http.Request{
-        .method = "GET",
-        .path = "/",
-        .headers = &[_]http.Header{
-            .{ .name = "Host", .value = "localhost:8080" },
-        },
-        .body = "",
-    };
+    try stream.writeAll("Hello from client!\n");
 
-    const response = try client.sendRequest("localhost", 8080, request);
-    defer response.deinit();
-
-    std.debug.print("Response status: {}\n", .{response.statusCode});
-    std.debug.print("Response body: {}\n", .{response.body});
+    var buf: [1024]u8 = undefined;
+    const n = try stream.read(&buf);
+    std.debug.print("{s}", .{buf[0..n]});
 }

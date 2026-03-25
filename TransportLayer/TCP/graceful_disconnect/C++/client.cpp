@@ -24,12 +24,22 @@ int main() {
         // Дочитываем ответ сервера до EOF
         boost::system::error_code ec;
         std::ostringstream oss;
+
         char buf[1024];
+
+        // Читаем данные от сервера до тех пор, пока не получим EOF (сервер закрыл соединение)
         for (;;) {
             std::size_t len = socket.read_some(boost::asio::buffer(buf), ec);
-            if (len > 0) oss.write(buf, static_cast<std::streamsize>(len));
-            if (ec == boost::asio::error::eof) break;
-            if (ec) throw boost::system::system_error(ec);
+
+            if (len > 0) {
+                oss.write(buf, static_cast<std::streamsize>(len));
+            }
+            if (ec == boost::asio::error::eof) {
+                break;
+            }
+            if (ec) {
+                throw boost::system::system_error(ec);
+            }
         }
         std::cout << "Received from server: " << oss.str();
 

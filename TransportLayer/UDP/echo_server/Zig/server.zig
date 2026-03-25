@@ -26,10 +26,14 @@ pub fn main() !void {
 
         // Принимаем данные от клиента. recvfrom заполняет client_addr и client_addr_len
         const n = try posix.recvfrom(sock, &buf, 0, &client_addr, &client_addr_len);
-        if (n == 0) continue;
+        if (n == 0) {
+            continue;
+        }
 
         const msg = buf[0..n];
         std.debug.print("Client says: {s}", .{msg});
+
+        // Отправляем обратно полученное сообщение клиенту, используя адрес и порт, от которых пришло сообщение
         _ = try posix.sendto(sock, msg, 0, &client_addr, client_addr_len);
     }
 }

@@ -29,10 +29,10 @@ func main() {
 
 		fmt.Printf("Received %d bytes from %s: %s\n", n, addr.String(), string(buf[:n]))
 
+		// Отправляем ответ обратно клиенту
 		_, err = listener.WriteTo(buf[:n], addr)
 		if err != nil {
 			log.Println("write error:", err)
 		}
-
 	}
 }

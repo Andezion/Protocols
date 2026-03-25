@@ -1,67 +1,55 @@
-#include <boost/asio/io_context.hpp>
-#include <string>
 #include <boost/asio.hpp>
 #include <iostream>
 #include <sstream>
+#include <string>
 
-using boost::asio::ip::tcp; 
+using boost::asio::ip::tcp;
 
 int main() {
-    // Создаем io_context и acceptor для прослушивания входящих соединений на порту 8090
     boost::asio::io_context io_context;
-    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(),8090));
+    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 8090));
 
     std::cout << "Server is running on port 8090..." << std::endl;
 
     while (true) {
         try {
-            // Создаем io_context и acceptor для прослушивания входящих соединений на порту 8090
-            boost::asio::io_context io_context;
-            tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(),8090));
-
-            std::cout << "Server is running on port 8090..." << std::endl;
-
-            // Ожидаем входящее соединение и принимаем его
             tcp::socket socket(io_context);
             acceptor.accept(socket);
 
-            std::string message = "Hello from the server!";
-
-            // Читаем данные от клиента до символа новой строки
             boost::asio::streambuf buffer;
             boost::asio::read_until(socket, buffer, '\n');
 
-            // Преобразуем полученные данные в строку и выводим на консоль
             std::string client_msg{buffers_begin(buffer.data()), buffers_end(buffer.data())};
-            std::cout << "Received from client: " << client_msg << std::endl;
+            std::cout << "Received from client: " << client_msg;
 
-            // Отправляем ответ клиенту
-            boost::asio::write(socket, boost::asio::buffer(message + "\n"));
+            std::string response = "Hello from the server!\n";
+            std::size_t written = boost::asio::write(socket, boost::asio::buffer(response));
+            std::cout << "Sent " << written << " bytes to client." << std::endl;
 
-            // Грейсфул-шатдаун: сообщаем пиру, что мы больше не будем отправлять данные
+            // Graceful shutdown: сигнализируем клиенту что данных больше не будет
+            socket.shutdown(tcp::socket::shutdown_send);
+
+            // Дочитываем всё что клиент мог прислать после нашего shutdown (до EOF)
             boost::system::error_code ec;
-            socket.shutdown(tcp::socket::shutdown_send, ec);
-            if (ec)
-                std::cerr << "Shutdown send error: " << ec.message() << std::endl;
-
-            // Дочитываем все данные от клиента до закрытия соединения (EOF)
             std::ostringstream oss;
             char buf[1024];
             for (;;) {
                 std::size_t len = socket.read_some(boost::asio::buffer(buf), ec);
-                if (len > 0) oss.write(buf, len);
+                if (len > 0) oss.write(buf, static_cast<std::streamsize>(len));
                 if (ec == boost::asio::error::eof) break;
-                else if (ec) throw boost::system::system_error(ec);
+                if (ec) throw boost::system::system_error(ec);
             }
-            std::string remaining = oss.str();
-            if (!remaining.empty())
-                std::cout << "Remaining data from client after shutdown: " << remaining << std::endl;
+            if (!oss.str().empty())
+                std::cout << "Remaining data from client: " << oss.str() << std::endl;
 
             socket.close();
+            std::cout << "Connection closed gracefully." << std::endl;
+
         } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-            return 1;
+            std::cerr << "Connection error: " << e.what() << std::endl;
+            // Не выходим — продолжаем принимать следующие соединения
         }
     }
+
     return 0;
 }

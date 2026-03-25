@@ -1,8 +1,11 @@
 const std = @import("std");
 
 pub fn main() !void {
+    // Подключаемся к серверу по адресу
     const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
+    // Создаем TCP-сервер, который будет слушать указанный адрес
     var server = try address.listen(.{ .reuse_address = true });
+    // Инициализируем сервер, чтобы он был готов принимать соединения
     defer server.deinit();
 
     std.debug.print("TCP echo server listening on port 12345...\n", .{});

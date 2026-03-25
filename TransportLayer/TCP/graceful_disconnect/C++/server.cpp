@@ -24,7 +24,7 @@ int main() {
 
             std::string response = "Hello from the server!\n";
             std::size_t written = boost::asio::write(socket, boost::asio::buffer(response));
-            
+
             std::cout << "Sent " << written << " bytes to client." << std::endl;
 
             // Graceful shutdown - сигнализируем клиенту что данных больше не будет
@@ -36,6 +36,7 @@ int main() {
 
             char buf[1024];
 
+            // Читаем данные от клиента до тех пор, пока не получим EOF (клиент закрыл соединение)
             for (;;) {
                 std::size_t len = socket.read_some(boost::asio::buffer(buf), ec);
 

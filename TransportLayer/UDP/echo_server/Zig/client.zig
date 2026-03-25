@@ -2,9 +2,11 @@ const std = @import("std");
 const posix = std.posix;
 
 pub fn main() !void {
+    // Создваем UDP сокет. AF.INET - IPv4, SOCK.DGRAM - UDP, 0 - протокол по умолчанию
     const sock = try posix.socket(posix.AF.INET, posix.SOCK.DGRAM, 0);
-    defer posix.close(sock);
+    defer posix.close(sock); // а тут закрываем сокет при выходе из функции
 
+    // Разрешаем адрес сервера, к которому будем отправлять сообщения
     const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
 
     const msg = "Hello from client!\n";

@@ -12,25 +12,27 @@ int main() {
 
     std::cout << "Server is running on port 8090..." << std::endl;
 
-    // Ожидаем входящее соединение и принимаем его
-    tcp::socket socket(io_context);
-    acceptor.accept(socket);
+    while (true) {
+        // Ожидаем входящее соединение и принимаем его
+        tcp::socket socket(io_context);
+        acceptor.accept(socket);
 
-    std::string message = "Hello from the server!";
+        std::string message = "Hello from the server!";
 
-    // Читаем данные от клиента до символа новой строки
-    boost::asio::streambuf buffer;
-    boost::asio::read_until(socket, buffer, '\n');
+        // Читаем данные от клиента до символа новой строки
+        boost::asio::streambuf buffer;
+        boost::asio::read_until(socket, buffer, '\n');
 
-    // Преобразуем полученные данные в строку и выводим на консоль
-    std::string client_msg{buffers_begin(buffer.data()), buffers_end(buffer.data())};
-    std::cout << "Received from client: " << client_msg << std::endl;
+        // Преобразуем полученные данные в строку и выводим на консоль
+        std::string client_msg{buffers_begin(buffer.data()), buffers_end(buffer.data())};
+        std::cout << "Received from client: " << client_msg << std::endl;
 
-    // Отправляем ответ клиенту
-    boost::asio::write(socket, boost::asio::buffer(message + "\n"));
+        // Отправляем ответ клиенту
+        boost::asio::write(socket, boost::asio::buffer(message + "\n"));
 
-    // Закрываем соединение
-    socket.close();
+        // Закрываем соединение
+        socket.close();
+    }
 
     return 0;
 }

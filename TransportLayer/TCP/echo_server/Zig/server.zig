@@ -16,7 +16,8 @@ pub fn main() !void {
         // Закрываем соединение при выходе из блока, чтобы освободить ресурсы
         defer conn.stream.close();
 
-        var buf: [1024]u8 = undefined;
+        var buf: [1024]u8 = undefined; // создаем буфер для чтения данных от клиента
+        // Читаем данные от клиента
         const n = try conn.stream.read(&buf);
         if (n == 0) continue;
 

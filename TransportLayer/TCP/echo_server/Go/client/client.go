@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("Failed to connect to %s: %v", addr, err)
 	}
 
-	defer conn.Close()
+	defer conn.Close() // Закрываем соединение при выходе из функции main
 
 	fmt.Printf("Connected to server %s\n", addr)
 

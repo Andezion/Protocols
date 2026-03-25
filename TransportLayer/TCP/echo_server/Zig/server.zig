@@ -23,6 +23,6 @@ pub fn main() !void {
 
         const msg = buf[0..n];
         std.debug.print("Client says: {s}", .{msg});
-        try conn.stream.writeAll("Hello from server!\n");
+        try conn.stream.writeAll("Hello from server!\n"); // отправляем ответ клиенту
     }
 }

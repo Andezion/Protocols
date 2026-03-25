@@ -1,8 +1,10 @@
 const std = @import("std");
 
 pub fn main() !void {
+    // Подключаемся к серверу по адресу
     const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
-    const stream = try std.net.tcpConnectToAddress(address);
+    const stream = try std.net.tcpConnectToAddress(address); // тут мы создаем TCP-соединение с сервером
+
     defer stream.close();
 
     try stream.writeAll("Hello from client!\n");

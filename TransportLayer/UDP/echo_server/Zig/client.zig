@@ -10,9 +10,11 @@ pub fn main() !void {
     const address = try std.net.Address.resolveIp("127.0.0.1", 12345);
 
     const msg = "Hello from client!\n";
+    // Отправляем сообщение серверу, используя адрес и порт сервера
     _ = try posix.sendto(sock, msg, 0, &address.any, address.getOsSockLen());
 
     var buf: [1024]u8 = undefined;
+    // Принимаем ответ от сервера. recvfrom заполняет buf данными от сервера
     const n = try posix.recvfrom(sock, &buf, 0, null, null);
     std.debug.print("{s}", .{buf[0..n]});
 }

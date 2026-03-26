@@ -10,24 +10,24 @@ import (
 
 const (
 	broker   = "tcp://localhost:1883"
-	clientID = "go-mqtt-client"
+	clientID = "go-mqtt-publisher"
 	topic    = "iot-messages"
 )
 
-var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
-	fmt.Println("Connected to MQTT Broker")
-}
-
-var connectLostHandler mqtt.ConnectionLostHandler = func(client mqtt.Client, err error) {
-	fmt.Printf("Connection lost: %v", err)
+var messages = []string{
+	"Hello, World!",
+	"Greetings from Go!",
+	"MQTT is awesome!",
+	"Random message incoming!",
+	"Go is fun!",
 }
 
 func main() {
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(broker)
 	opts.SetClientID(clientID)
-	opts.OnConnect = connectHandler
-	opts.OnConnectionLost = connectLostHandler
+	opts.OnConnect = func(c mqtt.Client) { fmt.Println("Connected to broker") }
+	opts.OnConnectionLost = func(c mqtt.Client, err error) { fmt.Printf("Connection lost: %v\n", err) }
 
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
@@ -35,25 +35,9 @@ func main() {
 	}
 
 	for {
-		message := generateRandomMessage()
-		token := client.Publish(topic, 0, false, message)
-		token.Wait()
-		fmt.Printf("Published message: %s\n", message)
-		time.Sleep(1 * time.Second)
+		msg := messages[rand.Intn(len(messages))]
+		client.Publish(topic, 0, false, msg).Wait()
+		fmt.Printf("Published: %s\n", msg)
+		time.Sleep(time.Second)
 	}
-}
-
-func generateRandomMessage() string {
-	messages := []string{
-		"Hello, World!",
-		"Greetings from Go!",
-		"MQTT is awesome!",
-		"Random message incoming!",
-		"Go is fun!",
-	}
-	return messages[rand.Intn(len(messages))]
-}
-
-func init() {
-	rand.New(rand.NewSource(time.Now().UnixNano()))
 }

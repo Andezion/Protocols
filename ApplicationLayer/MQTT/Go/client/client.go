@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	broker   = "tcp://localhost:1883"
+	broker   = "tcp://localhost:8090"
 	clientID = "go-mqtt-subscriber"
 	topic    = "iot-messages"
 )

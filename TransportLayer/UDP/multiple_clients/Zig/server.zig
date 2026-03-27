@@ -8,4 +8,20 @@ pub fn main() !void {
     const address = try std.net.Address.resolveIp("127.0.0.1", 8080);
     _ = try posix.bind(sock, &address.any, address.getOsSockLen());
     std.debug.print("UDP server listening on port 8080...\n", .{});
+
+    while (true) {
+        var buf: [1024]u8 = undefined;
+        var client_addr: posix.sockaddr = undefined;
+        var client_addr_len: posix.socklen_t = @sizeOf(posix.sockaddr);
+
+        const n = try posix.recvfrom(sock, &buf, 0, &client_addr, &client_addr_len);
+        if (n == 0) {
+            continue;
+        }
+
+        const msg = buf[0..n];
+        std.debug.print("Client says: {s}", .{msg});
+
+        _ = try posix.sendto(sock, msg, 0, &client_addr, client_addr_len);
+    }
 }

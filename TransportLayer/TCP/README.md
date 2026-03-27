@@ -261,7 +261,7 @@ close(s);
 Чтобы прочитать больше или разобраться ещё лучше - надо почитать [этот сайт](http://www.tcpipguide.com/index.htm)
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C`**
-```c
+```bash
 cd TransportLayer/TCP/echo_server/C
 gcc -I../.. ../../tcp.c client.c -o tcp_client
 gcc -I../.. ../../tcp.c server.c -o tcp_server
@@ -273,7 +273,7 @@ gcc -I../.. ../../tcp.c server.c -o tcp_server
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Go`**
-```go
+```bash
 # В одном терминале запустить сервер:
 cd TransportLayer/TCP/echo_server/Go/server
 go run server.go
@@ -283,7 +283,7 @@ go run client.go
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Rust`**
-```rust
+```bash
 # Cначала сбилдить
 cd TransportLayer/TCP/echo_server/Rust
 cargo build
@@ -295,7 +295,7 @@ cargo build
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C++`**
-```cpp
+```bash
 # Cначала сбилдить
 cd TransportLayer/TCP/echo_server/C++
 g++ -std=c++17 -O2 server.cpp -o server -lboost_system -lpthread
@@ -308,7 +308,7 @@ g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Zig`**
-```zig
+```bash
 # Сначала сбилдим
 zig build-exe server.zig
 zig build-exe client.zig

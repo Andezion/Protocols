@@ -51,7 +51,7 @@ _Так же надо помнить, что большинство соврем
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**
 ```bash
-cd TransportLayer/UDP/echo_server/C
+cd TransportLayer/UDP/___/C
 gcc -I../.. ../../udp.c client.c -o udp_client
 gcc -I../.. ../../udp.c server.c -o udp_server
 
@@ -64,17 +64,17 @@ gcc -I../.. ../../udp.c server.c -o udp_server
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Go`**
 ```bash
 # В одном терминале запустить сервер:
-cd TransportLayer/UDP/echo_server/Go/server
+cd TransportLayer/UDP/___/Go/server
 go run server.go
 # В другом - клиента:
-cd TransportLayer/UDP/echo_server/Go/client
+cd TransportLayer/UDP/___/Go/client
 go run client.go
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Rust`**
 ```bash
 # Cначала сбилдить
-cd TransportLayer/UDP/echo_server/Rust
+cd TransportLayer/UDP/___/Rust
 cargo build
 
 # В одном терминале запустить сервер:
@@ -86,7 +86,7 @@ cargo build
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C++`**
 ```bash
 # Cначала сбилдить
-cd TransportLayer/UDP/echo_server/C++
+cd TransportLayer/UDP/___/C++
 g++ -std=c++17 -O2 server.cpp -o server -lboost_system -lpthread
 g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 
@@ -99,7 +99,7 @@ g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Zig`**
 ```bash
 # Сначала сбилдим
-cd TransportLayer/UDP/echo_server/Zig
+cd TransportLayer/UDP/___/Zig
 zig build-exe server.zig
 zig build-exe client.zig
 

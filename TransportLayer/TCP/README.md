@@ -262,7 +262,7 @@ close(s);
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C`**
 ```bash
-cd TransportLayer/TCP/echo_server/C
+cd TransportLayer/TCP/___/C
 gcc -I../.. ../../tcp.c client.c -o tcp_client
 gcc -I../.. ../../tcp.c server.c -o tcp_server
 
@@ -275,17 +275,17 @@ gcc -I../.. ../../tcp.c server.c -o tcp_server
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Go`**
 ```bash
 # В одном терминале запустить сервер:
-cd TransportLayer/TCP/echo_server/Go/server
+cd TransportLayer/TCP/___/Go/server
 go run server.go
 # В другом - клиента:
-cd TransportLayer/TCP/echo_server/Go/client
+cd TransportLayer/TCP/___/Go/client
 go run client.go
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Rust`**
 ```bash
 # Cначала сбилдить
-cd TransportLayer/TCP/echo_server/Rust
+cd TransportLayer/TCP/___/Rust
 cargo build
 
 # В одном терминале запустить сервер:
@@ -297,7 +297,7 @@ cargo build
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C++`**
 ```bash
 # Cначала сбилдить
-cd TransportLayer/TCP/echo_server/C++
+cd TransportLayer/TCP/___/C++
 g++ -std=c++17 -O2 server.cpp -o server -lboost_system -lpthread
 g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 

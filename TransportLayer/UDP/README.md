@@ -56,9 +56,9 @@ gcc -I../.. ../../udp.c client.c -o udp_client
 gcc -I../.. ../../udp.c server.c -o udp_server
 
 # В одном терминале запустить сервер:
-./tcp_server
+./udp_server
 # В другом - клиента:
-./tcp_client
+./udp_client
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Go`**

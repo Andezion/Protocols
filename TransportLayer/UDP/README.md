@@ -49,11 +49,11 @@ _Так же надо помнить, что большинство соврем
 
 --- 
 
-**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C`**
+**Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**
 ```bash
-cd TransportLayer/TCP/echo_server/C
-gcc -I../.. ../../tcp.c client.c -o tcp_client
-gcc -I../.. ../../tcp.c server.c -o tcp_server
+cd TransportLayer/UDP/echo_server/C
+gcc -I../.. ../../udp.c client.c -o udp_client
+gcc -I../.. ../../udp.c server.c -o udp_server
 
 # В одном терминале запустить сервер:
 ./tcp_server
@@ -61,7 +61,7 @@ gcc -I../.. ../../tcp.c server.c -o tcp_server
 ./tcp_client
 ```
 
-**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Go`**
+**Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Go`**
 ```bash
 # В одном терминале запустить сервер:
 cd TransportLayer/TCP/echo_server/Go/server
@@ -71,7 +71,7 @@ cd TransportLayer/TCP/echo_server/Go/client
 go run client.go
 ```
 
-**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Rust`**
+**Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Rust`**
 ```bash
 # Cначала сбилдить
 cd TransportLayer/TCP/echo_server/Rust

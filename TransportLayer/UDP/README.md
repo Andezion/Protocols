@@ -45,3 +45,65 @@ _Так же надо помнить, что большинство соврем
 Адрес источника такой же, как и в IPv6-заголовке. Адрес получателя - финальный получатель; если в IPv6-пакете не содержится заголовка маршрутизации (Routing), то это будет адрес получателя из IPv6-заголовка, в противном случае, на начальном узле, это будет адрес последнего элемента заголовка маршрутизации, а на узле-получателе - адрес получателя из IPv6-заголовка. Значение "Следующий заголовок" равно значению протокола - 17 для UDP. Длина UDP - длина UDP-заголовка и данных.
 
 ## Процесс 
+
+
+--- 
+
+**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C`**
+```bash
+cd TransportLayer/TCP/echo_server/C
+gcc -I../.. ../../tcp.c client.c -o tcp_client
+gcc -I../.. ../../tcp.c server.c -o tcp_server
+
+# В одном терминале запустить сервер:
+./tcp_server
+# В другом - клиента:
+./tcp_client
+```
+
+**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Go`**
+```bash
+# В одном терминале запустить сервер:
+cd TransportLayer/TCP/echo_server/Go/server
+go run server.go
+# В другом - клиента:
+cd TransportLayer/TCP/echo_server/Go/client
+go run client.go
+```
+
+**Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Rust`**
+```bash
+# Cначала сбилдить
+cd TransportLayer/TCP/echo_server/Rust
+cargo build
+
+# В одном терминале запустить сервер:
+./target/debug/server
+# В другом - клиента:
+./target/debug/client
+```
+
+**Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C++`**
+```bash
+# Cначала сбилдить
+cd TransportLayer/UDP/echo_server/C++
+g++ -std=c++17 -O2 server.cpp -o server -lboost_system -lpthread
+g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
+
+# В одном терминале запустить сервер:
+./server
+# В другом - клиента:
+./client
+```
+
+**Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Zig`**
+```bash
+# Сначала сбилдим
+zig build-exe server.zig
+zig build-exe client.zig
+
+# В одном терминале запустить сервер:
+./server
+# В другом - клиента:
+./client
+```

@@ -64,17 +64,17 @@ gcc -I../.. ../../udp.c server.c -o udp_server
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Go`**
 ```bash
 # В одном терминале запустить сервер:
-cd TransportLayer/TCP/echo_server/Go/server
+cd TransportLayer/UDP/echo_server/Go/server
 go run server.go
 # В другом - клиента:
-cd TransportLayer/TCP/echo_server/Go/client
+cd TransportLayer/UDP/echo_server/Go/client
 go run client.go
 ```
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Rust`**
 ```bash
 # Cначала сбилдить
-cd TransportLayer/TCP/echo_server/Rust
+cd TransportLayer/UDP/echo_server/Rust
 cargo build
 
 # В одном терминале запустить сервер:
@@ -99,6 +99,7 @@ g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/Zig`**
 ```bash
 # Сначала сбилдим
+cd TransportLayer/UDP/echo_server/Zig
 zig build-exe server.zig
 zig build-exe client.zig
 

@@ -15,25 +15,21 @@ pub fn main() !void {
 
     std.debug.print("UDP echo server listening on port 12345...\n", .{});
 
-    // Бесконечный цикл для обработки входящих сообщений от клиентов
-    while (true) {
-        // Буфер для приема данных от клиента
-        var buf: [1024]u8 = undefined;
-        // Структура для хранения адреса клиента, от которого пришло сообщение
-        var client_addr: posix.sockaddr = undefined;
-        // Длина структуры адреса клиента, которая будет обновляться функцией recvfrom
-        var client_addr_len: posix.socklen_t = @sizeOf(posix.sockaddr);
+    var buf: [1024]u8 = undefined;
+    // Структура для хранения адреса клиента, от которого пришло сообщение
+    var client_addr: posix.sockaddr = undefined;
+    // Длина структуры адреса клиента, которая будет обновляться функцией recvfrom
+    var client_addr_len: posix.socklen_t = @sizeOf(posix.sockaddr);
 
-        // Принимаем данные от клиента. recvfrom заполняет client_addr и client_addr_len
-        const n = try posix.recvfrom(sock, &buf, 0, &client_addr, &client_addr_len);
-        if (n == 0) {
-            continue;
-        }
-
-        const msg = buf[0..n];
-        std.debug.print("Client says: {s}", .{msg});
-
-        // Отправляем обратно полученное сообщение клиенту, используя адрес и порт, от которых пришло сообщение
-        _ = try posix.sendto(sock, msg, 0, &client_addr, client_addr_len);
+    // Принимаем данные от клиента. recvfrom заполняет client_addr и client_addr_len
+    const n = try posix.recvfrom(sock, &buf, 0, &client_addr, &client_addr_len);
+    if (n == 0) {
+        return; // Если данных нет, просто выходим из функции
     }
+
+    const msg = buf[0..n];
+    std.debug.print("Client says: {s}", .{msg});
+
+    // Отправляем обратно полученное сообщение клиенту, используя адрес и порт, от которых пришло сообщение
+    _ = try posix.sendto(sock, msg, 0, &client_addr, client_addr_len);
 }

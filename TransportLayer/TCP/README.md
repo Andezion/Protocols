@@ -310,6 +310,7 @@ g++ -std=c++17 -O2 client.cpp -o client -lboost_system -lpthread
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/Zig`**
 ```bash
 # Сначала сбилдим
+cd TransportLayer/TCP/___/Zig
 zig build-exe server.zig
 zig build-exe client.zig
 

@@ -2,7 +2,7 @@ const std = @import("std");
 const posix = std.posix;
 
 pub fn main() !void {
-    const sock = try posix.socket(posix.AF.INET, posix.SOCK_DGRAM, 1);
+    const sock = try posix.socket(posix.AF.INET, posix.SOCK_DGRAM, 0);
     defer posix.close(sock);
 
     const address = try std.net.Address.resolveIp("127.0.0.1", 8080);

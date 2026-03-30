@@ -15,13 +15,18 @@
 // Флаг который устанавливает флаг FD_CLOEXEC на сокете, чтобы он автоматически закрывался при выполнении execve, полезно для предотвращения утечек дескрипторов в дочерних процессах
 #define UDP_FLAG_CLOEXEC   (1 << 2)
 
+// Функции для создания и настройки UDP-сокетов
 int udp_socket(void);
+// Создает UDP-сокет и привязывает его к указанному порту
 int udp_socket_bind(uint16_t port);
-
+// Создает UDP-сокет с указанными флагами
 int udp_socket_flags(int flags);
+// Создает UDP-сокет с указанными флагами и привязывает его к указанному порту
 int udp_socket_bind_flags(uint16_t port, int flags);
 
+// Функции для отправки и получения данных по UDP
 ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen);
+// Получает данные из UDP-сокета и сохраняет адрес отправителя
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen);
 
 #endif

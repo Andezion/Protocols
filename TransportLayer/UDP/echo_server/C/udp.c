@@ -44,7 +44,11 @@ int udp_socket_bind(uint16_t port) {
 
 ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen)
 {
-
+    size_t sent = sendto(sockfd, data, len, 0, destaddr, addrlen);
+    if (sent < 0) {
+        perror("udp_sendto: sendto");
+    }
+    return sent;
 }
 
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen)

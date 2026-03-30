@@ -17,7 +17,7 @@ int main() {
 
     printf("UDP server is listening on port %u\n", port);
     char buffer[UDP_MAX_PAYLOAD];
-    struct sockaddr_in client_addr;
+    struct sockaddr_in client_addr; // инфо про киента который отправил сообщение
     socklen_t client_addr_len = sizeof(client_addr);
 
     // Получаем данные от клиента
@@ -27,6 +27,7 @@ int main() {
     }
 
     buffer[recv_bytes] = '\0'; // Добавляем нулевой терминатор к полученному сообщению
+
     printf("Received message from client: %s\n", buffer);
 
     // Отправляем ответ клиенту
@@ -36,7 +37,7 @@ int main() {
         fprintf(stderr, "Failed to send message to client.\n");
     }
 
-// Закрываем сокет (хотя в этом примере мы никогда не достигнем этой строки)
+    // Закрываем сокет 
     close(sockfd);
     return EXIT_SUCCESS;
 }

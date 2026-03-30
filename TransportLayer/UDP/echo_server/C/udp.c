@@ -49,5 +49,9 @@ ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockad
 
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen)
 {
-    
+    size_t received = recvfrom(sockfd, data, len, 0, srcaddr, addrlen);
+    if (received < 0) {
+        perror("udp_recvfrom: recvfrom");
+    }
+    return received;
 }

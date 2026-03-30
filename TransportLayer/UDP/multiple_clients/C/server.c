@@ -9,7 +9,7 @@ int main() {
     uint16_t port = 12345;
 
     // Создаем UDP-сокет и привязываем его к порту
-    /* используем flags: REUSEADDR и REUSEPORT для удобства многопроцессного запуска */
+    // используем flags REUSEADDR и REUSEPORT для удобства многопроцессного запуска 
     int sockfd = udp_socket_bind_flags(port, UDP_FLAG_REUSEADDR | UDP_FLAG_REUSEPORT);
     if (sockfd < 0) {
         fprintf(stderr, "Failed to create and bind UDP socket.\n");

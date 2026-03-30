@@ -16,7 +16,9 @@ int main() {
     }
 
     printf("UDP server is listening on port %u\n", port);
-char buffer[UDP_MAX_PAYLOAD];
+
+    while (1) {
+        char buffer[UDP_MAX_PAYLOAD];
         struct sockaddr_in client_addr;
         socklen_t client_addr_len = sizeof(client_addr);
 
@@ -24,6 +26,7 @@ char buffer[UDP_MAX_PAYLOAD];
         ssize_t recv_bytes = udp_recvfrom(sockfd, buffer, sizeof(buffer) - 1, (struct sockaddr *)&client_addr, &client_addr_len);
         if (recv_bytes < 0) {
             fprintf(stderr, "Failed to receive message from client.\n");
+            continue; // продолжаем слушать других клиентов
         }
 
         buffer[recv_bytes] = '\0'; // Добавляем нулевой терминатор к полученному сообщению
@@ -36,6 +39,7 @@ char buffer[UDP_MAX_PAYLOAD];
             fprintf(stderr, "Failed to send message to client.\n");
             continue; // продолжаем слушать других клиентов
         }
+    }
 
     // Закрываем сокет (хотя в этом примере мы никогда не достигнем этой строки)
     close(sockfd);

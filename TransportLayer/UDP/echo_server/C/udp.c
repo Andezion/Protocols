@@ -56,25 +56,30 @@ int udp_socket(void)
     return udp_socket_flags(UDP_FLAG_REUSEADDR);
 }
 
+// Создает UDP-сокет с указанными флагами и привязывает его к указанному порту
 int udp_socket_bind_flags(uint16_t port, int flags)
 {
+    // Сначала создаем сокет с нужными флагами, а затем привязываем его к порту
     int s = udp_socket_flags(flags);
     if (s < 0) {
         return -1;
     }
 
+    // структура sockaddr_in используется для указания адреса и порта, к которому мы хотим привязать сокет
     struct sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_ANY;
-    addr.sin_port = htons(port);
+    memset(&addr, 0, sizeof(addr)); // выделили место
+    addr.sin_family = AF_INET; // используем IPv4
+    addr.sin_addr.s_addr = INADDR_ANY; // привязываем к любому доступному интерфейсу 
+    addr.sin_port = htons(port); // преобразуем порт в сетевой порядок байтов (big-endian)
 
+    // занимаем порт, чтобы сервер мог принимать данные от клиентов, отправленных на этот порт
     if (bind(s, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
         perror("udp_socket_bind: bind");
         close(s);
         return -1;
     }
 
+    // если все прошло успешно, возвращаем дескриптор сокета
     return s;
 }
 
@@ -86,18 +91,24 @@ int udp_socket_bind(uint16_t port)
 
 ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen)
 {
+    // отправляем данные по UDP-сокету на указанный адрес назначения, используя функцию sendto, 
+    // которая позволяет указать адрес получателя для каждого отправляемого сообщения
     ssize_t sent = sendto(sockfd, data, len, 0, destaddr, addrlen);
     if (sent < 0) {
         perror("udp_sendto: sendto");
     }
+    // возвращаем количество отправленных байт или -1 в случае ошибки
     return sent;
 }
 
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen)
 {
+    // получаем данные по UDP-сокету, используя функцию recvfrom, 
+    // которая позволяет получить адрес отправителя для каждого полученного сообщения
     ssize_t received = recvfrom(sockfd, data, len, 0, srcaddr, addrlen);
     if (received < 0) {
         perror("udp_recvfrom: recvfrom");
     }
+    // возвращаем количество полученных байт или -1 в случае ошибки
     return received;
 }

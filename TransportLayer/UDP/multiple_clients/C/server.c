@@ -1,15 +1,16 @@
-#include "udp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "../../echo_server/C/udp.h"
 
 int main() {
     uint16_t port = 12345;
 
     // Создаем UDP-сокет и привязываем его к порту
-    int sockfd = udp_socket_bind(port);
+    /* используем flags: REUSEADDR и REUSEPORT для удобства многопроцессного запуска */
+    int sockfd = udp_socket_bind_flags(port, UDP_FLAG_REUSEADDR | UDP_FLAG_REUSEPORT);
     if (sockfd < 0) {
         fprintf(stderr, "Failed to create and bind UDP socket.\n");
         return EXIT_FAILURE;
@@ -19,7 +20,7 @@ int main() {
 
     while (1) {
         char buffer[UDP_MAX_PAYLOAD];
-        struct sockaddr_in client_addr;
+        struct sockaddr_in client_addr; // инфо про киента который отправил сообщение
         socklen_t client_addr_len = sizeof(client_addr);
 
         // Получаем данные от клиента

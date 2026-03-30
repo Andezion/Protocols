@@ -52,8 +52,8 @@ _Так же надо помнить, что большинство соврем
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**
 ```bash
 cd TransportLayer/UDP/___/C
-gcc -I../.. ../../udp.c client.c -o udp_client
-gcc -I../.. ../../udp.c server.c -o udp_server
+gcc -I../.. udp.c client.c -o udp_client
+gcc -I../.. udp.c server.c -o udp_server
 
 # В одном терминале запустить сервер:
 ./udp_server

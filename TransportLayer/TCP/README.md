@@ -263,8 +263,8 @@ close(s);
 **Как собрать и запустить примеры из папки `TransportLayer/TCP/___/C`**
 ```bash
 cd TransportLayer/TCP/___/C
-gcc -I../.. ../../tcp.c client.c -o tcp_client
-gcc -I../.. ../../tcp.c server.c -o tcp_server
+gcc -I../.. tcp.c client.c -o tcp_client
+gcc -I../.. tcp.c server.c -o tcp_server
 
 # В одном терминале запустить сервер:
 ./tcp_server

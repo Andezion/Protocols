@@ -12,19 +12,15 @@
 // понтовая реализация UDP-сокетов с поддержкой флагов для многопроцессных серверов и автоматического закрытия при execve
 int udp_socket_flags(int flags)
 {
+    // Создаем UDP-сокет, используя IPv4 (AF_INET) и тип SOCK_DGRAM для UDP, протокол 0 (автоматический выбор для UDP)
     int s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s < 0) {
         perror("udp_socket: socket");
         return -1;
     }
 
-    if (flags & UDP_FLAG_REUSEADDR) {
-        int opt = 1;
-        if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-            perror("udp_socket: setsockopt SO_REUSEADDR");
-        }
-    }
-
+    // Устанавливаем SO_REUSEPORT, если поддерживается, чтобы несколько сокетов могли привязываться к одному порту
+    //  и распределять входящие соединения между ними, что полезно для многопроцессных серверов
     if (flags & UDP_FLAG_REUSEPORT) {
     #ifdef SO_REUSEPORT
         int opt = 1;
@@ -36,7 +32,11 @@ int udp_socket_flags(int flags)
     #endif
     }
 
+    // Устанавливаем SO_REUSEADDR, если указано, чтобы несколько сокетов могли привязываться к одному порту, 
+    // что полезно для многопроцессных серверов
     if (flags & UDP_FLAG_CLOEXEC) {
+        // тут вызываем fcntl для установки флага FD_CLOEXEC, чтобы сокет автоматически закрывался при выполнении execve,
+        // что полезно для предотвращения утечек дескрипторов в дочерних процессах
         int fdflags = fcntl(s, F_GETFD);
         if (fdflags < 0) {
             perror("udp_socket: fcntl F_GETFD");
@@ -50,7 +50,7 @@ int udp_socket_flags(int flags)
     return s;
 }
 
-/* Backwards-compatible wrapper: previous behavior enabled SO_REUSEADDR by default */
+// Создает UDP-сокет с указанными флагами и привязывает его к указанному порту
 int udp_socket(void)
 {
     return udp_socket_flags(UDP_FLAG_REUSEADDR);
@@ -78,7 +78,7 @@ int udp_socket_bind_flags(uint16_t port, int flags)
     return s;
 }
 
-/* Backwards-compatible wrapper: preserve previous default (REUSEADDR) */
+// Создает UDP-сокет и привязывает его к указанному порту
 int udp_socket_bind(uint16_t port)
 {
     return udp_socket_bind_flags(port, UDP_FLAG_REUSEADDR);

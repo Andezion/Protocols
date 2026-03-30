@@ -16,7 +16,9 @@ int udp_socket(void) {
     }
 
     int opt = 1;
-    setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        perror("udp_socket: setsockopt");
+    }
 
     return s;
 }
@@ -44,7 +46,7 @@ int udp_socket_bind(uint16_t port) {
 
 ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen)
 {
-    size_t sent = sendto(sockfd, data, len, 0, destaddr, addrlen);
+    ssize_t sent = sendto(sockfd, data, len, 0, destaddr, addrlen);
     if (sent < 0) {
         perror("udp_sendto: sendto");
     }
@@ -53,7 +55,7 @@ ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockad
 
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen)
 {
-    size_t received = recvfrom(sockfd, data, len, 0, srcaddr, addrlen);
+    ssize_t received = recvfrom(sockfd, data, len, 0, srcaddr, addrlen);
     if (received < 0) {
         perror("udp_recvfrom: recvfrom");
     }

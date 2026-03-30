@@ -35,9 +35,9 @@ int tcp_socket_bind(uint16_t port) {
 
     struct sockaddr_in addr; // структура для хранения адреса (IP + порт)
     memset(&addr, 0, sizeof(addr)); // обнуляем структуру перед заполнением
-    addr.sin_family      = AF_INET; // семейство адресов - IPv4
+    addr.sin_family = AF_INET; // семейство адресов - IPv4
     addr.sin_addr.s_addr = htonl(INADDR_ANY); // принимаем соединения на всех сетевых интерфейсах
-    addr.sin_port        = htons(port); // порт в сетевом порядке байт (big-endian)
+    addr.sin_port = htons(port); // порт в сетевом порядке байт (big-endian)
 
     // Привязываем сокет к адресу и порту а если порт уже занят, bind() вернёт ошибку
     if (bind(s, (struct sockaddr *) & addr, sizeof(addr)) < 0) {

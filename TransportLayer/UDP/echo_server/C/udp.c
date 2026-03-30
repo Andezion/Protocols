@@ -14,6 +14,10 @@ int udp_socket(void) {
         perror("udp_socket: socket");
         return -1;
     }
+
+    int opt = 1;
+    setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
     return s;
 }
 

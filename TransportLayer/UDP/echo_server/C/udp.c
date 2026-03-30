@@ -3,11 +3,13 @@
 #include <arpa/inet.h>  // для htons, htonl
 #include <netinet/in.h> // для struct sockaddr_in, INADDR_ANY
 #include <stddef.h>     // для size_t
-#include <fcntl.h>
+#include <fcntl.h>      // для fcntl, F_GETFD, F_SETFD, FD_CLOEXEC
 #include <stdio.h>      // для perror
 #include <string.h>     // для memset
 #include <sys/socket.h> // для socket, bind, sendto, recvfrom
 #include <unistd.h>     // для close
+
+// понтовая реализация UDP-сокетов с поддержкой флагов для многопроцессных серверов и автоматического закрытия при execve
 int udp_socket_flags(int flags)
 {
     int s = socket(AF_INET, SOCK_DGRAM, 0);

@@ -17,16 +17,17 @@ int main() {
     }
 
     printf("UDP client is ready to send messages to %s:%u\n", server_ip, port);
-    
+
     // Структура для хранения адреса сервера
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
+    // Преобразуем строковый IP-адрес в бинарный формат и сохраняем его в структуре sockaddr_in
     inet_pton(AF_INET, server_ip, &server_addr.sin_addr);
 
     // Сообщение для отправки
-    const char *message = "Hello, UDP server!";
+    const char *message = "Hello from client!";
     ssize_t sent_bytes = udp_sendto(sockfd, message, strlen(message), (struct sockaddr *)&server_addr, sizeof(server_addr));
     if (sent_bytes < 0) {
         fprintf(stderr, "Failed to send message to UDP server.\n");
@@ -34,7 +35,8 @@ int main() {
         return EXIT_FAILURE;
     }
 
-        printf("Sent message to UDP server: %s\n", message);
+    printf("Sent message to UDP server: %s\n", message);
+    
     // Буфер для получения ответа от сервера
     char buffer[UDP_MAX_PAYLOAD];
     struct sockaddr_in src_addr;

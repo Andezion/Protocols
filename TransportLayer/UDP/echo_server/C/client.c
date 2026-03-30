@@ -36,9 +36,10 @@ int main() {
     }
 
     printf("Sent message to UDP server: %s\n", message);
-    
+
     // Буфер для получения ответа от сервера
     char buffer[UDP_MAX_PAYLOAD];
+
     struct sockaddr_in src_addr;
     socklen_t src_addr_len = sizeof(src_addr);
     ssize_t recv_bytes = udp_recvfrom(sockfd, buffer, sizeof(buffer) - 1, (struct sockaddr *)&src_addr, &src_addr_len);
@@ -52,7 +53,6 @@ int main() {
     printf("Received message from UDP server: %s\n", buffer);
     // Закрываем сокет
     close(sockfd);
-
 
     return 0;
 }

@@ -8,8 +8,18 @@
 
 #define UDP_MAX_PAYLOAD 65507 // Максимальный размер полезной нагрузки в UDP (65,535 - 8 байт заголовка - 20 байт IP-заголовка)
 
+/* Flags for udp_socket_flags / udp_socket_bind_flags */
+#define UDP_FLAG_REUSEADDR (1 << 0)
+#define UDP_FLAG_REUSEPORT (1 << 1)
+#define UDP_FLAG_CLOEXEC   (1 << 2)
+
+/* Backwards-compatible simple APIs (preserve previous behavior) */
 int udp_socket(void);
 int udp_socket_bind(uint16_t port);
+
+/* Flagged APIs: pass combination of UDP_FLAG_* to enable behavior */
+int udp_socket_flags(int flags);
+int udp_socket_bind_flags(uint16_t port, int flags);
 ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen);
 ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen);
 

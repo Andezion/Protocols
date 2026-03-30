@@ -33,7 +33,7 @@ int udp_socket_bind(uint16_t port) {
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(port);
 
-    if (bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    if (bind(s, (struct sockaddr *) & addr, sizeof(addr)) < 0) {
         perror("udp_socket_bind: bind");
         close(s);
         return -1;

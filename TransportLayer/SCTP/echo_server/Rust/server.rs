@@ -1,28 +1,36 @@
-use std::io::{self, Read, Write};
-use std::net::TcpListener;
+use std::net::SocketAddr;
+use sctp_rs::{Socket, SocketToAssociation, SendData, NotificationOrData};
+use sctp_rs::Notification;
 
-fn main() -> std::io::Result<()> {
-    let client = sctp_rs::Socket::new_v4(sctp_rs::SocketToAssociation::OneToOne)?;
+#[tokio::main]
+async fn main() -> std::io::Result<()> {
+    let addr: SocketAddr = "127.0.0.1:8090".parse().expect("invalid addr");
+    let sock = Socket::new_v4(SocketToAssociation::OneToOne)?;
+    sock.bind(addr)?;
+    let listener = sock.listen(1)?;
 
-    client.bind("127.0.0.1:8090")?;
-    client.listen(1)?;
+    println!("SCTP echo server listening on {}", addr);
 
-    println!("SCTP echo server listening on 8090 port");
+    let (conn, peer) = listener.accept().await?;
+    println!("Client connected: {}", peer);
 
-    let (mut stream, addr) = client.accept()?;
-    println!("Client connected: {}", addr);
-
-    let mut buf = [0u8; 1024];
-    let n = stream.read(&mut buf)?;
-    if n == 0 {
-        println!("Client sent no data");
-        return Ok(());
+    loop {
+        match conn.sctp_recv().await? {
+            NotificationOrData::Data(data) => {
+                let payload = data.payload.clone();
+                println!("Received: {}", String::from_utf8_lossy(&payload));
+                conn.sctp_send(SendData { payload, snd_info: None }).await?;
+                println!("Echoed back");
+            }
+            NotificationOrData::Notification(notif) => {
+                println!("Notification: {:?}", notif);
+                if let Notification::Shutdown(_) = notif {
+                    println!("Shutdown notification received, exiting");
+                    break;
+                }
+            }
+        }
     }
-
-    println!("Received: {}", String::from_utf8_lossy(&buf[..n]));
-    stream.write_all(&buf[..n])?;
-    println!("Echoed back and exiting.");
-
 
     Ok(())
 }

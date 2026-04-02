@@ -1,18 +1,16 @@
-use std::io::{self, Read, Write};
-use std::net::TcpStream;
+use std::net::SocketAddr;
+use sctp_rs::{Socket, SocketToAssociation, SendData, NotificationOrData};
 
 fn main() -> std::io::Result<()> {
-    let addr = "127.0.0.1:8090";
-    let mut stream = TcpStream::connect(addr)?;
-    println!("Connected to server at {}", addr);
+    let addr: SocketAddr = "127.0.0.1:8090".parse().unwrap();
+    let sock = Socket::new_v4(SocketToAssociation::OneToOne)?;
+    let (conn, _assoc) = sock.connect(addr).await?;
+    println!("Connected to {}", addr);
 
-    let msg = b"Hello from Rust client\n";
-    stream.write_all(msg)?; // Отправляем сообщение серверу
-
-    // Читаем ответ от сервера
-    let mut buf = [0u8; 1024];
-    let n = stream.read(&mut buf)?;
-    println!("Received echo: {}", String::from_utf8_lossy(&buf[..n]));
+    conn.sctp_send(SendData { payload: b"Hello from Rust client\n".to_vec(), snd_info: None }).await?;
+    if let NotificationOrData::Data(msg) = conn.sctp_recv().await? {
+        println!("Received echo: {}", String::from_utf8_lossy(&msg.payload));
+    }
 
     Ok(())
 }

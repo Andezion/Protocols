@@ -5,13 +5,18 @@ use sctp_rs::Notification;
 // ассинхронность потому что библиотека sctp_rs использует tokio для асинхронного ввода-вывода
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    // наш адрес для прослушивания входящих соединений
     let addr: SocketAddr = "127.0.0.1:8090".parse().expect("invalid addr");
+    // создаем SCTP сокет и привязываем его к адресу
     let sock = Socket::new_v4(SocketToAssociation::OneToOne)?;
     sock.bind(addr)?;
-    let listener = sock.listen(1)?;
+
+    // начинаем прослушивание входящих соединений, максимальная очередь 10
+    let listener = sock.listen(10)?;
 
     println!("SCTP echo server listening on {}", addr);
 
+    // бесконечный цикл для принятия и обработки входящих соединений
     let (conn, peer) = listener.accept().await?;
     println!("Client connected: {}", peer);
 

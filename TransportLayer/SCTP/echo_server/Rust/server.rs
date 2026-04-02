@@ -21,15 +21,22 @@ async fn main() -> std::io::Result<()> {
     println!("Client connected: {}", peer);
 
     loop {
+        // ждем данных от клиента и обрабатываем их
         match conn.sctp_recv().await? {
+            // если получили данные, то выводим их и отправляем обратно клиенту
             NotificationOrData::Data(data) => {
+                // клонируем данные, так как они будут перемещены при отправке обратно
                 let payload = data.payload.clone();
                 println!("Received: {}", String::from_utf8_lossy(&payload));
+                // отправляем данные обратно клиенту
                 conn.sctp_send(SendData { payload, snd_info: None }).await?;
                 println!("Echoed back");
             }
+            // если получили уведомление, то выводим его и проверяем, не является ли оно уведомлением 
+            // о завершении работы
             NotificationOrData::Notification(notif) => {
                 println!("Notification: {:?}", notif);
+                // если получили уведомление о завершении работы, то выходим из цикла и завершаем сервер
                 if let Notification::Shutdown(_) = notif {
                     println!("Shutdown notification received, exiting");
                     break;

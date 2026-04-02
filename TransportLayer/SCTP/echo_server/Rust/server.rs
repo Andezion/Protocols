@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 use sctp_rs::{Socket, SocketToAssociation, SendData, NotificationOrData};
 use sctp_rs::Notification;
 
+// ассинхронность потому что библиотека sctp_rs использует tokio для асинхронного ввода-вывода
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     let addr: SocketAddr = "127.0.0.1:8090".parse().expect("invalid addr");

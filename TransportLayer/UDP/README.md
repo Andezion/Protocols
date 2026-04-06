@@ -194,7 +194,6 @@ ssize_t sent_bytes = udp_sendto(sockfd, message, strlen(message), (struct sockad
 ssize_t recv_bytes = udp_recvfrom(sockfd, buffer, sizeof(buffer) - 1, (struct sockaddr *)&client_addr, &client_addr_len);
 ```
 
-
 --- 
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**

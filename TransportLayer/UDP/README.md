@@ -51,6 +51,51 @@ _Так же надо помнить, что большинство соврем
 Тут у нас нет никакого трёхстороннего рукопожатия, мы создаем "место" в которое можно кидать любые вещи и надеятся, что они долетят.
 
 ```c
+// понтовая реализация UDP-сокетов с поддержкой флагов для многопроцессных серверов и автоматического закрытия при execve
+int udp_socket_flags(int flags)
+{
+    // Создаем UDP-сокет, используя IPv4 (AF_INET) и тип SOCK_DGRAM для UDP, протокол 0 (автоматический выбор для UDP)
+    int s = socket(AF_INET, SOCK_DGRAM, 0);
+    if (s < 0) {
+        perror("udp_socket: socket");
+        return -1;
+    }
+
+    // Устанавливаем SO_REUSEPORT, если поддерживается, чтобы несколько сокетов могли привязываться к одному порту
+    //  и распределять входящие соединения между ними, что полезно для многопроцессных серверов
+    if (flags & UDP_FLAG_REUSEPORT) {
+    #ifdef SO_REUSEPORT
+        int opt = 1;
+        if (setsockopt(s, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
+            perror("udp_socket: setsockopt SO_REUSEPORT");
+        }
+    #else
+        fprintf(stderr, "udp_socket: SO_REUSEPORT not supported on this platform\n");
+    #endif
+    }
+
+    // Устанавливаем SO_REUSEADDR, если указано, чтобы несколько сокетов могли привязываться к одному порту, 
+    // что полезно для многопроцессных серверов
+    if (flags & UDP_FLAG_CLOEXEC) {
+        // тут вызываем fcntl для установки флага FD_CLOEXEC, чтобы сокет автоматически закрывался при выполнении execve,
+        // что полезно для предотвращения утечек дескрипторов в дочерних процессах
+        int fdflags = fcntl(s, F_GETFD);
+        if (fdflags < 0) {
+            perror("udp_socket: fcntl F_GETFD");
+        } else {
+            if (fcntl(s, F_SETFD, fdflags | FD_CLOEXEC) < 0) {
+                perror("udp_socket: fcntl F_SETFD FD_CLOEXEC");
+            }
+        }
+    }
+
+    return s;
+}
+```
+
+Дальше как создали - занимаем этот сокет.
+
+```c
 // Создает UDP-сокет с указанными флагами и привязывает его к указанному порту
 int udp_socket_bind_flags(uint16_t port, int flags)
 {

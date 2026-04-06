@@ -158,6 +158,43 @@ ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcadd
 }
 ```
 
+На стороне сервера и клиента всё так же довольно просто: 
+
+1) Создаём место где будем общаться, то есть сокет
+
+```c
+// Создаем UDP-сокет и привязываем его к порту
+int sockfd = udp_socket_bind(port);
+if (sockfd < 0) {
+    fprintf(stderr, "Failed to create and bind UDP socket.\n");
+    return EXIT_FAILURE;
+}
+```
+
+То есть теперь мы уже слушаем друг друга!
+
+2) Теперь нам нужно создать место, где мы будем записывать ответы друг друга:
+
+```c
+struct sockaddr_in server_addr;
+memset(&server_addr, 0, sizeof(server_addr));
+server_addr.sin_family = AF_INET;
+server_addr.sin_port = htons(port);
+```
+
+3) Дальше остаётся лишь начать общаться:
+
+Клиент кидает серверу: 
+```c
+ssize_t sent_bytes = udp_sendto(sockfd, message, strlen(message), (struct sockaddr *)&server_addr, sizeof(server_addr));
+```
+
+На что сервер слушает: 
+```c
+ssize_t recv_bytes = udp_recvfrom(sockfd, buffer, sizeof(buffer) - 1, (struct sockaddr *)&client_addr, &client_addr_len);
+```
+
+
 --- 
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**

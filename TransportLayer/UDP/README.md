@@ -130,9 +130,33 @@ int udp_socket_bind(uint16_t port)
 }
 ```
 
-А теперь - у нас есть лишь 2 функции, прочитать и отправить. То есть даже на этом моменте, после прочтения о ТСП, понятно что ЮПД намного менее "стабилен", зато меньше пишем кода!
+А теперь - у нас есть лишь 2 функции, прочитать и отправить. То есть даже на этом моменте, после прочтения о TCP, понятно что UDP намного менее "стабилен", зато меньше пишем кода!
 
+```c
+ssize_t udp_sendto(int sockfd, const void *data, size_t len, const struct sockaddr *destaddr, socklen_t addrlen)
+{
+    // отправляем данные по UDP-сокету на указанный адрес назначения, используя функцию sendto, 
+    // которая позволяет указать адрес получателя для каждого отправляемого сообщения
+    ssize_t sent = sendto(sockfd, data, len, 0, destaddr, addrlen);
+    if (sent < 0) {
+        perror("udp_sendto: sendto");
+    }
+    // возвращаем количество отправленных байт или -1 в случае ошибки
+    return sent;
+}
 
+ssize_t udp_recvfrom(int sockfd, void *data, size_t len, struct sockaddr *srcaddr, socklen_t *addrlen)
+{
+    // получаем данные по UDP-сокету, используя функцию recvfrom, 
+    // которая позволяет получить адрес отправителя для каждого полученного сообщения
+    ssize_t received = recvfrom(sockfd, data, len, 0, srcaddr, addrlen);
+    if (received < 0) {
+        perror("udp_recvfrom: recvfrom");
+    }
+    // возвращаем количество полученных байт или -1 в случае ошибки
+    return received;
+}
+```
 
 --- 
 

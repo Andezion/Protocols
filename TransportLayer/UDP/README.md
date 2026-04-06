@@ -193,7 +193,74 @@ ssize_t sent_bytes = udp_sendto(sockfd, message, strlen(message), (struct sockad
 ```c
 ssize_t recv_bytes = udp_recvfrom(sockfd, buffer, sizeof(buffer) - 1, (struct sockaddr *)&client_addr, &client_addr_len);
 ```
+- Занятие сокета: создаём `SOCK_DGRAM` и биндим порт (как в примере выше).
 
+- Connected UDP
+
+    `connect()` для UDP не устанавливает сессию — оно просто фиксирует адрес пира. После `connect()` можно использовать `send()`/`recv()` без передачи адреса, и ядро будет отбрасывать пакеты не от этого пира.
+
+```c
+struct sockaddr_in peer = { .sin_family = AF_INET, .sin_port = htons(12345) };
+inet_pton(AF_INET, "10.0.0.1", &peer.sin_addr);
+connect(sock, (struct sockaddr*)&peer, sizeof(peer));
+send(sock, buf, len, 0);
+recv(sock, buf, sizeof(buf), 0);
+```
+
+- Атомарность и усечение
+
+    UDP гарантирует целостность датаграммы, но при чтении приложение может получить усечённые данные, если буфер меньше датаграммы. Для детекции усечения используйте `recvmsg()` с флагом `MSG_TRUNC`.
+
+```c
+struct msghdr mh = { .msg_iov = &iov, .msg_iovlen = 1 };
+ssize_t n = recvmsg(sock, &mh, 0);
+if (mh.msg_flags & MSG_TRUNC) {
+        // датаграмма была усечена
+}
+```
+
+- Размеры и фрагментация
+
+    Фрагментация — задача IP: если datagram > MTU и DF=0, IP разобьёт её на фрагменты. Потеря одного фрагмента — потеря всей датаграммы. Практическое правило: Ethernet MTU=1500 → безопасная полезная нагрузка ≈ 1432 байта; для максимальной совместимости ориентируйтесь на ≈508 байт или используйте PMTUD.
+
+- Контрольная сумма
+
+    В IPv4 UDP-checksum опционален (0 = не считали), но рекомендуется. В IPv6 — обязательна. При расчёте участвует псевдо‑заголовок (адреса, протокол, длина).
+
+- Блокировка / таймауты
+
+    Установить таймаут приёма: `setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv))`.
+    Неблокирующий режим: `fcntl(sock, F_SETFL, O_NONBLOCK)` — `recvfrom()` вернёт -1 и `errno=EAGAIN`/`EWOULDBLOCK`.
+
+- sendto()/recvfrom() — поведение и ошибки
+
+    Возвращают число байт или -1. Частые errno: `EMSGSIZE` (слишком большой пакет), `ENETUNREACH`, `EHOSTUNREACH`, асинхронный `ECONNREFUSED` (ICMP "port unreachable"). На `EMSGSIZE` — уменьшить пакет; на сетевые ошибки — логировать/бэкофф.
+
+- Broadcast и Multicast
+
+    Для широковещания включите `SO_BROADCAST`. Для мультикаста используйте `IP_ADD_MEMBERSHIP` / `IPV6_JOIN_GROUP`. Управляйте TTL (`IP_MULTICAST_TTL`) и локальным echo (`IP_MULTICAST_LOOP`).
+
+```c
+int on = 1; setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on));
+// multicast: struct ip_mreq m; m.imr_multiaddr.s_addr = inet_addr("224.0.0.1");
+// setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &m, sizeof(m));
+```
+
+- Port reuse
+
+    `SO_REUSEADDR` помогает при повторном биндинге (TIME_WAIT и т.п.). `SO_REUSEPORT` позволяет нескольким процессам/потокам биндинг на один порт для балансировки — поведение ОС-зависимо.
+
+- Performance APIs
+
+    Для высокой нагрузки используйте `sendmmsg()`/`recvmmsg()` (батчи) и флаг `MSG_WAITFORONE` для `recvmmsg()`.
+
+- ICMP и асинхронные ошибки
+
+    ICMP-ошибки приходят асинхронно и иногда проявляются как `errno` на последующих вызовах. Не полагайтесь на них полностью — маршрутизаторы могут фильтровать ICMP.
+
+- NAT / безопасность
+
+    NAT меняет исходные ephemeral-порты — для traversal нужны STUN/ICE/UPnP. UDP легко подделать — проверяйте `recvfrom()`-адрес, используйте HMAC/DTLS для защиты и аутентификации.
 --- 
 
 **Как собрать и запустить примеры из папки `TransportLayer/UDP/___/C`**

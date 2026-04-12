@@ -21,7 +21,7 @@ public:
             std::string message = "Hello from the client " + std::to_string(id) + "\n";
 
             std::size_t written = boost::asio::write(socket, boost::asio::buffer(message));
-            std::cout << "Sent " << written << " bytes to server." << std::endl;
+            // std::cout << "Sent " << written << " bytes to server." << std::endl;
 
             // Graceful shutdown: сигнализируем серверу что данных больше не будет
             socket.shutdown(tcp::socket::shutdown_send);
@@ -33,7 +33,7 @@ public:
             char buf[1024];
 
             // Читаем данные от сервера до тех пор, пока не получим EOF (сервер закрыл соединение)
-            for (;;) {
+            while (true) {
                 std::size_t len = socket.read_some(boost::asio::buffer(buf), ec);
 
                 if (len > 0) {
@@ -48,8 +48,8 @@ public:
             }
             std::cout << "Received from server: " << oss.str();
 
-            socket.close();
-            std::cout << "Connection closed gracefully." << std::endl;
+            // socket.close();
+            // std::cout << "Connection closed gracefully." << std::endl;
 
         } catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;

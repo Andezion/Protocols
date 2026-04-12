@@ -57,6 +57,7 @@ public:
         }
     }
 
+    ~Client() = default;
 };
 
 int main() {

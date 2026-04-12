@@ -6,8 +6,10 @@
 using boost::asio::ip::tcp;
 
 class Client {
+private:
+    int id{};
 public:
-    Client() {
+    Client(int id) : id(id) {
         // Создаем io_context и resolver для разрешения адреса сервера
         boost::asio::io_context io_context;
         tcp::resolver resolver(io_context);
@@ -15,6 +17,9 @@ public:
         // Разрешаем адрес сервера и порт
         auto endpoints = resolver.resolve("127.0.0.1", "8090");
         tcp::socket socket(io_context);
+
+        boost::asio::connect(socket, endpoints);
+        std::string message = "Hello from the client!\n";
     }
 
 };

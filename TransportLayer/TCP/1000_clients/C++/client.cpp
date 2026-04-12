@@ -10,35 +10,50 @@ private:
     int id{};
 public:
     Client(int id) : id(id) {
-        // Создаем io_context и resolver для разрешения адреса сервера
-        boost::asio::io_context io_context;
-        tcp::resolver resolver(io_context);
+        try {
+            boost::asio::io_context io_context;
+            tcp::resolver resolver(io_context);
 
-        // Разрешаем адрес сервера и порт
-        auto endpoints = resolver.resolve("127.0.0.1", "8090");
-        tcp::socket socket(io_context);
+            auto endpoints = resolver.resolve("127.0.0.1", "8090");
+            tcp::socket socket(io_context);
+            boost::asio::connect(socket, endpoints);
 
-        boost::asio::connect(socket, endpoints);
-        std::string message = "Hello from the client " + std::to_string(id) + "\n";
+            std::string message = "Hello from the client " + std::to_string(id) + "\n";
 
-        boost::asio::write(socket, boost::asio::buffer(message));
+            std::size_t written = boost::asio::write(socket, boost::asio::buffer(message));
+            std::cout << "Sent " << written << " bytes to server." << std::endl;
 
-        boost::system::error_code ec;
-        while (true) {
-            // Читаем ответ от сервера до символа новой строки
-            boost::asio::streambuf response;
-            boost::asio::read_until(socket, response, '\n');
+            // Graceful shutdown: сигнализируем серверу что данных больше не будет
+            socket.shutdown(tcp::socket::shutdown_send);
 
-            // Преобразуем полученные данные в строку и выводим на консоль
-            std::string client_msg{buffers_begin(response.data()), buffers_end(response.data())};
-            std::cout << "Received from server: " << client_msg << std::endl;
+            // Дочитываем ответ сервера до EOF
+            boost::system::error_code ec;
+            std::ostringstream oss;
 
-            if (ec == boost::asio::error::eof) {
-                break;
+            char buf[1024];
+
+            // Читаем данные от сервера до тех пор, пока не получим EOF (сервер закрыл соединение)
+            for (;;) {
+                std::size_t len = socket.read_some(boost::asio::buffer(buf), ec);
+
+                if (len > 0) {
+                    oss.write(buf, static_cast<std::streamsize>(len));
+                }
+                if (ec == boost::asio::error::eof) {
+                    break;
+                }
+                if (ec) {
+                    throw boost::system::system_error(ec);
+                }
             }
-            if (ec) {
-                throw boost::system::system_error(ec);
-            }
+            std::cout << "Received from server: " << oss.str();
+
+            socket.close();
+            std::cout << "Connection closed gracefully." << std::endl;
+
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            throw std::runtime_error("Client error");
         }
     }
 

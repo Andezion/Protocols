@@ -23,13 +23,23 @@ public:
 
         boost::asio::write(socket, boost::asio::buffer(message));
 
-        // Читаем ответ от сервера до символа новой строки
-        boost::asio::streambuf response;
-        boost::asio::read_until(socket, response, '\n');
+        boost::system::error_code ec;
+        while (true) {
+            // Читаем ответ от сервера до символа новой строки
+            boost::asio::streambuf response;
+            boost::asio::read_until(socket, response, '\n');
 
-        // Преобразуем полученные данные в строку и выводим на консоль
-        std::string client_msg{buffers_begin(response.data()), buffers_end(response.data())};
-        std::cout << "Received from server: " << client_msg << std::endl;
+            // Преобразуем полученные данные в строку и выводим на консоль
+            std::string client_msg{buffers_begin(response.data()), buffers_end(response.data())};
+            std::cout << "Received from server: " << client_msg << std::endl;
+
+            if (ec == boost::asio::error::eof) {
+                break;
+            }
+            if (ec) {
+                throw boost::system::system_error(ec);
+            }
+        }
     }
 
 };

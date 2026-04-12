@@ -15,14 +15,15 @@ int main() {
         tcp::socket socket(io_context);
         acceptor.accept(socket);
 
-        std::string message = "Hello from the server!";
-
         boost::asio::streambuf buffer;
         boost::asio::read_until(socket, buffer, '\n');
 
         std::string client_msg{buffers_begin(buffer.data()), buffers_end(buffer.data())};
         std::cout << "Received from client: " << client_msg << std::endl;
 
+        
+        std::string index = client_msg.substr(20); // Пропускаем "Hello from the client "
+        std::string message = "Hello from the server to client " + index + "!";
         boost::asio::write(socket, boost::asio::buffer(message + "\n"));
     }
 

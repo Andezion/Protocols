@@ -35,8 +35,8 @@ public:
 };
 
 int main() {
-    int i = 0;
-    while (i < 1000) {
+    int i = 1;
+    while (i < 1001) {
         Client client(i);
         i++;
     }

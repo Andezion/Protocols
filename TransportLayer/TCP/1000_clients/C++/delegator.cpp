@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
         tcp::socket socket(io_context);
         boost::asio::connect(socket, endpoints);
 
-        std::cout << "Connected as '" << name << "'. Type messages (q = quit):\n> " << std::flush;
+        std::cout << "Подключён как '" << name << "'. Чтобы закончить (q = quit):\n> " << std::flush;
 
         if (argc >= 3) {
             std::string msg = name + ": " + argv[2] + "\n";

@@ -41,17 +41,26 @@ void handle_client(std::shared_ptr<tcp::socket> socket) {
     while (running) {
         boost::asio::streambuf buf;
         boost::system::error_code ec;
+
         [[maybe_unused]] std::size_t bytes =
             boost::asio::read_until(*socket, buf, '\n', ec);
 
-        if (ec) break; 
+        if (ec) {
+            break; 
+        }
 
         std::string msg{buffers_begin(buf.data()), buffers_end(buf.data())};
         std::cout << "[broadcast] " << msg << std::flush;
         broadcast(msg, socket);
     }
 
-    try { socket->close(); } catch (...) {}
+    try { 
+        socket->close(); 
+    } 
+    catch (...) {
+
+    }
+
     remove_client(socket);
 }
 
@@ -67,14 +76,18 @@ int main() {
             while (running) {
                 auto socket = std::make_shared<tcp::socket>(io_context);
                 boost::system::error_code ec;
+
                 acceptor.accept(*socket, ec);
 
-                if (ec) break; 
+                if (ec) {
+                    break; 
+                }
 
                 {
                     std::lock_guard<std::mutex> lock(clients_mutex);
                     clients.push_back(socket);
-                    std::cout << "New client connected. Total clients: "
+
+                    std::cout << "Новое подключение. Всего клиентов: "
                               << clients.size() << "\n";
                 }
 
@@ -109,10 +122,10 @@ int main() {
         }
 
         accept_thread.join();
-        std::cout << "Server stopped.\n";
+        std::cout << "Сервер остановлен.\n";
 
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        std::cerr << "Ошибка: " << e.what() << "\n";
         return 1;
     }
 

@@ -10,10 +10,8 @@ std::atomic<bool> running{true};
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "Usage: ./delegator <client_name> [message]\n"
-                  << "  <client_name>  - name shown to all other clients\n"
-                  << "  [message]      - optional one-shot message (then goes interactive)\n"
-                  << "Example: ./delegator client1 popa\n";
+        std::cerr << "Как использовать: ./delegator <client_name> [message]\n"
+                  << "Пример: ./delegator client1 popa\n";
         return 1;
     }
 
@@ -29,13 +27,11 @@ int main(int argc, char* argv[]) {
 
         std::cout << "Connected as '" << name << "'. Type messages (q = quit):\n> " << std::flush;
 
-        // Send initial message if provided as second arg
         if (argc >= 3) {
             std::string msg = name + ": " + argv[2] + "\n";
             boost::asio::write(socket, boost::asio::buffer(msg));
         }
 
-        // Thread: receive broadcasts from server and print them
         std::thread recv_thread([&socket]() {
             while (running) {
                 boost::asio::streambuf buf;
@@ -45,12 +41,10 @@ int main(int argc, char* argv[]) {
                 if (ec || !running) break;
 
                 std::string msg{buffers_begin(buf.data()), buffers_end(buf.data())};
-                // Move cursor to start, print incoming message, restore prompt
                 std::cout << "\r[<<] " << msg << "> " << std::flush;
             }
         });
 
-        // Main thread: read stdin, send to server
         std::string input;
         while (std::getline(std::cin, input)) {
             if (input == "q" || input == "Q") break;

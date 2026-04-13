@@ -82,11 +82,24 @@ int main() {
         std::string input;
         while (std::getline(std::cin, input)) {
             if (input == "q" || input == "Q") {
+
                 running = false;
-                try { acceptor.close(); } catch (...) {}
+
+                try { 
+                    acceptor.close(); 
+                } 
+                catch (...) {
+
+                }
+                
                 std::lock_guard<std::mutex> lock(clients_mutex);
                 for (auto& client : clients) {
-                    try { client->close(); } catch (...) {}
+                    try { 
+                        client->close(); 
+                    } 
+                    catch (...) {
+
+                    }
                 }
                 break;
             }

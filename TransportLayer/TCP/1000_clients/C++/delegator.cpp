@@ -38,7 +38,9 @@ int main(int argc, char* argv[]) {
                 boost::system::error_code ec;
                 boost::asio::read_until(socket, buf, '\n', ec);
 
-                if (ec || !running) break;
+                if (ec || !running) {
+                    break;
+                }
 
                 std::string msg{buffers_begin(buf.data()), buffers_end(buf.data())};
                 std::cout << "\r[<<] " << msg << "> " << std::flush;
@@ -47,14 +49,20 @@ int main(int argc, char* argv[]) {
 
         std::string input;
         while (std::getline(std::cin, input)) {
-            if (input == "q" || input == "Q") break;
+            if (input == "q" || input == "Q") {
+                break;
+            }
+
             if (input.empty()) {
                 std::cout << "> " << std::flush;
                 continue;
             }
+
             std::string msg = name + ": " + input + "\n";
+
             boost::system::error_code ec;
             boost::asio::write(socket, boost::asio::buffer(msg), ec);
+
             if (ec) {
                 std::cerr << "Server disconnected.\n";
                 break;
@@ -64,12 +72,14 @@ int main(int argc, char* argv[]) {
 
         running = false;
         boost::system::error_code ec;
+
         socket.shutdown(tcp::socket::shutdown_both, ec);
         socket.close(ec);
+
         recv_thread.join();
 
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        std::cerr << "Ошибка: " << e.what() << "\n";
         return 1;
     }
 

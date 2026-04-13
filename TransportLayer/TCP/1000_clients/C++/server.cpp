@@ -17,7 +17,10 @@ std::atomic<bool> running{true};
 void broadcast(const std::string& msg, std::shared_ptr<tcp::socket> sender) {
     std::lock_guard<std::mutex> lock(clients_mutex);
     for (auto& client : clients) {
-        if (client.get() == sender.get() || !client->is_open()) continue;
+        if (client.get() == sender.get() || !client->is_open()) {
+            continue;
+        }
+
         boost::system::error_code ec;
         [[maybe_unused]] std::size_t written =
             boost::asio::write(*client, boost::asio::buffer(msg), ec);
@@ -31,7 +34,7 @@ void remove_client(std::shared_ptr<tcp::socket> socket) {
             [&](const auto& s) { return s.get() == socket.get(); }),
         clients.end()
     );
-    std::cout << "Client disconnected. Total clients: " << clients.size() << "\n";
+    std::cout << "Клиент отключился. Всего клиентов: " << clients.size() << "\n";
 }
 
 void handle_client(std::shared_ptr<tcp::socket> socket) {
@@ -91,7 +94,7 @@ int main() {
                 catch (...) {
 
                 }
-                
+
                 std::lock_guard<std::mutex> lock(clients_mutex);
                 for (auto& client : clients) {
                     try { 

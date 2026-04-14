@@ -14,14 +14,21 @@ std::mutex clients_mutex; // Защищает доступ к clients, а име
 std::vector<std::shared_ptr<tcp::socket>> clients; // Хранит активные клиентские сокеты
 std::atomic<bool> running{true}; // Флаг для управления состоянием сервера (работает/остановлен)
 
+// Функция для отправки сообщения всем клиентам, кроме отправителя
+// Внутрь функции передаётся сообщение и сокет отправителя, чтобы не отправлять ему же
 void broadcast(const std::string& msg, std::shared_ptr<tcp::socket> sender) {
+    // Блокируем доступ к clients, чтобы избежать гонок при отправке сообщений
     std::lock_guard<std::mutex> lock(clients_mutex);
+    // Проходим по всем клиентам и отправляем сообщение, пропуская отправителя и закрытые сокеты
     for (auto& client : clients) {
+        // Если клиент - это отправитель или сокет уже закрыт, пропускаем его
         if (client.get() == sender.get() || !client->is_open()) {
             continue;
         }
 
+        // Отправляем сообщение клиенту и игнорируем ошибки (например, если клиент отключился)
         boost::system::error_code ec;
+        // Используем boost::asio::write для отправки данных, оборачивая его в блок try-catch для обработки исключений
         [[maybe_unused]] std::size_t written =
             boost::asio::write(*client, boost::asio::buffer(msg), ec);
     }

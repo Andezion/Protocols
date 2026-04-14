@@ -10,9 +10,9 @@
 
 using boost::asio::ip::tcp;
 
-std::mutex clients_mutex;
-std::vector<std::shared_ptr<tcp::socket>> clients;
-std::atomic<bool> running{true};
+std::mutex clients_mutex; // Защищает доступ к clients, а именно делает его потокобезопасным
+std::vector<std::shared_ptr<tcp::socket>> clients; // Хранит активные клиентские сокеты
+std::atomic<bool> running{true}; // Флаг для управления состоянием сервера (работает/остановлен)
 
 void broadcast(const std::string& msg, std::shared_ptr<tcp::socket> sender) {
     std::lock_guard<std::mutex> lock(clients_mutex);

@@ -1,0 +1,1 @@
+GSM/CDMA, цифровая передача, SMS, GPRS/EDGE, SIM, шифрование A5, handover, архитектура BSC/MSC.

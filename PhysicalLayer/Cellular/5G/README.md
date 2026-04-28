@@ -1,0 +1,1 @@
+NR, gNB, RAN/core раздельные (NG-RAN, 5GC - AMF/SMF/UPF), mmWave, massive MIMO, beamforming, network slicing, URLLC/eMBB/mMTC, SA vs NSA, service-based architecture.

@@ -1,0 +1,1 @@
+OFDMA/SC-FDMA, MIMO, eNodeB, EPC (MME/SGW/PGW), все-IP, VoLTE, LTE-A улучшения.

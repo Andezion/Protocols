@@ -256,7 +256,7 @@ OTFS превращает сложный нестационарный канал
 
 ### Голографические Коммуникации (Holographic MIMO)
 
-Предельный случай Massive MIMO: антенная плоскость покрыта **почти непрерывной** антенной решёткой (XL-MIMO — eXtreme Large MIMO, или CAP-MIMO — Continuous Aperture). Расстояние между элементами $d \leq \lambda/2$.
+Предельный случай Massive MIMO -это антенная плоскость покрыта **почти непрерывной** антенной решёткой (XL-MIMO - eXtreme Large MIMO, или CAP-MIMO - Continuous Aperture). Расстояние между элементами $d \leq \lambda/2$.
 
 При $M \to \infty$ ёмкость масштабируется как:
 

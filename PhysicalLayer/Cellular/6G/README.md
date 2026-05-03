@@ -68,11 +68,11 @@ $$PL_{free}(d, f) = 20\log_{10}\!\left(\frac{4\pi d f}{c}\right)$$
 $$y = \left(\mathbf{h}_d^H + \mathbf{h}_r^H \mathbf{\Phi} \mathbf{G}\right)\mathbf{x} + n$$
 
 где:
-- $\mathbf{h}_d$ — прямой канал BS → UE (если есть).
-- $\mathbf{G}$ — канал BS → RIS (матрица $N \times M_{BS}$).
-- $\mathbf{h}_r$ — канал RIS → UE (вектор $N \times 1$).
-- $\mathbf{\Phi} = \text{diag}(e^{j\phi_1}, e^{j\phi_2}, \ldots, e^{j\phi_N})$ — матрица фазовых сдвигов RIS, $\phi_n \in [0, 2\pi)$.
-- $\mathbf{x}$ — переданный сигнал, $n$ — шум.
+- $\mathbf{h}_d$ - прямой канал BS → UE (если есть).
+- $\mathbf{G}$ - канал BS → RIS (матрица $N \times M_{BS}$).
+- $\mathbf{h}_r$ - канал RIS → UE (вектор $N \times 1$).
+- $\mathbf{\Phi} = \text{diag}(e^{j\phi_1}, e^{j\phi_2}, \ldots, e^{j\phi_N})$ - матрица фазовых сдвигов RIS, $\phi_n \in [0, 2\pi)$.
+- $\mathbf{x}$ - переданный сигнал, $n$ - шум.
 
 Оптимизируя $\{\phi_n\}$, можно максимизировать SNR у UE. При идеальном согласовании фаз усиление от RIS:
 

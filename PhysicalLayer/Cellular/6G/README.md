@@ -160,6 +160,7 @@ $$C_{comm}(\rho) + \text{Fisher Information}_{radar}(1-\rho) = \text{const}$$
 
 Вход нейросети: принятые пилотные символы $\hat{Y}_{pilot}$.
 Выход: оценка матрицы канала $\hat{H}$.
+
 Архитектуры: ResNet, LSTM, Transformer (для временно-коррелированных каналов).
 
 **Autoencoder для E2E обучения**:

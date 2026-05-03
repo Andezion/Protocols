@@ -228,15 +228,16 @@ LTE передаёт данные через **EPS Bearers**:
 
 ```
 UE                     eNodeB                    MME
- |── PRACH (Random Access) ──►|                   |
- |◄── RAR (Random Access Response) ──|            |
- |── RRC Connection Request ──►|                  |
- |◄── RRC Connection Setup ──|                    |
- |── RRC Connection Setup Complete + NAS(Attach Request) ──►|──►|
- |                             |◄── Initial UE Message ──────|
- |                             |◄── UE Context Setup Request─|
- |◄── RRC Connection Reconf ──|                    |
- |── RRC Connection Reconf Complete ──►|           |
+ |── PRACH (Random Access) ──────────►|                            |
+ |◄── RAR (Random Access Response) ──|                             |
+ |── RRC Connection Request ────────►|                             |
+ |◄── RRC Connection Setup ──────────|                             |
+ |── RRC Connection Setup Complete +                               |
+ | NAS(Attach Request)            ──►|                          ──►|
+ |                                   |◄── Initial UE Message ──────|
+ |                                   |◄── UE Context Setup Request─|
+ |◄── RRC Connection Reconf ─────────|                             |
+ |── RRC Connection Reconf Complete ►|                             |
 ```
 
 **PRACH** (Physical Random Access Channel) — случайный доступ: UE выбирает одну из 64 преамбул Задова-Чу (Zadoff-Chu sequences — математически оптимальные последовательности с идеальным PAPR=1 и малой взаимной корреляцией) и передаёт её. Ответ (RAR) содержит: временну́ю поправку (Timing Advance, TA) — корректирует задержку передачи UE для синхронизации, начальный ресурс UL.

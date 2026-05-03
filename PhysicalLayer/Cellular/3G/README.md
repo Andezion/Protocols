@@ -272,9 +272,9 @@ $$f_D = \frac{v \cdot f_c}{c} \cos\theta,$$
 └─────────────────────────────────────┘
 ```
 
-- **RRC** — главный управляющий: устанавливает/освобождает радиосоединения, конфигурирует PHY/MAC/RLC, управляет измерениями для хэндовера.
-- **RLC** — три режима: TM (Transparent Mode), UM (Unacknowledged Mode), AM (Acknowledged Mode с ARQ).
-- **PDCP** — сжатие заголовков IP (ROHC — Robust Header Compression), опциональное шифрование.
+- **RRC** - главный управляющий: устанавливает/освобождает радиосоединения, конфигурирует PHY/MAC/RLC, управляет измерениями для хэндовера.
+- **RLC** - три режима: TM (Transparent Mode), UM (Unacknowledged Mode), AM (Acknowledged Mode с ARQ).
+- **PDCP** - сжатие заголовков IP (ROHC — Robust Header Compression), опциональное шифрование.
 
 ---
 

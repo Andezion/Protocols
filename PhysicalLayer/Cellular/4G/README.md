@@ -246,17 +246,17 @@ UE                     eNodeB                    MME
 
 ```
 UE                   Source eNB              Target eNB
- |── Measurement Report ──►|                    |
- |                          |── HO Request ────►|
- |                          |◄── HO Request ACK ─|
- |◄── RRC Reconf (HO Cmd) ─|                    |
- |──── RACH → Random Access ────────────────────►|
- |◄─── RRC Reconf Complete ──────────────────────|
- |                          |◄─── SN Status Transfer ─|
+ |── Measurement Report ──► |                              |
+ |                          |── HO Request ────►           |
+ |                          |◄── HO Request ACK ─          |
+ |◄── RRC Reconf (HO Cmd) ─ |                              |
+ |──── RACH → Random Access ────────────────────►          |
+ |◄─── RRC Reconf Complete ──────────────────────          |
+ |                          |◄─── SN Status Transfer ─     |
  |                          |◄─── Path Switch (через MME) ─|
 ```
 
-Хэндовер в LTE — **жёсткий** (hard), но значительно быстрее, чем в GSM (прерывание 10–50 мс против 100–200 мс), т.к. X2 позволяет подготовить целевую eNodeB заранее.
+Хэндовер в LTE - **жёсткий** (hard), но значительно быстрее, чем в GSM (прерывание 10–50 мс против 100–200 мс), т.к. X2 позволяет подготовить целевую eNodeB заранее.
 
 ---
 

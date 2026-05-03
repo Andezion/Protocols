@@ -138,9 +138,9 @@ UMTS использует **AMR** (Adaptive Multi-Rate) кодек. AMR пере
 
 ### Физические каналы (Downlink)
 
-- **CPICH** (Common Pilot Channel) — общий пилотный канал, SF=256, мощность ~10% от общей. Используется UE для оценки канала, измерений соседних сот, синхронизации.
-- **P-CCPCH** (Primary Common Control Physical Channel) — передаёт BCH (Broadcast Channel) с системной информацией.
-- **DPCH** (Dedicated Physical Channel) — индивидуальный канал абонента. Содержит DPDCH (данные) + DPCCH (управление: пилот, TFCI, TPC, FBI).
+- **CPICH** (Common Pilot Channel) - общий пилотный канал, SF=256, мощность ~10% от общей. Используется UE для оценки канала, измерений соседних сот, синхронизации.
+- **P-CCPCH** (Primary Common Control Physical Channel) - передаёт BCH (Broadcast Channel) с системной информацией.
+- **DPCH** (Dedicated Physical Channel) - индивидуальный канал абонента. Содержит DPDCH (данные) + DPCCH (управление: пилот, TFCI, TPC, FBI).
 
 ### Структура слота DPCH (downlink)
 
@@ -148,9 +148,9 @@ UMTS использует **AMR** (Adaptive Multi-Rate) кодек. AMR пере
 | DPDCH (данные 1) | DPCCH (пилот+TFCI+TPC) | DPDCH (данные 2) |
 ```
 
-- **TFCI** (Transport Format Combination Indicator) — сообщает приёмнику, с какой скоростью/кодированием переданы данные в текущем фрейме.
-- **TPC** — команды управления мощностью.
-- **Pilot bits** — обучающие биты для оценки канала.
+- **TFCI** (Transport Format Combination Indicator) - сообщает приёмнику, с какой скоростью/кодированием переданы данные в текущем фрейме.
+- **TPC** - команды управления мощностью.
+- **Pilot bits** - обучающие биты для оценки канала.
 
 ---
 

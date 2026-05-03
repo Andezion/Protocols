@@ -191,8 +191,8 @@ UE <──── LTE-Uu ────> eNodeB <──── X2 ────> eNod
                           EPC
 ```
 
-- **eNodeB** (evolved Node B) — умная базовая станция. Выполняет всё, что раньше делали Node B + RNC: физический уровень, планирование ресурсов, ARQ, управление мощностью, RRC. **Нет отдельного RNC**.
-- **X2** — прямой интерфейс между eNodeB: для хэндовера и координации помех (ICIC — Inter-Cell Interference Coordination).
+- **eNodeB** (evolved Node B) - умная базовая станция. Выполняет всё, что раньше делали Node B + RNC: физический уровень, планирование ресурсов, ARQ, управление мощностью, RRC. **Нет отдельного RNC**.
+- **X2** - прямой интерфейс между eNodeB: для хэндовера и координации помех (ICIC - Inter-Cell Interference Coordination).
 
 ### Evolved Packet Core (EPC)
 
@@ -206,19 +206,19 @@ eNodeB
    HSS                          PCRF
 ```
 
-- **MME** (Mobility Management Entity) — управляет NAS (Non-Access Stratum): аутентификация, выдача временных идентификаторов (GUTI), обновление местоположения, управление пейджингом (поиск UE в состоянии Idle), установка bearers (логических каналов данных).
-- **SGW** (Serving Gateway) — якорная точка данных при хэндовере в E-UTRAN, маршрутизирует пакеты между eNodeB и PGW, ведёт статистику.
-- **PGW** (PDN Gateway) — шлюз в интернет и другие пакетные сети. Назначает IP-адрес UE, управляет QoS, выполняет глубокую инспекцию пакетов (DPI).
-- **HSS** (Home Subscriber Server) — замена HLR/AuC: хранит профили абонентов, ключи аутентификации.
-- **PCRF** (Policy and Charging Rules Function) — управляет политикой QoS и тарификацией.
+- **MME** (Mobility Management Entity) - управляет NAS (Non-Access Stratum): аутентификация, выдача временных идентификаторов (GUTI), обновление местоположения, управление пейджингом (поиск UE в состоянии Idle), установка bearers (логических каналов данных).
+- **SGW** (Serving Gateway) - якорная точка данных при хэндовере в E-UTRAN, маршрутизирует пакеты между eNodeB и PGW, ведёт статистику.
+- **PGW** (PDN Gateway) - шлюз в интернет и другие пакетные сети. Назначает IP-адрес UE, управляет QoS, выполняет глубокую инспекцию пакетов (DPI).
+- **HSS** (Home Subscriber Server) - замена HLR/AuC: хранит профили абонентов, ключи аутентификации.
+- **PCRF** (Policy and Charging Rules Function) - управляет политикой QoS и тарификацией.
 
 ### Bearers (логические каналы передачи данных)
 
 LTE передаёт данные через **EPS Bearers**:
-- **Default Bearer** — устанавливается при подключении к сети, дает базовый IP-доступ (обычно Best Effort QoS).
-- **Dedicated Bearer** — устанавливается для конкретного трафика (VoLTE, видео) с гарантированным QoS.
+- **Default Bearer** - устанавливается при подключении к сети, дает базовый IP-доступ (обычно Best Effort QoS).
+- **Dedicated Bearer** - устанавливается для конкретного трафика (VoLTE, видео) с гарантированным QoS.
 
-Параметры QoS: QCI (QoS Class Identifier — числовой класс от 1 до 9), ARP (Allocation and Retention Priority), GBR (Guaranteed Bit Rate).
+Параметры QoS: QCI (QoS Class Identifier - числовой класс от 1 до 9), ARP (Allocation and Retention Priority), GBR (Guaranteed Bit Rate).
 
 ---
 

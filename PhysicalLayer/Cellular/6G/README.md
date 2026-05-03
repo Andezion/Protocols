@@ -318,13 +318,13 @@ $$C \sim M \log_2\!\left(1 + \frac{P}{N_0 \sigma_{path}^2}\right)$$
 $$EE = \frac{\text{Throughput} \; [\text{bps}]}{\text{Power Consumption} \; [\text{Вт}]} \quad [\text{бит/Дж}]$$
 
 - **Cell Sleep Modes**: при малой нагрузке BS переходит в режим сна (выключает антенные элементы, RF-цепи). Активируется при обнаружении UE.
-- **Renewable Energy**: BS с солнечными панелями + накопители. **Energy Harvesting** (сбор энергии) UE: сбор энергии из радиосигналов SWIPT (Simultaneous Wireless Information and Power Transfer — одновременная передача данных и мощности).
+- **Renewable Energy**: BS с солнечными панелями + накопители. **Energy Harvesting** (сбор энергии) UE: сбор энергии из радиосигналов SWIPT (Simultaneous Wireless Information and Power Transfer - одновременная передача данных и мощности).
 
 Уравнение мощности приёмника для Energy Harvesting:
 
 $$P_{harvest} = \eta \cdot P_T \cdot G_T \cdot G_R \cdot \left(\frac{\lambda}{4\pi d}\right)^2,$$
 
-где $\eta$ — КПД преобразования энергии (обычно 10–50%). При $d=5$ м, $P_T = 1$ Вт: $P_{harvest} \sim$ единицы мкВт — достаточно для IoT-сенсора.
+где $\eta$ - КПД преобразования энергии (обычно 10–50%). При $d=5$ м, $P_T = 1$ Вт: $P_{harvest} \sim$ единицы мкВт - достаточно для IoT-сенсора.
 
 ---
 
@@ -333,7 +333,7 @@ $$P_{harvest} = \eta \cdot P_T \cdot G_T \cdot G_R \cdot \left(\frac{\lambda}{4\
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     6G Core (AI-Native)                     │
-│  AMF+ / SMF+ / UPF+ / PCF+ / AI-NF / Semantic NF / Pos.NF  │
+│  AMF+ / SMF+ / UPF+ / PCF+ / AI-NF / Semantic NF / Pos.NF   │
 ├──────────────────┬──────────────────┬───────────────────────┤
 │   Terrestrial    │   NTN (LEO/HAPS) │   RIS Control Plane   │
 │   RAN (THz MIMO) │   gNB-Sat        │                       │
@@ -344,9 +344,9 @@ $$P_{harvest} = \eta \cdot P_T \cdot G_T \cdot G_R \cdot \left(\frac{\lambda}{4\
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **AI-NF** (AI Network Function) — встроенные функции AI: предсказание нагрузки, оптимизация ресурсов.
-- **Semantic NF** — управление семантическим уровнем: кодовые книги значений, контекстные базы.
-- **Pos. NF** (Positioning NF) — высокоточное позиционирование cm-точности.
+- **AI-NF** (AI Network Function) - встроенные функции AI: предсказание нагрузки, оптимизация ресурсов.
+- **Semantic NF** - управление семантическим уровнем: кодовые книги значений, контекстные базы.
+- **Pos. NF** (Positioning NF) - высокоточное позиционирование cm-точности.
 
 ---
 

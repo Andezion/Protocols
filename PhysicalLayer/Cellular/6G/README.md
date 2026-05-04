@@ -216,10 +216,10 @@ $$D_{sem} = d(\sigma(\hat{m}), \sigma(m)),$$
 
 | Платформа | Высота | Задержка (RTT) | Пропускная способность |
 |---|---|---|---|
-| LEO (Low Earth Orbit — низкая орбита) | 300–2000 км | 5–20 мс | Gbps (StarLink-подобное) |
-| MEO (Medium Earth Orbit — средняя орбита) | 2000–35786 км | 50–150 мс | сотни Mbps |
-| GEO (Geostationary — геостационар) | 35786 км | ~480 мс | Gbps |
-| HAPS (High Altitude Platform — высотная платформа) | 17–22 км | <5 мс | сотни Mbps |
+| LEO (Low Earth Orbit - низкая орбита) | 300–2000 км | 5–20 мс | Gbps (StarLink-подобное) |
+| MEO (Medium Earth Orbit - средняя орбита) | 2000–35786 км | 50–150 мс | сотни Mbps |
+| GEO (Geostationary - геостационар) | 35786 км | ~480 мс | Gbps |
+| HAPS (High Altitude Platform -  высотная платформа) | 17–22 км | <5 мс | сотни Mbps |
 | UAV (беспилотник) | 0.05–10 км | <1 мс | Gbps |
 
 ### Регенеративные спутники

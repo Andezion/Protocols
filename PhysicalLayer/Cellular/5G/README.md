@@ -142,15 +142,15 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 └────────┘           └────────┘                 └────────┘
 ```
 
-- **gNB-CU** (Central Unit) — управляет протоколами верхнего уровня: RRC, PDCP, SDAP. Может быть разделён на CU-CP (Control Plane) и CU-UP (User Plane).
-- **gNB-DU** (Distributed Unit) — протоколы RLC, MAC, нижняя часть PHY.
-- **RU** (Radio Unit) — антенны, усилители, АЦП/ЦАП, аналоговый/гибридный beamforming.
+- **gNB-CU** (Central Unit) - управляет протоколами верхнего уровня: RRC, PDCP, SDAP. Может быть разделён на CU-CP (Control Plane) и CU-UP (User Plane).
+- **gNB-DU** (Distributed Unit) - протоколы RLC, MAC, нижняя часть PHY.
+- **RU** (Radio Unit) - антенны, усилители, АЦП/ЦАП, аналоговый/гибридный beamforming.
 
-Это разбиение (disaggregation — разделение монолитной BS на части) позволяет строить **Open RAN** — сети с оборудованием от разных производителей.
+Это разбиение (disaggregation - разделение монолитной BS на части) позволяет строить **Open RAN** - сети с оборудованием от разных производителей.
 
 ### 5G Core (5GC) — Service-Based Architecture
 
-В отличие от EPC, где функции MSC/MME/SGW/PGW — монолитные железные ящики, 5GC реализует **SBA** (Service-Based Architecture — сервисно-ориентированная архитектура): каждая функция — микросервис, взаимодействует с другими через HTTP/2 REST API.
+В отличие от EPC, где функции MSC/MME/SGW/PGW - монолитные железные ящики, 5GC реализует **SBA** (Service-Based Architecture - сервисно-ориентированная архитектура): каждая функция — микросервис, взаимодействует с другими через HTTP/2 REST API.
 
 ```
                     ┌─────────────────────────────────────────────────────┐

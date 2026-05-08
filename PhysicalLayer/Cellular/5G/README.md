@@ -123,7 +123,7 @@ $$\mathbf{a}(\theta) = \frac{1}{\sqrt{M}} \begin{bmatrix} 1 \\ e^{j\frac{2\pi d}
 
 NR использует **CSI-RS** (Channel State Information Reference Signals) для оценки канала и выбора луча:
 - **SSB** (Synchronization Signal Block) - блок синхронизации, содержит PSS/SSS/PBCH. До 64 SSB в одном **SSB burst set** (пучке SSB) с разными направлениями лучей.
-- **Beam Sweeping**: BS сканирует пространство лучами SSB; UE измеряет и докладывает лучший луч — **L1-RSRP** (Reference Signal Received Power — мощность принятого опорного сигнала).
+- **Beam Sweeping**: BS сканирует пространство лучами SSB; UE измеряет и докладывает лучший луч - **L1-RSRP** (Reference Signal Received Power - мощность принятого опорного сигнала).
 - **Beam Management** (P1/P2/P3): процедуры для поиска, уточнения и поддержания оптимального луча.
 
 ---

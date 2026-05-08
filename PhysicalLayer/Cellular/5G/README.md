@@ -155,19 +155,19 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 ```
                     ┌─────────────────────────────────────────────────────┐
                     │          Service-Based Interface (SBI)              │
-                    └───┬────┬────┬────┬────┬────┬────┬────┬────┬────────┘
+                    └───┬────┬────┬────┬────┬────┬────┬────┬────┬─────────┘
                         │    │    │    │    │    │    │    │    │
                        AMF  SMF  UPF  PCF  UDM  AUSF NRF  NEF  NSSF
 ```
 
-- **AMF** (Access and Mobility Management Function) — регистрация UE, управление мобильностью, пейджинг. Аналог MME в LTE.
-- **SMF** (Session Management Function) — управление PDU-сессиями (IP-сессиями), назначение IP-адресов, управление UPF.
-- **UPF** (User Plane Function) — маршрутизация пользовательского трафика. Может быть распределён (несколько UPF) для поддержки Edge Computing.
-- **PCF** (Policy Control Function) — политики QoS и тарификации. Аналог PCRF.
-- **UDM** (Unified Data Management) — хранение данных абонентов. Аналог HSS.
-- **AUSF** (Authentication Server Function) — аутентификация.
-- **NRF** (Network Repository Function) — реестр NF: каждый микросервис регистрируется, другие находят его через NRF.
-- **NSSF** (Network Slice Selection Function) — выбор нужного слайса для UE.
+- **AMF** (Access and Mobility Management Function) - регистрация UE, управление мобильностью, пейджинг. Аналог MME в LTE.
+- **SMF** (Session Management Function) - управление PDU-сессиями (IP-сессиями), назначение IP-адресов, управление UPF.
+- **UPF** (User Plane Function) - маршрутизация пользовательского трафика. Может быть распределён (несколько UPF) для поддержки Edge Computing.
+- **PCF** (Policy Control Function) - политики QoS и тарификации. Аналог PCRF.
+- **UDM** (Unified Data Management) - хранение данных абонентов. Аналог HSS.
+- **AUSF** (Authentication Server Function) - аутентификация.
+- **NRF** (Network Repository Function) - реестр NF: каждый микросервис регистрируется, другие находят его через NRF.
+- **NSSF** (Network Slice Selection Function) - выбор нужного слайса для UE.
 
 ---
 

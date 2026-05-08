@@ -173,16 +173,16 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 
 ## Network Slicing (нарезка сети)
 
-**Network Slice** — логически изолированная виртуальная сеть поверх одной физической инфраструктуры. Каждый слайс имеет свои QoS, безопасность, набор NF.
+**Network Slice** - логически изолированная виртуальная сеть поверх одной физической инфраструктуры. Каждый слайс имеет свои QoS, безопасность, набор NF.
 
 Пример слайсов:
 - Слайс 1 (eMBB): обычные пользователи, большая полоса, стандартная задержка.
 - Слайс 2 (URLLC): промышленная автоматизация, задержка <1 мс, высокая надёжность.
 - Слайс 3 (mMTC): IoT-датчики, малая полоса, долгий срок службы батареи.
 
-Идентификатор слайса — **S-NSSAI** (Single Network Slice Selection Assistance Information): 32-битное число = SST (Slice/Service Type, 8 бит) + SD (Slice Differentiator, 24 бита).
+Идентификатор слайса - **S-NSSAI** (Single Network Slice Selection Assistance Information): 32-битное число = SST (Slice/Service Type, 8 бит) + SD (Slice Differentiator, 24 бита).
 
-**Реализация**: виртуализация (NFV — Network Functions Virtualisation, SDN — Software Defined Networking). Физическое оборудование предоставляет **вычислительные ресурсы**, **сетевые ресурсы** и **радиоресурсы (RAN)**, которые оркестратор (NSMF/NSSMF) распределяет между слайсами.
+**Реализация**: виртуализация (NFV - Network Functions Virtualisation, SDN - Software Defined Networking). Физическое оборудование предоставляет **вычислительные ресурсы**, **сетевые ресурсы** и **радиоресурсы (RAN)**, которые оркестратор (NSMF/NSSMF) распределяет между слайсами.
 
 ---
 

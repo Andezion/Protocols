@@ -115,14 +115,14 @@ $$\mathbf{F}_{total} = \mathbf{F}_{RF} \cdot \mathbf{F}_{BB}$$
 
 $$\mathbf{a}(\theta) = \frac{1}{\sqrt{M}} \begin{bmatrix} 1 \\ e^{j\frac{2\pi d}{\lambda}\sin\theta} \\ e^{j2\frac{2\pi d}{\lambda}\sin\theta} \\ \vdots \\ e^{j(M-1)\frac{2\pi d}{\lambda}\sin\theta} \end{bmatrix}$$
 
-Оптимальный вес луча к углу $\theta$: $\mathbf{w} = \mathbf{a}^*(\theta)$ → максимальное усиление $M$ в направлении $\theta$, нули в других направлениях.
+Оптимальный вес луча к углу $\theta$: $\mathbf{w} = \mathbf{a}^*(\theta)$ -> максимальное усиление $M$ в направлении $\theta$, нули в других направлениях.
 
-Ширина главного лепестка: $\Delta\theta \approx \lambda / (M \cdot d)$ — чем больше M, тем уже луч.
+Ширина главного лепестка: $\Delta\theta \approx \lambda / (M \cdot d)$ - чем больше M, тем уже луч.
 
 ### CSI и Beam Management
 
 NR использует **CSI-RS** (Channel State Information Reference Signals) для оценки канала и выбора луча:
-- **SSB** (Synchronization Signal Block) — блок синхронизации, содержит PSS/SSS/PBCH. До 64 SSB в одном **SSB burst set** (пучке SSB) с разными направлениями лучей.
+- **SSB** (Synchronization Signal Block) - блок синхронизации, содержит PSS/SSS/PBCH. До 64 SSB в одном **SSB burst set** (пучке SSB) с разными направлениями лучей.
 - **Beam Sweeping**: BS сканирует пространство лучами SSB; UE измеряет и докладывает лучший луч — **L1-RSRP** (Reference Signal Received Power — мощность принятого опорного сигнала).
 - **Beam Management** (P1/P2/P3): процедуры для поиска, уточнения и поддержания оптимального луча.
 

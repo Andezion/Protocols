@@ -194,7 +194,7 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 - Плюс: быстрое развёртывание поверх 4G.
 - Минус: нет новых возможностей 5G core (slicing, URLLC через 5GC).
 
-**SA** (Standalone) — NR + 5GC. Полноценная 5G-сеть:
+**SA** (Standalone) - NR + 5GC. Полноценная 5G-сеть:
 - gNB подключается к 5GC напрямую через NG (Next Generation) интерфейс.
 - Все преимущества: network slicing, новые сервисы, URLLC.
 
@@ -206,9 +206,9 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 
 ### Uplink Preemption и Grant-Free Access
 
-В обычном режиме UE запрашивает ресурс → ждёт DCI → передаёт → 2–3 слота задержки. Для URLLC:
+В обычном режиме UE запрашивает ресурс -> ждёт DCI -> передаёт -> 2–3 слота задержки. Для URLLC:
 - **Configured Grant (CG)**: ресурсы UL выделяются заранее, без запроса. UE передаёт сразу при появлении данных.
-- **Preemption**: если в середине eMBB-передачи появились URLLC-данные, NR может **вырезать** из eMBB-слота ресурсы для URLLC (Preemption Indication — уведомляет eMBB UE что часть слота «украдена»).
+- **Preemption**: если в середине eMBB-передачи появились URLLC-данные, NR может **вырезать** из eMBB-слота ресурсы для URLLC (Preemption Indication - уведомляет eMBB UE что часть слота "украдена").
 
 ### Short HARQ RTT
 

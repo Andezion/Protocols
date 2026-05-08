@@ -150,7 +150,7 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 
 ### 5G Core (5GC) — Service-Based Architecture
 
-В отличие от EPC, где функции MSC/MME/SGW/PGW - монолитные железные ящики, 5GC реализует **SBA** (Service-Based Architecture - сервисно-ориентированная архитектура): каждая функция — микросервис, взаимодействует с другими через HTTP/2 REST API.
+В отличие от EPC, где функции MSC/MME/SGW/PGW - монолитные железные ящики, 5GC реализует **SBA** (Service-Based Architecture - сервисно-ориентированная архитектура): каждая функция - микросервис, взаимодействует с другими через HTTP/2 REST API.
 
 ```
                     ┌─────────────────────────────────────────────────────┐

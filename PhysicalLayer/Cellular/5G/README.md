@@ -252,12 +252,12 @@ NR использует **QC-LDPC** (Quasi-Cyclic LDPC) с базовыми ма
 
 ## Интерфейсы и протоколы 5G
 
-### NG интерфейс (gNB ↔ 5GC)
+### NG интерфейс (gNB <-> 5GC)
 
-- **NG-C** (NG Application Protocol, NGAP) — сигнализация CP между gNB и AMF: регистрация, хэндовер, PDU session management.
-- **NG-U** (GTP-U) — пользовательские данные между gNB и UPF в туннелях GTP (GPRS Tunneling Protocol — инкапсуляция IP-пакетов пользователя).
+- **NG-C** (NG Application Protocol, NGAP) - сигнализация CP между gNB и AMF: регистрация, хэндовер, PDU session management.
+- **NG-U** (GTP-U) - пользовательские данные между gNB и UPF в туннелях GTP (GPRS Tunneling Protocol - инкапсуляция IP-пакетов пользователя).
 
-### Xn интерфейс (gNB ↔ gNB)
+### Xn интерфейс (gNB <-> gNB)
 
 Прямой интерфейс между gNB для хэндовера и координации: Xn-C (XnAP) и Xn-U (GTP-U).
 
@@ -265,11 +265,11 @@ NR использует **QC-LDPC** (Quasi-Cyclic LDPC) с базовыми ма
 
 ```
 ┌─────────────────────────────────────┐
-│  NAS (5GMM / 5GSM)                  │  Non-Access Stratum — UE ↔ AMF/SMF
+│  NAS (5GMM / 5GSM)                  │  Non-Access Stratum — UE <-> AMF/SMF
 ├─────────────────────────────────────┤
 │  RRC (Radio Resource Control)       │  Конфигурация, beam management, измерения
 ├─────────────────────────────────────┤
-│  SDAP (Service Data Adaptation)     │  Маппинг QoS Flow → DRB (Radio Bearer)
+│  SDAP (Service Data Adaptation)     │  Маппинг QoS Flow -> DRB (Radio Bearer)
 ├─────────────────────────────────────┤
 │  PDCP                               │  ROHC, шифрование (128-NEA), целостность (128-NIA)
 ├─────────────────────────────────────┤
@@ -281,7 +281,7 @@ NR использует **QC-LDPC** (Quasi-Cyclic LDPC) с базовыми ма
 └─────────────────────────────────────┘
 ```
 
-Новый уровень **SDAP** (отсутствующий в LTE) сопоставляет **QoS Flows** (потоки с определёнными параметрами QoS, идентифицируются QFI — QoS Flow Identifier) с **DRB** (Data Radio Bearers — физические логические каналы на Uu). Несколько QoS Flow → один DRB или разные DRB.
+Новый уровень **SDAP** (отсутствующий в LTE) сопоставляет **QoS Flows** (потоки с определёнными параметрами QoS, идентифицируются QFI - QoS Flow Identifier) с **DRB** (Data Radio Bearers - физические логические каналы на Uu). Несколько QoS Flow -> один DRB или разные DRB.
 
 ---
 

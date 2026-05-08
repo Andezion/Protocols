@@ -135,11 +135,11 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 **gNB** (next generation Node B) может быть разбит на три функциональных блока:
 
 ```
-┌────────┐     F1    ┌────────┐    Fronthaul   ┌────────┐
+┌────────┐     F1    ┌────────┐    Fronthaul    ┌────────┐
 │ gNB-CU │◄─────────►│ gNB-DU │◄───────────────►│ RU     │
-│(Central│           │(Distrib│  (Open RAN /   │(Radio  │
-│  Unit) │           │  Unit) │    CPRI/eCPRI) │ Unit)  │
-└────────┘           └────────┘                └────────┘
+│(Central│           │(Distrib│  (Open RAN /    │(Radio  │
+│  Unit) │           │  Unit) │    CPRI/eCPRI)  │ Unit)  │
+└────────┘           └────────┘                 └────────┘
 ```
 
 - **gNB-CU** (Central Unit) — управляет протоколами верхнего уровня: RRC, PDCP, SDAP. Может быть разделён на CU-CP (Control Plane) и CU-UP (User Plane).

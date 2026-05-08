@@ -188,9 +188,9 @@ NR использует **CSI-RS** (Channel State Information Reference Signals)
 
 ## Standalone (SA) vs Non-Standalone (NSA)
 
-**NSA** (Non-Standalone) — 5G NR как дополнение к существующей LTE-сети. Опция 3 (EN-DC: E-UTRAN NR Dual Connectivity):
-- LTE eNodeB — Anchor Node (управляет сигнализацией NAS, использует 4G core EPC).
-- NR gNB — Secondary Node (только данные через X2-U/Xn интерфейс).
+**NSA** (Non-Standalone) - 5G NR как дополнение к существующей LTE-сети. Опция 3 (EN-DC: E-UTRAN NR Dual Connectivity):
+- LTE eNodeB - Anchor Node (управляет сигнализацией NAS, использует 4G core EPC).
+- NR gNB - Secondary Node (только данные через X2-U/Xn интерфейс).
 - Плюс: быстрое развёртывание поверх 4G.
 - Минус: нет новых возможностей 5G core (slicing, URLLC через 5GC).
 

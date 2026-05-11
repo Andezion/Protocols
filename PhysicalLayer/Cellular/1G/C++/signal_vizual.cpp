@@ -19,7 +19,11 @@ void formula_friss() {
 }
 
 void determinated_model_of_friss() {
-    
+
+}
+
+void doppler_effect() {
+
 }
 
 int main() {

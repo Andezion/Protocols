@@ -1,3 +1,7 @@
+void mathematically_load_bearing() {
+
+}
+
 void fm_modulate_signal() {
 
 }

@@ -75,6 +75,15 @@ float doppler_effect(float v, float theta) {
     return (v / c) * fc * cosf(theta);
 }
 
+void draw_mesh() {
+    for (int i = 0; i <= 40; i++) {
+        DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
+    }
+    for (int i = 0; i <= 70; i++) {
+        DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);
+    }
+}
+
 int main() {
     const int screenWidth = 1000;
     const int screenHeight = 600;
@@ -89,11 +98,14 @@ int main() {
 
             ClearBackground(RAYWHITE);
 
+            // то есть от 200 до 900 по горизонтали и от 100 до 500 по вертикали 
             DrawRectangle(200, 100, 700, 400, LIGHTGRAY);
 
-            DrawLine(210, 490, 890, 490, BLACK);
+            draw_mesh();
 
+            DrawLine(210, 490, 890, 490, BLACK);
             DrawLine(210, 490, 210, 110, BLACK);
+
 
         EndDrawing();
     }

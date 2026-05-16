@@ -96,12 +96,10 @@ void draw_mesh() {
     DrawLine(200, 500, 900, 500, BLACK);
     DrawLine(900, 100, 900, 500, BLACK);
 
-    // стрелка на конце оси Y (вверх, кончик в (210, 110))
     DrawTriangle((Vector2){ 210, 110 },
                 (Vector2){ 205, 122 },
                 (Vector2){ 215, 122 }, BLACK);
 
-    // стрелка на конце оси X (вправо, кончик в (890, 490))
     DrawTriangle((Vector2){ 890, 490 },
                 (Vector2){ 878, 485 },
                 (Vector2){ 878, 495 }, BLACK);

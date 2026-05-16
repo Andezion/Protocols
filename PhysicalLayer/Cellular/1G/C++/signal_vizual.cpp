@@ -86,18 +86,19 @@ void draw_mesh() {
         DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);
     }
 
+    // оси
     DrawLine(210, 490, 890, 490, BLACK);
     DrawLine(210, 490, 210, 110, BLACK);
 
+    // рамка
     DrawLine(200, 100, 900, 100, BLACK);
     DrawLine(200, 100, 200, 500, BLACK);
-
     DrawLine(200, 500, 900, 500, BLACK);
     DrawLine(900, 100, 900, 500, BLACK);
 
-    DrawTriangle((Vector2){ screenWidth / 4.0f * 3.0f, 80.0f },
-                (Vector2){ screenWidth / 4.0f * 3.0f - 60.0f, 150.0f },
-                (Vector2){ screenWidth / 4.0f * 3.0f + 60.0f, 150.0f }, BLACK);
+    DrawTriangle((Vector2){ 210, 205 },
+                (Vector2){ 203, 210 },
+                (Vector2){ 213, 210 }, BLACK);
 
     DrawTriangle((Vector2){ screenWidth /4.0f * 3.0f, 80.0f },
                 (Vector2){ screenWidth /4.0f * 3.0f - 60.0f, 150.0f },

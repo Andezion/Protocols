@@ -77,11 +77,7 @@ float doppler_effect(float v, float theta) {
 
 void draw_mesh() {
     for (int i = 0; i <= 40; i++) {
-        if (i == 0 || i == 40) {
-            DrawLine(200, 100 + i * 10, 900, 100 + i * 10, BLACK);
-        } else {
-            DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
-        }
+        DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
     }
     for (int i = 0; i <= 70; i++) {
         DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);

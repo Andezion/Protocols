@@ -114,6 +114,11 @@ int main() {
             DrawLine(210, 490, 890, 490, BLACK);
             DrawLine(210, 490, 210, 110, BLACK);
 
+            DrawLine(200, 100, 900, 100, BLACK);
+            DrawLine(200, 100, 200, 500, BLACK);
+
+            DrawLine(200, 500, 900, 500, BLACK);
+            DrawLine(900, 100, 900, 500, BLACK);
 
         EndDrawing();
     }

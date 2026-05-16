@@ -1,34 +1,45 @@
 #include <raylib.h>
 #include <cmath>
 
-#define Ac 1.0 // амплитуда несущей
-#define fc 1000.0 // частота несущей
-#define fic 0.0 // начальная фаза несущей
+#define Ac  1.0f    // амплитуда несущей
+#define fc  1000.0f // частота несущей (Гц)
+#define fic 0.0f    // начальная фаза несущей (рад)
+#define kf  100.0f  // коэффициент частотной модуляции (Гц/В)
 
-#define kf 100.0 // коэффициент частотной модуляции
+#define Am  0.5f    // амплитуда модулирующего сигнала (голос)
+#define fm  300.0f  // частота модулирующего сигнала (Гц), нижняя граница речи
 
-// тут считаем интеграл от функции func от low до high
-float integral(int high, int low, float (*func)(int)) {
-    float sum = 0.0;
-    for (int i = low; i <= high; i++) {
-        sum += func(i);
+#define DT  0.0001f // шаг интегрирования (сек)
+
+// модулирующий сигнал m(t) - упрощённая модель голоса (синус)
+// s_FM = Ac * cos(2pi*fc*t + 2pi*kf * integral(m(tau), 0, t))
+float m_signal(float t) {
+    return Am * sinf(2.0f * M_PI * fm * t);
+}
+
+// численный интеграл от func от low до high методом прямоугольников
+float integral(float low, float high, float (*func)(float)) {
+    float sum = 0.0f;
+    for (float tau = low; tau <= high; tau += DT) {
+        sum += func(tau) * DT;
     }
     return sum;
 }
 
-// тут мы будем описывать математическую несущую
-float mathematically_load_bearing(int t) {
-    return Ac * cos(2 * M_PI * fc * t + fic);
+// математическая несущая: s_c(t) = Ac * cos(2pi*fc*t + fic)
+float mathematically_load_bearing(float t) {
+    return Ac * cosf(2.0f * M_PI * fc * t + fic);
 }
 
-// тут мы будем описывать фм модулированный сигнал 
-float fm_modulate_signal(int t) {
-    return Ac * cos(2 * M_PI * fc * t + 2 * M_PI * kf * integral(t, 0, m(tau)));
+// FM-модулированный сигнал: s_FM(t) = Ac * cos(2pi*fc*t + 2pi*kf * ∫m(τ)dτ)
+float fm_modulate_signal(float t) {
+    return Ac * cosf(2.0f * M_PI * fc * t + 2.0f * M_PI * kf * integral(0.0f, t, m_signal));
 }
 
-// тут мы будем описывать правило Карсона для оценки ширины спектра фм сигнала
-void rule_of_karson() {
-
+// правило Карсона: BW ≈ 2*(delta_f + fm), где delta_f = kf * max(m(t)) = kf * Am
+float rule_of_karson() {
+    float delta_f = kf * Am;
+    return 2.0f * (delta_f + fm);
 }
 
 // тут мы будем собственно генерировать сигнал
@@ -36,24 +47,32 @@ void generator_of_signal() {
 
 }
 
-// тут мы будем описывать схему смещения 
+// тут мы будем описывать схему смещения
 void sheme_of_offset() {
 
 }
 
-// тут мы будем описывать формулу Фрисса для модели свободного пространства потери
-void formula_friss() {
-
+// потери свободного пространства по Фриссу: PL(d) = 20*log10(4*pi*d*f/c)
+// возвращает потери в дБ
+float formula_friss(float d, float f) {
+    const float c = 3e8f;
+    return 20.0f * log10f((4.0f * M_PI * d * f) / c);
 }
 
-// тут мы будем описывать детерминированную модель формулы Фрисса 
-void determinated_model_of_friss() {
-
+// принятая мощность по детерминированной модели Фрисса:
+// Pr = Pt * Gt * Gr * (lambda / (4*pi*d))^2
+float determinated_model_of_friss(float Pt, float Gt, float Gr, float d, float f) {
+    const float c = 3e8f;
+    float lambda = c / f;
+    float factor = lambda / (4.0f * M_PI * d);
+    return Pt * Gt * Gr * factor * factor;
 }
 
-// тут мы будем оценивать допплеровский эффект для мобильных устройств
-void doppler_effect() {
-
+// доплеровский сдвиг частоты: delta_f = (v/c) * fc * cos(theta)
+// v - скорость абонента (м/с), theta - угол между вектором движения и направлением на БС
+float doppler_effect(float v, float theta) {
+    const float c = 3e8f;
+    return (v / c) * fc * cosf(theta);
 }
 
 int main() {

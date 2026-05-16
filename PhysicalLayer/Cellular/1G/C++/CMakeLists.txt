@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
-# ── GLFW ────────────────────────────────────────────────────────────────────
 FetchContent_Declare(
     glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
@@ -18,7 +17,6 @@ set(GLFW_BUILD_TESTS    OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
-# ── Dear ImGui ──────────────────────────────────────────────────────────────
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
@@ -27,13 +25,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
-# ImGui не имеет своего CMakeLists — собираем вручную как интерфейсную цель
 add_library(imgui STATIC
     ${imgui_SOURCE_DIR}/imgui.cpp
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
     ${imgui_SOURCE_DIR}/imgui_tables.cpp
     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-    # backends: GLFW + OpenGL3
     ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
     ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
 )
@@ -43,7 +39,6 @@ target_include_directories(imgui PUBLIC
 )
 target_link_libraries(imgui PUBLIC glfw)
 
-# ── ImPlot ──────────────────────────────────────────────────────────────────
 FetchContent_Declare(
     implot
     GIT_REPOSITORY https://github.com/epezent/implot.git
@@ -59,10 +54,8 @@ add_library(implot STATIC
 target_include_directories(implot PUBLIC ${implot_SOURCE_DIR})
 target_link_libraries(implot PUBLIC imgui)
 
-# ── OpenGL (системная) ───────────────────────────────────────────────────────
 find_package(OpenGL REQUIRED)
 
-# ── Основной исполняемый файл ────────────────────────────────────────────────
 add_executable(signal_vizual signal_vizual.cpp)
 target_link_libraries(signal_vizual PRIVATE
     imgui

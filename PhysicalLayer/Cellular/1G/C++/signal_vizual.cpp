@@ -103,6 +103,14 @@ void draw_mesh() {
     DrawTriangle((Vector2){ 890, 490 },
                 (Vector2){ 878, 485 },
                 (Vector2){ 878, 495 }, BLACK);
+
+    for (int i = 1; i <= 67; i++) {
+        DrawLine(210 + i * 10, 488, 210 + i * 10, 492, BLACK);
+    }
+
+    for (int i = 1; i <= 37; i++) {
+        DrawLine(208, 490 - i * 10, 212, 490 - i * 10, BLACK);
+    }
 }
 
 int main() {

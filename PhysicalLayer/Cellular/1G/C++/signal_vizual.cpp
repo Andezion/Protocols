@@ -75,6 +75,9 @@ float doppler_effect(float v, float theta) {
     return (v / c) * fc * cosf(theta);
 }
 
+const int screenWidth = 1000;
+const int screenHeight = 600;
+
 void draw_mesh() {
     for (int i = 0; i <= 40; i++) {
         DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
@@ -102,9 +105,6 @@ void draw_mesh() {
 }
 
 int main() {
-    const int screenWidth = 1000;
-    const int screenHeight = 600;
-
     InitWindow(screenWidth, screenHeight, "1G Signal Visualization");
 
     SetTargetFPS(120); 

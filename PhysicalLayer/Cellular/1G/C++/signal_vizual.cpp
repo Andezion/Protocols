@@ -91,6 +91,10 @@ int main() {
 
             DrawRectangle(200, 100, 700, 400, LIGHTGRAY);
 
+            DrawLine(210, 490, 890, 490, BLACK);
+
+            DrawLine(210, 490, 210, 110, BLACK);
+
         EndDrawing();
     }
 

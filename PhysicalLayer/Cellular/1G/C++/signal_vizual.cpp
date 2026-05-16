@@ -1,3 +1,5 @@
+#include <raylib.h>
+
 // тут мы будем описывать математическую несущую
 void mathematically_load_bearing() {
 
@@ -39,6 +41,5 @@ void doppler_effect() {
 }
 
 int main() {
-    
-    return 0;
+
 }

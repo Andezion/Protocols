@@ -84,11 +84,7 @@ void draw_mesh() {
         }
     }
     for (int i = 0; i <= 70; i++) {
-        if (i == 0 || i == 70) {
-            DrawLine(200 + i * 10, 100, 200 + i * 10, 500, BLACK);
-        } else {
-            DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);
-        }
+        DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);
     }
 
     DrawLine(210, 490, 890, 490, BLACK);

@@ -1,8 +1,13 @@
 #include <raylib.h>
+#include <cmath>
+
+#define Ac 1.0 // амплитуда несущей
+#define fc 1000.0 // частота несущей
+#define fic 0.0 // начальная фаза несущей
 
 // тут мы будем описывать математическую несущую
-void mathematically_load_bearing() {
-
+float mathematically_load_bearing(int t) {
+    return Ac * cos(2 * M_PI * fc * t + fic);
 }
 
 // тут мы будем описывать фм модулированный сигнал 

@@ -76,5 +76,25 @@ float doppler_effect(float v, float theta) {
 }
 
 int main() {
+    const int screenWidth = 1000;
+    const int screenHeight = 600;
 
+    InitWindow(screenWidth, screenHeight, "1G Signal Visualization");
+
+    SetTargetFPS(120); 
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+
+            DrawRectangle(200, 100, 700, 400, LIGHTGRAY);
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+
+    return 0;
 }

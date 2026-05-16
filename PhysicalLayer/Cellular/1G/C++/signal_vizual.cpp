@@ -92,13 +92,13 @@ void draw_mesh() {
     DrawLine(200, 500, 900, 500, BLACK);
     DrawLine(900, 100, 900, 500, BLACK);
 
-    DrawTriangle((Vector2){ screenWidth/4.0f *3.0f, 80.0f },
-                (Vector2){ screenWidth/4.0f *3.0f - 60.0f, 150.0f },
-                (Vector2){ screenWidth/4.0f *3.0f + 60.0f, 150.0f }, VIOLET);
+    DrawTriangle((Vector2){ screenWidth / 4.0f * 3.0f, 80.0f },
+                (Vector2){ screenWidth / 4.0f * 3.0f - 60.0f, 150.0f },
+                (Vector2){ screenWidth / 4.0f * 3.0f + 60.0f, 150.0f }, VIOLET);
 
-    DrawTriangle((Vector2){ screenWidth/4.0f *3.0f, 80.0f },
-                (Vector2){ screenWidth/4.0f *3.0f - 60.0f, 150.0f },
-                (Vector2){ screenWidth/4.0f *3.0f + 60.0f, 150.0f }, VIOLET);
+    DrawTriangle((Vector2){ screenWidth /4.0f * 3.0f, 80.0f },
+                (Vector2){ screenWidth /4.0f * 3.0f - 60.0f, 150.0f },
+                (Vector2){ screenWidth /4.0f * 3.0f + 60.0f, 150.0f }, VIOLET);
 }
 
 int main() {

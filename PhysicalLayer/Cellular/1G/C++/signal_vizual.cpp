@@ -94,10 +94,10 @@ void draw_mesh() {
     DrawLine(210, 490, 210, 110, BLACK);
 
     // рамка
-    DrawLine(screenWidth / 5, screenHeight / 6, 900, 100, BLACK);
-    DrawLine(screenWidth / 5, screenHeight / 6, 200, 500, BLACK);
-    DrawLine(screenWidth / 5, screenHeight / 6 * 5, 900, 500, BLACK);
-    DrawLine(screenWidth / 10 * 9, screenHeight / 6, 900, 500, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 5, screenHeight / 6 * 5, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6 * 5, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
+    DrawLine(screenWidth / 10 * 9, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
 
     DrawTriangle((Vector2){ 210, 110 },
                 (Vector2){ 205, 122 },

@@ -98,20 +98,20 @@ void draw_mesh() {
     DrawLine(screenWidth / 5, screenHeight / 6 * 5, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
     DrawLine(screenWidth / 10 * 9, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
 
-    DrawTriangle((Vector2){ 210, 110 },
-                (Vector2){ 205, 122 },
-                (Vector2){ 215, 122 }, BLACK);
+    DrawTriangle((Vector2){ 200 + 10, 100 + 10 },
+                (Vector2){ 200 + 5, 100 + 20 + 2 },
+                (Vector2){ 200 + 10 + 5, 100 + 20 + 2 }, BLACK);
 
     DrawTriangle((Vector2){ 890, 490 },
                 (Vector2){ 878, 485 },
                 (Vector2){ 878, 495 }, BLACK);
 
     for (int i = 1; i <= 67; i++) {
-        DrawLine(210 + i * 10, 488, 210 + i * 10, 492, BLACK);
+        DrawLine(200 + 10 + i * 10, 400 + 80 + 7, 210 + i * 10, 400 + 90 + 2, BLACK);
     }
 
     for (int i = 1; i <= 37; i++) {
-        DrawLine(208, 490 - i * 10, 212, 490 - i * 10, BLACK);
+        DrawLine(207, 400 + 90 - i * 10, 200 + 10 + 2, 400 + 90 - i * 10, BLACK);
     }
 }
 

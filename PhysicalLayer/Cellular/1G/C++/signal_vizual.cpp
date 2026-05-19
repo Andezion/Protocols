@@ -79,7 +79,6 @@ const int screenWidth = 1000;
 const int screenHeight = 600;
 
 void draw_mesh() {
-    // то есть от 200 до 900 по горизонтали и от 100 до 500 по вертикали 
     DrawRectangle(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 7, screenHeight / 6 * 4, LIGHTGRAY);
 
     for (int i = 0; i <= 40; i++) {
@@ -90,8 +89,8 @@ void draw_mesh() {
     }
 
     // оси
-    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - 10, screenWidth / 10 * 9 - screenWidth / 100, 500 - 10, BLACK);
-    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - 10, screenWidth / 5 + screenWidth / 100, 100 + 10, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - screenHeight / 60, screenWidth / 10 * 9 - screenWidth / 100, screenHeight / 6 * 5 - screenHeight / 60, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - screenHeight / 60, screenWidth / 5 + screenWidth / 100, screenHeight / 6 + screenHeight / 60, BLACK);
 
     // рамка
     DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6, BLACK);

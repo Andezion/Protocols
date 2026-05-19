@@ -83,7 +83,7 @@ void draw_mesh() {
     DrawRectangle(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 7, screenHeight / 6 * 4, LIGHTGRAY);
 
     for (int i = 0; i <= 40; i++) {
-        DrawLine(screenWidth / 5, screenHeight / 6 + i * screenWidth / 100, screenWidth / 10 * 9, screenHeight / 6 + i * screenWidth / 100, GREEN);
+        DrawLine(screenWidth / 5, screenHeight / 6 + i * screenHeight / 60, screenWidth / 10 * 9, screenHeight / 6 + i * screenHeight / 60, GREEN);
     }
     for (int i = 0; i <= 70; i++) {
         DrawLine(screenWidth / 5 + i * screenWidth / 100, screenHeight / 6, screenWidth / 5 + i * screenWidth / 100, screenHeight / 6 * 5, GREEN);

@@ -83,15 +83,15 @@ void draw_mesh() {
     DrawRectangle(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 7, screenHeight / 6 * 4, LIGHTGRAY);
 
     for (int i = 0; i <= 40; i++) {
-        DrawLine(screenWidth / 5, screenHeight / 6 + i * 10, screenWidth / 10 * 9, screenHeight / 6 + i * 10, GREEN);
+        DrawLine(screenWidth / 5, screenHeight / 6 + i * screenWidth / 100, screenWidth / 10 * 9, screenHeight / 6 + i * screenWidth / 100, GREEN);
     }
     for (int i = 0; i <= 70; i++) {
-        DrawLine(screenWidth / 5 + i * 10, screenHeight / 6, screenWidth / 5 + i * 10, screenHeight / 6 * 5, GREEN);
+        DrawLine(screenWidth / 5 + i * screenWidth / 100, screenHeight / 6, screenWidth / 5 + i * screenWidth / 100, screenHeight / 6 * 5, GREEN);
     }
 
     // оси
-    DrawLine(210, 490, 890, 490, BLACK);
-    DrawLine(210, 490, 210, 110, BLACK);
+    DrawLine(200 + 10, 500 - 10, 900 - 10, 500 - 10, BLACK);
+    DrawLine(200 + 10, 500 - 10, 200 + 10, 100 + 10, BLACK);
 
     // рамка
     DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6, BLACK);

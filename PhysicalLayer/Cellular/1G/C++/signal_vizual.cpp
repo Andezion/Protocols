@@ -1,5 +1,7 @@
 #include <raylib.h>
 #include <cmath>
+#include <unistd.h>
+
 
 #define Ac  1.0f    // амплитуда несущей
 #define fc  1000.0f // частота несущей (Гц)
@@ -120,7 +122,8 @@ std::pair<float, float> points_graphic_m_signal(float t) {
 }
 
 void cords_normalazier(std::pair<float, float> &cords) {
-
+    cords.first += static_cast<float>(screenWidth) / 5;
+    cords.second += static_cast<float>(screenHeight) / 6;
 }
 
 int main() {
@@ -136,9 +139,12 @@ int main() {
 
             draw_mesh();
 
+            // DrawCircle(100, 100, 1, RED);
+
             for (float i = 0.0; i < 100.0; i = i + 0.01) {
                 std::pair<float, float> cords = points_graphic_m_signal(i);
-                DrawCircle(cords.first, cords.second, 5, RED);
+                cords_normalazier(cords);
+                DrawCircle(cords.first, cords.second, 1, RED);
             }
 
         EndDrawing();

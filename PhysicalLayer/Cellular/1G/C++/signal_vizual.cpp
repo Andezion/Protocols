@@ -80,7 +80,7 @@ const int screenHeight = 600;
 
 void draw_mesh() {
     // то есть от 200 до 900 по горизонтали и от 100 до 500 по вертикали 
-    DrawRectangle(200, 100, 700, 400, LIGHTGRAY);
+    DrawRectangle(screenWidth / 5, screenHeight / 6, 700, 400, LIGHTGRAY);
 
     for (int i = 0; i <= 40; i++) {
         DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
@@ -94,10 +94,10 @@ void draw_mesh() {
     DrawLine(210, 490, 210, 110, BLACK);
 
     // рамка
-    DrawLine(200, 100, 900, 100, BLACK);
-    DrawLine(200, 100, 200, 500, BLACK);
-    DrawLine(200, 500, 900, 500, BLACK);
-    DrawLine(900, 100, 900, 500, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6, 900, 100, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6, 200, 500, BLACK);
+    DrawLine(screenWidth / 5, screenHeight / 6 * 5, 900, 500, BLACK);
+    DrawLine(screenWidth / 10 * 9, screenHeight / 6, 900, 500, BLACK);
 
     DrawTriangle((Vector2){ 210, 110 },
                 (Vector2){ 205, 122 },

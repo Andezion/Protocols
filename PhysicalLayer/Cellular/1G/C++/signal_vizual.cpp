@@ -115,6 +115,10 @@ void draw_mesh() {
     }
 }
 
+std::pair<float, float> points_graphic_m_signal(float t) {
+    return {t, m_signal(t)};
+}
+
 int main() {
     InitWindow(screenWidth, screenHeight, "1G Signal Visualization");
 
@@ -127,6 +131,11 @@ int main() {
             ClearBackground(RAYWHITE);
 
             draw_mesh();
+
+            for (float i = 0.0; i < 100.0; i = i + 0.01) {
+                std::pair<float, float> cords = points_graphic_m_signal(i);
+                DrawCircle(cords.first, cords.second, 5, RED);
+            }
 
         EndDrawing();
     }

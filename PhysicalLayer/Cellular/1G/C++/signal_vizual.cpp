@@ -102,9 +102,9 @@ void draw_mesh() {
                 (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 200, static_cast<float>(screenHeight) / 6 + static_cast<float>(screenHeight) / 30 + static_cast<float>(screenHeight) / 300 },
                 (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 100 + static_cast<float>(screenWidth) / 200, static_cast<float>(screenHeight) / 6 + static_cast<float>(screenHeight) / 30 + static_cast<float>(screenHeight) / 300 }, BLACK);
 
-    DrawTriangle((Vector2){ 800 + 90, 400 + 90 },
-                (Vector2){ 800 + 70 + 8, 400 + 80 + 5 },
-                (Vector2){ 800 + 70 + 8, 400 + 90 + 5 }, BLACK);
+    // DrawTriangle((Vector2){ 800 + 90, 400 + 90 },
+    //             (Vector2){ 800 + 70 + 8, 400 + 80 + 5 },
+    //             (Vector2){ 800 + 70 + 8, 400 + 90 + 5 }, BLACK);
 
     DrawTriangle((Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 9, static_cast<float>(screenHeight) / 6 * 4 + static_cast<float>(screenHeight) / 60 * 9 },
                 (Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 7 + static_cast<float>(screenWidth) / 1000 * 8, static_cast<float>(screenHeight) / 6 * 4 + static_cast<float>(screenHeight) / 60 * 8 + static_cast<float>(screenHeight) / 600 * 5 }, 

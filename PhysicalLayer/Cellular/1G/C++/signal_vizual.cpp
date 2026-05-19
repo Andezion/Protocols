@@ -108,7 +108,7 @@ void draw_mesh() {
 
     DrawTriangle((Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 9, static_cast<float>(screenHeight) / 6 * 4 + },
                 (Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 7, static_cast<float>(screenHeight) / 6 * 4 + }, 
-                (Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 7, static_cast<float>(screenHeight) / 6 * 4 + });
+                (Vector2){static_cast<float>(screenWidth) / 10 * 8 + static_cast<float>(screenWidth) / 100 * 7, static_cast<float>(screenHeight) / 6 * 4 + }, BLACK);
 
     for (int i = 1; i <= 67; i++) {
         DrawLine(200 + 10 + i * 10, 400 + 80 + 7, 210 + i * 10, 400 + 90 + 2, BLACK);

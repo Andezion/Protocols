@@ -90,8 +90,8 @@ void draw_mesh() {
     }
 
     // оси
-    DrawLine(200 + 10, 500 - 10, 900 - 10, 500 - 10, BLACK);
-    DrawLine(200 + 10, 500 - 10, 200 + 10, 100 + 10, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - 10, screenWidth / 10 * 9 - screenWidth / 100, 500 - 10, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - 10, screenWidth / 5 + screenWidth / 100, 100 + 10, BLACK);
 
     // рамка
     DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6, BLACK);

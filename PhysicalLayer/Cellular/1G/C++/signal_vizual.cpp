@@ -119,6 +119,10 @@ std::pair<float, float> points_graphic_m_signal(float t) {
     return {t, m_signal(t)};
 }
 
+void cords_normalazier(std::pair<float, float> &cords) {
+
+}
+
 int main() {
     InitWindow(screenWidth, screenHeight, "1G Signal Visualization");
 

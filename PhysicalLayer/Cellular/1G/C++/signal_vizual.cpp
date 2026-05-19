@@ -89,8 +89,8 @@ void draw_mesh() {
     }
 
     // оси
-    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - screenHeight / 60, screenWidth / 10 * 9 - screenWidth / 100, screenHeight / 6 * 5 - screenHeight / 60, BLACK);
-    DrawLine(screenWidth / 5 + screenWidth / 100, 500 - screenHeight / 60, screenWidth / 5 + screenWidth / 100, screenHeight / 6 + screenHeight / 60, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, screenHeight / 6 * 5 - screenHeight / 60, screenWidth / 10 * 9 - screenWidth / 100, screenHeight / 6 * 5 - screenHeight / 60, BLACK);
+    DrawLine(screenWidth / 5 + screenWidth / 100, screenHeight / 6 * 5 - screenHeight / 60, screenWidth / 5 + screenWidth / 100, screenHeight / 6 + screenHeight / 60, BLACK);
 
     // рамка
     DrawLine(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6, BLACK);

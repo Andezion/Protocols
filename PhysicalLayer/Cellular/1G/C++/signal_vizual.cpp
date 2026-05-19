@@ -102,16 +102,16 @@ void draw_mesh() {
                 (Vector2){ 200 + 5, 100 + 20 + 2 },
                 (Vector2){ 200 + 10 + 5, 100 + 20 + 2 }, BLACK);
 
-    DrawTriangle((Vector2){ 890, 490 },
-                (Vector2){ 878, 485 },
-                (Vector2){ 878, 495 }, BLACK);
+    DrawTriangle((Vector2){ 800 + 90, 400 + 90 },
+                (Vector2){ 800 + 70 + 8, 400 + 80 + 5 },
+                (Vector2){ 800 + 70 + 8, 400 + 90 + 5 }, BLACK);
 
     for (int i = 1; i <= 67; i++) {
         DrawLine(200 + 10 + i * 10, 400 + 80 + 7, 210 + i * 10, 400 + 90 + 2, BLACK);
     }
 
     for (int i = 1; i <= 37; i++) {
-        DrawLine(207, 400 + 90 - i * 10, 200 + 10 + 2, 400 + 90 - i * 10, BLACK);
+        DrawLine(200 + 7, 400 + 90 - i * 10, 200 + 10 + 2, 400 + 90 - i * 10, BLACK);
     }
 }
 

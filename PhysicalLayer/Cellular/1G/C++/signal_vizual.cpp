@@ -98,9 +98,9 @@ void draw_mesh() {
     DrawLine(screenWidth / 5, screenHeight / 6 * 5, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
     DrawLine(screenWidth / 10 * 9, screenHeight / 6, screenWidth / 10 * 9, screenHeight / 6 * 5, BLACK);
 
-    DrawTriangle((Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 100, 100 + 10 },
-                (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 200, 100 + 20 + 2 },
-                (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 100 + static_cast<float>(screenWidth) / 200, 100 + 20 + 2 }, BLACK);
+    DrawTriangle((Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 100, screenHeight / 6 + screenHeight / 60 },
+                (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 200, screenHeight / 6 + screenHeight / 30 + 2 },
+                (Vector2){ static_cast<float>(screenWidth) / 5 + static_cast<float>(screenWidth) / 100 + static_cast<float>(screenWidth) / 200, screenHeight / 6 + screenHeight / 30 + 2 }, BLACK);
 
     DrawTriangle((Vector2){ 800 + 90, 400 + 90 },
                 (Vector2){ 800 + 70 + 8, 400 + 80 + 5 },

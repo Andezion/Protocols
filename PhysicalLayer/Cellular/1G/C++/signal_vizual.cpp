@@ -83,10 +83,10 @@ void draw_mesh() {
     DrawRectangle(screenWidth / 5, screenHeight / 6, screenWidth / 10 * 7, screenHeight / 6 * 4, LIGHTGRAY);
 
     for (int i = 0; i <= 40; i++) {
-        DrawLine(200, 100 + i * 10, 900, 100 + i * 10, GREEN);
+        DrawLine(screenWidth / 5, screenHeight / 6 + i * 10, screenWidth / 10 * 9, screenHeight / 6 + i * 10, GREEN);
     }
     for (int i = 0; i <= 70; i++) {
-        DrawLine(200 + i * 10, 100, 200 + i * 10, 500, GREEN);
+        DrawLine(screenWidth / 5 + i * 10, screenHeight / 6, screenWidth / 5 + i * 10, screenHeight / 6 * 5, GREEN);
     }
 
     // оси

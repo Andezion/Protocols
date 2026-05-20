@@ -8,8 +8,10 @@ import (
 )
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
 	response := map[string]string{"message": "pong"}
 	w.Header().Set("Content-Type", "application/json")
+
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, "failed to encode response", http.StatusInternalServerError)
 		log.Printf("pingHandler: encode error: %v", err)
@@ -18,6 +20,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
 	fmt.Fprintf(w, "vlad topchik")
 }
 

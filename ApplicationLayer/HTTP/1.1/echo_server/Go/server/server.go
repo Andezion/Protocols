@@ -1,9 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
+
+func pingHandler(w http.ResponseWriter, r *http.Request) {
+	response := map[string]string{"message": "pong"}
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "failed to encode response", http.StatusInternalServerError)
+		log.Printf("pingHandler: encode error: %v", err)
+		return
+	}
+}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "vlad topchik")
@@ -11,6 +23,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handler)
-	fmt.Println("Starting server on :8080")
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/ping", pingHandler)
+	log.Println("Starting server on :8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatalf("ListenAndServe: %v", err)
+	}
 }

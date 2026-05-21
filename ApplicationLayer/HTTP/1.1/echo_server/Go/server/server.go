@@ -24,9 +24,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "vlad topchik")
 }
 
+func echoHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
+
+	body := make([]byte, r.ContentLength)
+	r.Body.Read(body)
+
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(body)
+}
+
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/ping", pingHandler)
+	http.HandleFunc("/echo", echoHandler)
 	log.Println("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("ListenAndServe: %v", err)

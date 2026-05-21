@@ -47,3 +47,16 @@ struct http_request {
 3. Тело:
 
     - Данные, которые отправляются в запросе (например, данные формы или JSON)
+
+То есть примерно будет выглядеть так:
+```
+POST /api/users HTTP/1.1
+Host: example.com
+Content-Type: application/json
+Content-Length: 27
+
+{
+  "name": "Vlad",
+  "age": 21
+}
+```

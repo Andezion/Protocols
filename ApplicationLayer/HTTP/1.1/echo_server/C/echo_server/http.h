@@ -15,3 +15,11 @@ struct http_request {
     char *hearders;
     char *body;
 };
+
+struct http_responce {
+    char *version;
+    int status_code;
+    char *status_message;
+    char *headers;
+    char *body;
+};

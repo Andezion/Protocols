@@ -10,7 +10,8 @@ enum http_method {
 
 struct http_request {
     enum http_method method;
-    char path[256];
-    char version[16];
-    char body[1024];
+    char *url;
+    char *version;
+    char *hearders;
+    char *body;
 };

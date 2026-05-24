@@ -31,11 +31,7 @@ struct http_request {
 
 struct http_responce {
     char *version;
-
-    http_status_code status_code;
-
-
-    // int status_code;
+    int status_code;
     char *status_message;
     char *headers;
     char *body;

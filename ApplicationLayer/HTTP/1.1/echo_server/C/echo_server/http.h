@@ -37,12 +37,12 @@ struct http_responce {
     char *body;
 };
 
-http_status_code http_get(const char *url, struct http_request *request);
-http_status_code http_post(const char *url, const char *body, struct http_request *request);
-http_status_code http_put(const char *url, const char *body, struct http_request *request);
-http_status_code http_delete(const char *url, struct http_request *request);
-http_status_code http_head(const char *url, struct http_request *request);
-http_status_code http_options(const char *url, struct http_request *request);
-http_status_code http_patch(const char *url, const char *body, struct http_request *request);
-http_status_code http_trace(const char *url, struct http_request *request);
-http_status_code http_connect(const char *url, struct http_request *request);
+http_responce http_get(const char *url, struct http_request *request);
+http_responce http_post(const char *url, const char *body, struct http_request *request);
+http_responce http_put(const char *url, const char *body, struct http_request *request);
+http_responce http_delete(const char *url, struct http_request *request);
+http_responce http_head(const char *url, struct http_request *request);
+http_responce http_options(const char *url, struct http_request *request);
+http_responce http_patch(const char *url, const char *body, struct http_request *request);
+http_responce http_trace(const char *url, struct http_request *request);
+http_responce http_connect(const char *url, struct http_request *request);

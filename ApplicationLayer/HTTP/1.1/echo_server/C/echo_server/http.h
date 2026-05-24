@@ -7,7 +7,11 @@ enum http_method {
     POST,
     PUT,
     DELETE,
-    UNKNOWN
+    HEAD,
+    OPTIONS,
+    PATCH,
+    TRACE,
+    CONNECT
 };
 
 enum http_status_code {

@@ -1,5 +1,7 @@
 #pragma once 
 
+#include "../../../../../../TransportLayer/TCP/echo_server/C/tcp.h"
+
 enum http_method {
     GET,
     POST,

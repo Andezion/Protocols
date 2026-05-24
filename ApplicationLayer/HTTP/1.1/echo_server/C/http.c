@@ -38,12 +38,15 @@ struct http_responce http_delete(const char *url, struct http_request *request) 
 }
 
 struct http_responce http_head(const char *url, struct http_request *request) {
-    request->method = HEAD;
-    request->url = strdup(url);
-    request->version = strdup("HTTP/1.1");
-    request->hearders = NULL;
-    request->body = NULL;
-    struct http_responce responce;
+    struct http_responce responce = {
+        .version = strdup("HTTP/1.1"),
+        .status_code = HTTP_OK,
+        .status_message = strdup("OK"),
+        .headers = strdup("Content-Type: text/plain\r\nContent-Length: 0\r\n"),
+        .body = NULL
+    };  
+    
+    return responce;
 }
 
 struct http_responce http_options(const char *url, struct http_request *request) {

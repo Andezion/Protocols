@@ -34,10 +34,17 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(body)
 }
 
+func custom_handler(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s", r.Method, r.URL.Path)
+	fmt.Fprintf(w, "u r gay lol")
+}
+
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/ping", pingHandler)
 	http.HandleFunc("/echo", echoHandler)
+	http.HandleFunc("/custom", custom_handler)
+
 	log.Println("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("ListenAndServe: %v", err)

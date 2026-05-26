@@ -9,6 +9,11 @@ use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
 use tokio::net::TcpListener;
 
-async fn handle_request(_: Request<hyper::body::Incoming>) -> Result<Responce<Full<Bytes>>, Infallible> {
-    Ok(Responce::new(Full::new(Bytes::from("Hello bithces"))))
+async fn handle_request(_: Request<hyper::body::Incoming>) -> Result<Response<Full<Bytes>>, Infallible> {
+    Ok(Response::new(Full::new(Bytes::from("Hello bithces"))))
 } 
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    
+}

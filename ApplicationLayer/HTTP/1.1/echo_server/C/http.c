@@ -50,8 +50,21 @@ struct http_response http_get(const char *url, struct http_request *request) {
     return response;
 }
 
+// суть post в том, что мы типа отправляем серверу какую-то информацию, которая может быть сохранена на сервере
 struct http_response http_post(const char *url, const char *body, struct http_request *request) {
     struct http_response response;
+    size_t body_len = strlen(body);
+
+    char headers_buffer[256];
+    snprintf(headers_buffer, sizeof(headers_buffer), "Content-Type: text/plain\r\nContent-Length: %zu\r\n", body_len);
+
+    memset(&response, 0, sizeof(response));
+    response.version = strdup("HTTP/1.1");
+    response.status_code = HTTP_OK;
+    response.status_message = strdup("OK");
+    response.headers = strdup(headers_buffer);
+    response.body = strdup(body);
+
 
     return response;
 }

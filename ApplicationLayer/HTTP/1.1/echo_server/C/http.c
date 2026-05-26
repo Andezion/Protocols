@@ -5,6 +5,12 @@
 struct http_responce http_get(const char *url, struct http_request *request) {
     struct http_responce responce;
     
+    responce.version = strdup("HTTP/1.1");
+    responce.status_code = HTTP_OK;
+    responce.status_message = strdup("OK");
+    responce.headers = strdup("Content-Type: text/plain\r\nContent-Length: 11\r\n");
+    responce.body = strdup("Hello World");
+
 
     // struct http_responce responce = {
     //     .version = strdup("HTTP/1.1"),

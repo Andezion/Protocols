@@ -4,11 +4,15 @@
 #include <stdlib.h> 
 
 void http_response_free(struct http_response *r) {
-    if (!r) return;
+    if (!r) {
+        return;
+    }
+
     free(r->version);
     free(r->status_message);
     free(r->headers);
     free(r->body);
+    
     r->version = NULL;
     r->status_message = NULL;
     r->headers = NULL;

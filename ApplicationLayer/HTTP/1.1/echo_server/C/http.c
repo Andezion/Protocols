@@ -3,24 +3,7 @@
 
 // суть get метода - что мы типа просим сервер отдать нам какую-то информацию, которая хранится на сервере
 struct http_response http_get(const char *url, struct http_request *request) {
-    struct http_response responce;
-
-    responce.version = strdup("HTTP/1.1");
-    responce.status_code = HTTP_OK;
-    responce.status_message = strdup("OK");
-    responce.headers = strdup("Content-Type: text/plain\r\nContent-Length: 11\r\n");
-    responce.body = strdup("Hello World");
-
-
-    // struct http_responce responce = {
-    //     .version = strdup("HTTP/1.1"),
-    //     .status_code = HTTP_OK,
-    //     .status_message = strdup("OK"),
-    //     .headers = strdup("Content-Type: text/plain\r\nContent-Length: 11\r\n"),
-    //     .body = strdup("Hello World")
-    // };
-
-    return responce;
+    
 }
 
 struct http_response http_post(const char *url, const char *body, struct http_request *request) {

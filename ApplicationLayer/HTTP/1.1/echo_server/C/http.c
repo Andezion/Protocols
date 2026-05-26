@@ -16,12 +16,18 @@ struct http_response http_get(const char *url, struct http_request *request) {
     char headers_buffer[256];
     snprintf(headers_buffer, sizeof(headers_buffer), "Content-Type: text/plain\r\nContent-Length: %zu\r\n", body_len);
 
+    // инициализируем структуру http_response, выделяя память для строк и копируя данные
     memset(&response, 0, sizeof(response));
 
+    // тут у нас версия протокола
     response.version = strdup("HTTP/1.1");
+    // тут код нашего ответа 
     response.status_code = HTTP_OK;
+    // тут типа сообщение, которое соответствует коду ответа
     response.status_message = strdup("OK");
+    // тут заголовки нашего ответа
     response.headers = strdup(headers_buffer);
+    // тут тело нашего ответа
     response.body = strdup(body);
 
     if (!response.version || !response.status_message || !response.headers || !response.body) {

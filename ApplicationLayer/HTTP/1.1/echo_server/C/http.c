@@ -1,5 +1,6 @@
 #include "http.h"
 #include <string.h>
+#include <stdio.h>
 
 // суть get метода - что мы типа просим сервер отдать нам какую-то информацию, которая хранится на сервере
 struct http_response http_get(const char *url, struct http_request *request) {
@@ -10,6 +11,14 @@ struct http_response http_get(const char *url, struct http_request *request) {
 
     char headers_buffer[256];
     snprintf(headers_buffer, sizeof(headers_buffer), "Content-Type: text/plain\r\nContent-Length: %zu\r\n", body_len);
+
+    memset(&response, 0, sizeof(response));
+
+    response.version = strdup("HTTP/1.1");
+    if (response.version == NULL) {
+        // handle memory allocation failure
+        return response;
+    }
 }
 
 struct http_response http_post(const char *url, const char *body, struct http_request *request) {

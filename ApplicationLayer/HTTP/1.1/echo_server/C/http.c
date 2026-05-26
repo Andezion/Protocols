@@ -83,11 +83,11 @@ struct http_response http_head(const char *url, struct http_request *request) {
         .body = NULL
     };  
 
-    return responce;
+    return response;
 }
 
 struct http_response http_options(const char *url, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),
@@ -95,11 +95,11 @@ struct http_response http_options(const char *url, struct http_request *request)
         .body = NULL
     };
 
-    return responce;
+    return response;
 }
 
 struct http_response http_patch(const char *url, const char *body, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),
@@ -107,11 +107,11 @@ struct http_response http_patch(const char *url, const char *body, struct http_r
         .body = strdup("Hello World")
     };
 
-    return responce;
+    return response;
 }
 
 struct http_response http_trace(const char *url, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),
@@ -119,11 +119,11 @@ struct http_response http_trace(const char *url, struct http_request *request) {
         .body = NULL
     };
 
-    return responce;
+    return response;
 }
 
 struct http_response http_connect(const char *url, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),
@@ -131,5 +131,5 @@ struct http_response http_connect(const char *url, struct http_request *request)
         .body = NULL
     };
 
-    return responce;
+    return response;
 }

@@ -3,7 +3,13 @@
 
 // суть get метода - что мы типа просим сервер отдать нам какую-то информацию, которая хранится на сервере
 struct http_response http_get(const char *url, struct http_request *request) {
+    struct http_response response;
     
+    const char *body = "Hello World";
+    size_t body_len = strlen(body);
+
+    char headers_buffer[256];
+    snprintf(headers_buffer, sizeof(headers_buffer), "Content-Type: text/plain\r\nContent-Length: %zu\r\n", body_len);
 }
 
 struct http_response http_post(const char *url, const char *body, struct http_request *request) {

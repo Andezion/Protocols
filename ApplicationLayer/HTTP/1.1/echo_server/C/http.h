@@ -26,7 +26,7 @@ struct http_request {
     enum http_method method;
     char *url;
     char *version;
-    char *hearders;
+    char *headers;
     char *body;
 };
 
@@ -47,5 +47,7 @@ struct http_response http_options(const char *url, struct http_request *request)
 struct http_response http_patch(const char *url, const char *body, struct http_request *request);
 struct http_response http_trace(const char *url, struct http_request *request);
 struct http_response http_connect(const char *url, struct http_request *request);
+
+void http_response_free(struct http_response *response);
 
 #endif

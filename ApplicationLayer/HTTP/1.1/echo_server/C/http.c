@@ -63,6 +63,7 @@ struct http_response http_post(const char *url, const char *body, struct http_re
     response.status_code = HTTP_OK;
     response.status_message = strdup("OK");
     response.headers = strdup(headers_buffer);
+    // тут мы отправляем клиенту обратно то, что он нам прислал
     response.body = strdup(body);
 
     // проверка на хуйню с памятью

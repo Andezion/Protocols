@@ -12,7 +12,7 @@ void http_response_free(struct http_response *r) {
     free(r->status_message);
     free(r->headers);
     free(r->body);
-    
+
     r->version = NULL;
     r->status_message = NULL;
     r->headers = NULL;
@@ -29,6 +29,7 @@ struct http_response http_get(const char *url, struct http_request *request) {
     int written = snprintf(headers_buffer, sizeof(headers_buffer),
                            "Content-Type: text/plain\r\nContent-Length: %zu\r\n",
                            body_len);
+
     if (written < 0) {
         fprintf(stderr, "snprintf failed\n");
         memset(&response, 0, sizeof(response));
@@ -62,6 +63,7 @@ struct http_response http_post(const char *url, const char *body, struct http_re
     int written = snprintf(headers_buffer, sizeof(headers_buffer),
                            "Content-Type: text/plain\r\nContent-Length: %zu\r\n",
                            body_len);
+                           
     if (written < 0) {
         fprintf(stderr, "snprintf failed\n");
         memset(&response, 0, sizeof(response));

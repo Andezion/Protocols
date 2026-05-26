@@ -5,11 +5,14 @@
 
 // суть get метода - что мы типа просим сервер отдать нам какую-то информацию, которая хранится на сервере
 struct http_response http_get(const char *url, struct http_request *request) {
+    // тут создаём наш ответ
     struct http_response response;
     
+    // в ответе мы скажем плиенту привет
     const char *body = "Hello World";
     size_t body_len = strlen(body);
 
+    // формируем заголовки ответа, указывая тип контента и длину тела ответа
     char headers_buffer[256];
     snprintf(headers_buffer, sizeof(headers_buffer), "Content-Type: text/plain\r\nContent-Length: %zu\r\n", body_len);
 

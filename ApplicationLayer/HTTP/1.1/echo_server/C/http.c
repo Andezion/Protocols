@@ -1,6 +1,7 @@
 #include "http.h"
 #include <string.h>
 
+// суть get метода - что мы типа просим сервер отдать нам какую-то информацию, которая хранится на сервере
 struct http_responce http_get(const char *url, struct http_request *request) {
     struct http_responce responce = {
         .version = strdup("HTTP/1.1"),

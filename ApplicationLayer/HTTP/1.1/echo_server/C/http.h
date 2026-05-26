@@ -30,7 +30,7 @@ struct http_request {
     char *body;
 };
 
-struct http_responce {
+struct http_response {
     char *version;
     int status_code;
     char *status_message;
@@ -38,14 +38,14 @@ struct http_responce {
     char *body;
 };
 
-struct http_responce http_get(const char *url, struct http_request *request);
-struct http_responce http_post(const char *url, const char *body, struct http_request *request);
-struct http_responce http_put(const char *url, const char *body, struct http_request *request);
-struct http_responce http_delete(const char *url, struct http_request *request);
-struct http_responce http_head(const char *url, struct http_request *request);
-struct http_responce http_options(const char *url, struct http_request *request);
-struct http_responce http_patch(const char *url, const char *body, struct http_request *request);
-struct http_responce http_trace(const char *url, struct http_request *request);
-struct http_responce http_connect(const char *url, struct http_request *request);
+struct http_response http_get(const char *url, struct http_request *request);
+struct http_response http_post(const char *url, const char *body, struct http_request *request);
+struct http_response http_put(const char *url, const char *body, struct http_request *request);
+struct http_response http_delete(const char *url, struct http_request *request);
+struct http_response http_head(const char *url, struct http_request *request);
+struct http_response http_options(const char *url, struct http_request *request);
+struct http_response http_patch(const char *url, const char *body, struct http_request *request);
+struct http_response http_trace(const char *url, struct http_request *request);
+struct http_response http_connect(const char *url, struct http_request *request);
 
 #endif

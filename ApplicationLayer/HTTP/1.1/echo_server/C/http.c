@@ -15,15 +15,13 @@ struct http_response http_get(const char *url, struct http_request *request) {
     memset(&response, 0, sizeof(response));
 
     response.version = strdup("HTTP/1.1");
-    if (response.version == NULL) {
-        
-        response.status_code = HTTP_INTERNAL_SERVER_ERROR;
-        response.status_message = strdup("Internal Server Error");
-        response.headers = NULL;
-        response.body = NULL;
+    response.status_code = HTTP_OK;
+    response.status_message = strdup("OK");
+    response.headers = strdup(headers_buffer);
+    response.body = strdup(body);
 
-        return response;
-    }
+
+    return response;
 }
 
 struct http_response http_post(const char *url, const char *body, struct http_request *request) {

@@ -16,7 +16,12 @@ struct http_response http_get(const char *url, struct http_request *request) {
 
     response.version = strdup("HTTP/1.1");
     if (response.version == NULL) {
-        // handle memory allocation failure
+        
+        response.status_code = HTTP_INTERNAL_SERVER_ERROR;
+        response.status_message = strdup("Internal Server Error");
+        response.headers = NULL;
+        response.body = NULL;
+
         return response;
     }
 }

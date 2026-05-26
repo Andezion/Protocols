@@ -65,7 +65,22 @@ struct http_response http_post(const char *url, const char *body, struct http_re
     response.headers = strdup(headers_buffer);
     response.body = strdup(body);
 
+    // проверка на хуйню с памятью
+    if (!response.version || !response.status_message || !response.headers || !response.body) {
+        fprintf(stderr, "Memory allocation failed\n");
 
+        free(response.version);
+        free(response.status_message);
+        free(response.headers);
+        free(response.body);
+
+        response.version = NULL;
+        response.status_message = NULL;
+        response.headers = NULL;
+        response.body = NULL;
+    }
+
+    // ну и тут мы возвращаем наш ответ клиенту
     return response;
 }
 

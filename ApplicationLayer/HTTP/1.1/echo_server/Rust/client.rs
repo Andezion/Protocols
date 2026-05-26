@@ -1,16 +1,25 @@
-use hyper::{Client, Uri};
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpStream;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let uri: Uri = "http://httpbin.org/ip".parse()?;
+    let host = "httpbin.org";
+    let port = 80;
+    let addr = format!("{}:{}", host, port);
 
-    let client = Client::new();
-    let res = client.get(uri).await?;
+    let mut stream = TcpStream::connect(addr).await?;
 
-    println!("Status: {}", res.status());
+    let req = format!(
+        "GET /ip HTTP/1.1\r\nHost: {}\r\nConnection: close\r\n\r\n",
+        host
+    );
 
-    let body_bytes = hyper::body::to_bytes(res.into_body()).await?;
-    println!("Body: {}", String::from_utf8_lossy(&body_bytes));
+    stream.write_all(req.as_bytes()).await?;
+
+    let mut resp = Vec::new();
+    stream.read_to_end(&mut resp).await?;
+
+    println!("Response:\n{}", String::from_utf8_lossy(&resp));
 
     Ok(())
 }

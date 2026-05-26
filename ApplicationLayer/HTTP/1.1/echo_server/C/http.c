@@ -57,19 +57,13 @@ struct http_response http_post(const char *url, const char *body, struct http_re
 }
 
 struct http_response http_put(const char *url, const char *body, struct http_request *request) {
-    struct http_response responce = {
-        .version = strdup("HTTP/1.1"),
-        .status_code = HTTP_OK,
-        .status_message = strdup("OK"),
-        .headers = strdup("Content-Type: text/plain\r\nContent-Length: 11\r\n"),
-        .body = strdup("Hello World")
-    };
+    struct http_response response;
 
-    return responce;
+    return response;
 }
 
 struct http_response http_delete(const char *url, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),
@@ -77,11 +71,11 @@ struct http_response http_delete(const char *url, struct http_request *request) 
         .body = NULL
     };
 
-    return responce;
+    return response;
 }
 
 struct http_response http_head(const char *url, struct http_request *request) {
-    struct http_response responce = {
+    struct http_response response = {
         .version = strdup("HTTP/1.1"),
         .status_code = HTTP_OK,
         .status_message = strdup("OK"),

@@ -111,25 +111,13 @@ struct http_response http_patch(const char *url, const char *body, struct http_r
 }
 
 struct http_response http_trace(const char *url, struct http_request *request) {
-    struct http_response response = {
-        .version = strdup("HTTP/1.1"),
-        .status_code = HTTP_OK,
-        .status_message = strdup("OK"),
-        .headers = strdup("Content-Type: text/plain\r\nContent-Length: 0\r\n"),
-        .body = NULL
-    };
-
+    struct http_response response;
+    
     return response;
 }
 
 struct http_response http_connect(const char *url, struct http_request *request) {
-    struct http_response response = {
-        .version = strdup("HTTP/1.1"),
-        .status_code = HTTP_OK,
-        .status_message = strdup("OK"),
-        .headers = strdup("Content-Type: text/plain\r\nContent-Length: 0\r\n"),
-        .body = NULL
-    };
+    struct http_response response;
 
     return response;
 }

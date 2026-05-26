@@ -30,6 +30,8 @@ struct http_response http_get(const char *url, struct http_request *request) {
     // тут тело нашего ответа
     response.body = strdup(body);
 
+
+    // проверка на хуйню с памятью
     if (!response.version || !response.status_message || !response.headers || !response.body) {
         fprintf(stderr, "Memory allocation failed\n");
 
@@ -44,6 +46,7 @@ struct http_response http_get(const char *url, struct http_request *request) {
         response.body = NULL;
     }
 
+    // ну и тут мы возвращаем наш ответ клиенту
     return response;
 }
 

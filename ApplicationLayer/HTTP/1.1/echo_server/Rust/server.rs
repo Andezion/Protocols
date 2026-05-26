@@ -10,7 +10,7 @@ use hyper_util::rt::TokioIo;
 use tokio::net::TcpListener;
 
 async fn handle_request(_: Request<hyper::body::Incoming>) -> Result<Response<Full<Bytes>>, Infallible> {
-    Ok(Response::new(Full::new(Bytes::from("Hello bithces"))))
+    Ok(Response::new(Full::new(Bytes::from("Hello World"))))
 } 
 
 #[tokio::main]
@@ -27,10 +27,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
         tokio::task::spawn(async move {
             if let Err(err) = http1::Builder::new()
-                .serve_connection(io, service_fn(hello))
+                .serve_connection(io, service_fn(handle_request))
                 .await
             {
                 eprintln!("Error serving connection: {:?}", err);
             }
         });
+    }
 }

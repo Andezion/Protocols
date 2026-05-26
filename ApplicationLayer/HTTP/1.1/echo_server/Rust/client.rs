@@ -1,6 +1,5 @@
-use http_body_util::Empty;
 use hyper::Request;
-use hyper::body::Bytes;
+use hyper::Body;
 use hyper_util::rt::TokioIo;
 use tokio::net::TcpStream;
 
@@ -24,6 +23,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
             println!("Connection failed: {:?}", err);
         }
     });
+
+    let req = Request::builder()
+        .method("GET")
+        .uri(url)
+        .header("Host", host)
+        .body(Body::empty())?;
+
+    let res = sender.send_request(req).await?;
+    println!("Response: {}", res.status());
+
+    let body_bytes = hyper::body::to_bytes(res.into_body()).await?;
+    println!("Body: {}", String::from_utf8_lossy(&body_bytes));
 
     Ok(())
 }

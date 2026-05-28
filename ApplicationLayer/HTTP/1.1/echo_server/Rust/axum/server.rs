@@ -2,8 +2,19 @@ use axum::{
     routing::{get, post},
     http::StatusCode,
     Json, Router,
-}
+};
 use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct CreateUser {
+    name: String,
+}
+
+#[derive(Serialize)]
+struct User {
+    id: u64,
+    name: String,
+}
 
 #[tokio::main]
 async fn main() {
@@ -13,7 +24,7 @@ async fn main() {
         .route("/", get(root))
         .route("/users", post(users));
 
-    let listener = tokio::net::TcpListener::bind("0:0:0:0:8080").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
     println!("Listening on http://{}", listener.local_addr().unwrap());
 
     axum::serve(listener, app).await.unwrap();
@@ -27,7 +38,7 @@ async fn users(Json(payload) : Json<CreateUser>) -> (StatusCode, Json<User>) {
     let user = User {
         id: 1,  
         name: payload.name,
-    }
+    };
 
     (StatusCode::CREATED, Json(user))
 }

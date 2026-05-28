@@ -18,3 +18,16 @@ async fn main() {
 
     axum::serve(listener, app).await.unwrap();
 }
+
+async fn root() -> &'static str {
+    "Hello bithces"
+}
+
+async fn users(Json(payload) : Json<CreateUser>) -> (StatusCode, Json<User>) {
+    let user = User {
+        id: 1,  
+        name: payload.name,
+    }
+
+    (StatusCode::CREATED, Json(user))
+}

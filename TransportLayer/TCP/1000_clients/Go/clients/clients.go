@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"net"
 )
 
@@ -37,4 +38,26 @@ func (c *Client) ReadMessage() (string, error) {
 
 func (c *Client) Close() error {
 	return c.conn.Close()
+}
+
+func main() {
+	addr := "127.0.0.1:8090"
+	for i := 0; i < 1000; i++ {
+		conn, err := net.Dial("tcp", addr)
+		if err != nil {
+			panic(err)
+		}
+
+		client := NewClient(fmt.Sprintf("Client%d", i), i, conn)
+		go func(c *Client) {
+			defer c.Close()
+			c.SendMessage("Hello from " + c.name)
+			response, err := c.ReadMessage()
+			if err != nil {
+				fmt.Printf("%s: Error reading response: %v\n", c.name, err)
+				return
+			}
+			fmt.Printf("%s received: %s", c.name, response)
+		}(client)
+	}
 }

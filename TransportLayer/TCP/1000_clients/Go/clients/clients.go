@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"time"
 )
 
 type Client struct {
@@ -47,6 +48,8 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+
+		time.Sleep(10 * time.Millisecond) // Небольшая задержка между подключениями
 
 		client := NewClient(fmt.Sprintf("Client%d", i), i, conn)
 		go func(c *Client) {

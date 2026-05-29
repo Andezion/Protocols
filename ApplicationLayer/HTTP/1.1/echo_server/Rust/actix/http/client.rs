@@ -20,7 +20,10 @@ fn main() -> std::io::Result<()> {
     .arg("http://127.0.0.1:8080/")
     .output()?;
 
-
+    let output_hey = Command::new("curl")
+    .arg("-i")
+    .arg("http://127.0.0.1:8080/hey")
+    .output()?;
 
     Ok(())
 }

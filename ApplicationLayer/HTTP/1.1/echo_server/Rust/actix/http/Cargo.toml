@@ -1,5 +1,5 @@
 [package]
-name = "http_axum_echo_server"
+name = "http_actix_http_echo_server"
 version = "0.0.1"
 authors = ["Vlad Cool"]
 edition = "2024"

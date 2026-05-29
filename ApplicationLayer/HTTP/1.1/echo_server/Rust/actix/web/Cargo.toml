@@ -11,4 +11,6 @@ actix-web = "4"
 name = "server"
 path = "server.rs"
 
-
+[[bin]]
+name = "client"
+path = "client.rs"

@@ -9,3 +9,8 @@ async fn func_hello() -> impl Responder {
 async fn func_echo(req: String) -> impl Responder {
     HttpResponse::Ok().body(req)
 }
+
+async fn manual_hello() -> impl Responder {
+    HttpResponse::Ok().body("Hello, World!")
+}
+

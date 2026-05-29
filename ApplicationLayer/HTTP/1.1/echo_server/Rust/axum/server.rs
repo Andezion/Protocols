@@ -5,11 +5,13 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 
+// эту структуру нам кидает клиент, и внутри его имя
 #[derive(Deserialize)]
 struct CreateUser {
     name: String,
 }
 
+// это уже наша структура, которую мы кидаем клиенту, и внутри его имя и id
 #[derive(Serialize)]
 struct User {
     id: u64,

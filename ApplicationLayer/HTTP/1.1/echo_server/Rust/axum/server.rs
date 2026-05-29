@@ -30,9 +30,11 @@ async fn main() {
         .route("/", get(root))
         .route("/users", post(users));
 
+    // тут мы говорим на каком адресе и порту слушать запросы
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
     println!("Listening on http://{}", listener.local_addr().unwrap());
 
+    // запускаем сервак
     axum::serve(listener, app).await.unwrap();
 }
 

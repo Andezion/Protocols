@@ -1,0 +1,20 @@
+[package]
+name = "http_axum_echo_server"
+version = "0.0.1"
+authors = ["Vlad Cool"]
+edition = "2024"
+
+[dependencies]
+axum = "0.8.0"
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[[bin]]
+name = "server"
+path = "server.rs"
+
+[[bin]]
+name = "client"
+path = "client.rs"

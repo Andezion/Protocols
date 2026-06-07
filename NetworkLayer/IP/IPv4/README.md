@@ -1,1 +1,1 @@
-# IPv4
+# IPv4 (Internet Protocol version 4)

@@ -3,6 +3,19 @@
 What is ready:
 
 - ### Application Layer
+    - DNS
+        - README
+        - echo client server
+            - Rust
+    - HTTP
+        - 1.1
+            - README
+            - echo server
+                - C
+                - C++
+                - Go
+                - Rust
+                - Zig
 - ### Data Link Layer
 - ### Network Layer
     - ARP

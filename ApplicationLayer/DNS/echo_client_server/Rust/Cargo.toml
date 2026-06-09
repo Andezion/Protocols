@@ -5,6 +5,7 @@ authors = ["Vlad Cool"]
 edition = "2024"
 
 [dependencies]
+rust-dns = "0.1.1"
 
 [[bin]]
 name = "server"

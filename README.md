@@ -15,7 +15,15 @@ What is ready:
     - TCP 
         - README
         - echo server
+            - Bash
+            - C
+            - C++
+            - Go
+            - Rust
+            - Zig
         - 1000 clients
+            - C++
+            - Go
         - graceful disconnect
         - multiple clients
 

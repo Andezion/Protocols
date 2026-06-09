@@ -6,6 +6,13 @@ What is ready:
 - ### Data Link Layer
 - ### Network Layer
 - ### Physical Layer
+    - Cellular
+        - 1G
+        - 2G
+        - 3G
+        - 4G
+        - 5G
+        - 6G
 - ### Transport Layer
     - **SCTP** 
         - echo server

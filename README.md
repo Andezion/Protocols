@@ -7,12 +7,12 @@ What is ready:
 - ### Network Layer
 - ### Physical Layer
 - ### Transport Layer
-    - SCTP 
+    - **SCTP** 
         - echo server
             - Rust
             - Go 
             - Zig
-    - TCP 
+    - **TCP** 
         - README
         - echo server
             - Bash
@@ -29,7 +29,7 @@ What is ready:
             - C++
             - Go
             - Rust
-    - UDP
+    - **UDP**
         - README
 
 

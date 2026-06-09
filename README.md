@@ -25,6 +25,9 @@ What is ready:
             - C++
             - Go
         - graceful disconnect
+            - C++
+            - Go
+            - Rust
         - multiple clients
             - C++
             - Go

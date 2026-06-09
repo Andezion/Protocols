@@ -9,6 +9,8 @@ What is ready:
     - Cellular
         - 1G
             - README
+            - C
+            - C++
         - 2G
             - README
         - 3G

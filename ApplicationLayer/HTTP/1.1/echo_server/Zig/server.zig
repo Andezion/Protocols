@@ -21,5 +21,11 @@ pub fn main(init: std.process.Init) !void {
             log.err("Failed to accept conn: {s}", .{@errorName(err)});
             continue;
         };
+        const thread = std.Thread.spawn(.{}, accept, .{ stream, io }) catch |err| {
+            log.err("Failed to spawn thread: {s}", .{@errorName(err)});
+            continue;
+        };
+
+        thread.detach();
     }
 }

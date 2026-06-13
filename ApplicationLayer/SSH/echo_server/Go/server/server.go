@@ -23,4 +23,20 @@ func main() {
 		}
 		log.Println(w.Path())
 	}
+
+	f, err := client.Create("hello.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := f.Write([]byte("i hate you")); err != nil {
+		log.Fatal(err)
+	}
+	f.Close()
+
+	resp, err := client.Lstat("hello.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Resp is: %s", &resp)
 }

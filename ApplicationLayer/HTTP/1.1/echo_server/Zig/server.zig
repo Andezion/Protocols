@@ -1,6 +1,5 @@
 const std = @import("std");
 const log = std.log;
-const net = std.net;
 const os = std.os;
 const http = std.http;
 const Io = std.io;
@@ -11,7 +10,7 @@ const Response = std.http.Server.Response;
 pub fn main(init: std.process.Init) !void {
     const io = init.io;
 
-    const addr = try net.IpAddress.parse("127.0.0.1", 8080);
+    const addr = try std.net.IpAddress.parse("127.0.0.1", 8080);
     var server = try addr.listen(io, .{ .reuse_address = true });
     defer server.close(io);
 
@@ -31,7 +30,7 @@ pub fn main(init: std.process.Init) !void {
     }
 }
 
-fn accept(stream: net.Stream, io: Io) !void {
+fn accept(stream: std.net.Stream, io: Io) !void {
     defer stream.close(io);
 
     log.info("New client: {s}", .{stream.peerAddress(io)});
@@ -62,4 +61,15 @@ fn accept(stream: net.Stream, io: Io) !void {
             },
         }
     }
+}
+
+fn serverHTTP(request: *Request) !void {
+    try request.respond(
+        "hi bitch",
+        .{
+            .extra_headers = .{
+                .{ .name = "custon-header", .value = "custon value" },
+            },
+        },
+    );
 }

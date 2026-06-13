@@ -38,5 +38,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Resp is: %s", &resp)
+	log.Printf("Resp is: %v", &resp)
 }

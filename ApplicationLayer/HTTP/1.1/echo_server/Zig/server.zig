@@ -13,4 +13,13 @@ pub fn main(init: std.process.Init) !void {
     const addr = try net.IpAddress.parse("127.0.0.1", 8080);
     var server = try addr.listen(io, .{ .reuse_address = true });
     defer server.close(io);
+
+    log.info("Started shitty echo server on: {f}", .{addr});
+
+    while (true) {
+        const stream = server.accept(io) catch |err| {
+            log.err("Failed to accept conn: {s}", .{@errorName(err)});
+            continue;
+        };
+    }
 }

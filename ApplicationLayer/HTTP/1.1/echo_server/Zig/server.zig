@@ -38,4 +38,7 @@ fn accept(stream: net.Stream, io: Io) !void {
 
     var recv_buffer: [1024]u8 = undefined;
     var send_buffer: [1024]u8 = undefined;
+
+    var stream_reader = stream.reader(io, &recv_buffer);
+    var stream_writer = stream.writer(io, &send_buffer);
 }

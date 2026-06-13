@@ -57,7 +57,23 @@ fn accept(stream: std.Io.net.Stream, io: Io) !void {
             .other => |other_protocol| {
                 log.err("Unsupported upgrade protocol: {s}", .{other_protocol});
             },
+            .websocket => |key| {
+                var ws = try request.respondWebSocket(.{ .key = key orelse "" });
+                try serveWebSocket(&ws);
+            },
         }
+    }
+}
+
+fn serveWebSocket(ws: *std.http.Server.WebSocket) !void {
+    try ws.writeMessage("diediediedie", .text);
+    while (true) {
+        const msg = try ws.readSmallMessage();
+        if (msg.opcode == .connection_close) {
+            log.info("Client closed the WebSocket", .{});
+            return;
+        }
+        try ws.writeMessage(msg.data, msg.opcode);
     }
 }
 

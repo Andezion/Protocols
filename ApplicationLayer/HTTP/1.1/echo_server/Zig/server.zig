@@ -81,8 +81,8 @@ fn serverHTTP(request: *Request) !void {
     try request.respond(
         "hi bitch",
         .{
-            .extra_headers = .{
-                .{ .name = "custon-header", .value = "custon value" },
+            .extra_headers = &.{
+                .{ .name = "custom-header", .value = "custom value" },
             },
         },
     );

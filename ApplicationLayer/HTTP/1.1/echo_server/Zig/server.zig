@@ -3,6 +3,7 @@ const log = std.log;
 const net = std.net;
 const os = std.os;
 const http = std.http;
+const Io = std.io;
 
 const Request = std.http.Server.Request;
 const Response = std.http.Server.Response;
@@ -28,4 +29,13 @@ pub fn main(init: std.process.Init) !void {
 
         thread.detach();
     }
+}
+
+fn accept(stream: net.Stream, io: Io) !void {
+    defer stream.close(io);
+
+    log.info("New client: {s}", .{stream.peerAddress(io)});
+
+    var recv_buffer: [1024]u8 = undefined;
+    var send_buffer: [1024]u8 = undefined;
 }

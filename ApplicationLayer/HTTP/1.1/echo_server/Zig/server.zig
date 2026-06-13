@@ -1,18 +1,16 @@
 const std = @import("std");
 const log = std.log;
-const os = std.os;
-const http = std.http;
-const Io = std.io;
+const Io = std.Io;
+const net = std.Io.net;
 
 const Request = std.http.Server.Request;
-const Response = std.http.Server.Response;
 
 pub fn main(init: std.process.Init) !void {
     const io = init.io;
 
-    const addr = try std.net.IpAddress.parse("127.0.0.1", 8080);
+    const addr = try net.IpAddress.parse("127.0.0.1", 8080);
     var server = try addr.listen(io, .{ .reuse_address = true });
-    defer server.close(io);
+    defer server.deinit(io);
 
     log.info("Started shitty echo server on: {f}", .{addr});
 
@@ -30,10 +28,10 @@ pub fn main(init: std.process.Init) !void {
     }
 }
 
-fn accept(stream: std.net.Stream, io: Io) !void {
+fn accept(stream: std.Io.net.Stream, io: Io) !void {
     defer stream.close(io);
 
-    log.info("New client: {s}", .{stream.peerAddress(io)});
+    log.info("New client connected", .{});
 
     var recv_buffer: [1024]u8 = undefined;
     var send_buffer: [1024]u8 = undefined;
@@ -45,7 +43,7 @@ fn accept(stream: std.net.Stream, io: Io) !void {
 
     while (server.reader.state == .ready) {
         var request = server.receiveHead() catch |err| switch (err) {
-            error.HttpConnectionClosed => return,
+            error.HttpConnectionClosing => return,
             else => {
                 log.err("Failed to receive request: {s}", .{@errorName(err)});
                 return err;

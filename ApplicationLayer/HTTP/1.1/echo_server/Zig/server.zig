@@ -41,4 +41,25 @@ fn accept(stream: net.Stream, io: Io) !void {
 
     var stream_reader = stream.reader(io, &recv_buffer);
     var stream_writer = stream.writer(io, &send_buffer);
+
+    var server = std.http.Server.init(&stream_reader.interface, &stream_writer.interface);
+
+    while (server.reader.state == .ready) {
+        var request = server.receiveHead() catch |err| switch (err) {
+            error.HttpConnectionClosed => return,
+            else => {
+                log.err("Failed to receive request: {s}", .{@errorName(err)});
+                return err;
+            },
+        };
+
+        switch (request.upgradeRequested()) {
+            .none => {
+                try serverHTTP(&request);
+            },
+            .other => |other_protocol| {
+                log.err("Unsupported upgrade protocol: {s}", .{other_protocol});
+            },
+        }
+    }
 }

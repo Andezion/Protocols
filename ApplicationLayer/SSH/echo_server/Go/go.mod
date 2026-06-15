@@ -3,9 +3,13 @@ module example.com/Go
 go 1.26.3
 
 require (
+	github.com/gliderlabs/ssh v0.3.0
+	github.com/pkg/sftp v1.13.10
+	golang.org/x/crypto v0.53.0
+)
+
+require (
+	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
 	github.com/kr/fs v0.1.0 // indirect
-	github.com/pkg/sftp v1.13.10 // indirect
-	golang.org/x/crypto v0.53.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
-	github.com/gliderlabs/ssh v0.3.0 // indirect
 )

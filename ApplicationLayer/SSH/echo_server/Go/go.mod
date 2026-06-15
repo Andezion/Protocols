@@ -7,4 +7,5 @@ require (
 	github.com/pkg/sftp v1.13.10 // indirect
 	golang.org/x/crypto v0.53.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
+	github.com/gliderlabs/ssh v0.3.0 // indirect
 )

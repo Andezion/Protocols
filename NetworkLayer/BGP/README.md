@@ -38,7 +38,28 @@ router bgp 10
 
 3) Hold Time (Время удержания): это время, в течение которого маршрутизатор будет считать соседство активным, если не получит никаких сообщений от соседа. Если маршрутизатор не получает сообщений от соседа в течение этого времени, он считает соседство неактивным и удаляет его из своей таблицы маршрутизации. В нашем примере Hold Time составляет 180 секунд. Обычно время ожидания 180 секунд, и каждые 60 секунд маршрутизаторы BGP отправляют Keepalive сообщения, чтобы поддерживать соседство активным. И оба роутера должны согласовать значение Hold Time, и если они не совпадают, то сессия BGP не будет установлена
 
-Пример настройки multipath маршрутов для BGP:
+**Примеры атрибутов BGP:**
+- Well-known mandatory:
+  - Autonomous system path
+  - Next-hop
+  - Origin
+
+- Well-known discretionary:
+  - Local preference
+  - Atomic aggregate
+
+- Optional transitive:
+  - Aggregator
+  - Communities
+
+- Optional non-transitive:
+  - Multi-exit discriminator (MED)
+  - Originator ID
+  - Cluster list
+
+Подробнее можно почитать вот [тут](https://habr.com/ru/articles/450814/)
+
+#### Пример настройки multipath маршрутов для BGP:
 
 ![photo](photo/photo1.png)
 

@@ -114,3 +114,21 @@ ESR(config)# do commit
 ESR(config)# do confirm
 ESR(config)# exit
 ```
+
+В результате в таблице маршрутизации появится multipath маршрут:
+
+```
+ESR# show ip route
+ Codes: C - connected, S - static, R - RIP derived,
+        O - OSPF derived, IA - OSPF inter area route,
+        E1 - OSPF external type 1 route, E2 - OSPF external type 2 route
+        B - BGP derived, D - DHCP derived, K - kernel route, V - VRRP route
+        i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+        * - FIB route
+ 
+B     * 192.0.2.0/24       [170/0]           multipath                         [bgp1 04:03:09]
+                                   via 198.51.100.2 on gi1/0/1 weight 1
+                                   via 203.0.113.2 on gi1/0/2 weight 1
+C     * 198.51.100.0/30    [0/0]             dev gi1/0/1                       [direct 02:40:37]
+C     * 203.0.113.0/30     [0/0]             dev gi1/0/2                       [direct 04:00:27]
+```

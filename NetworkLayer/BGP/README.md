@@ -70,3 +70,47 @@ B     * 192.0.2.0/24       [170/0]           via 198.51.100.2 on gi1/0/1       [
 C     * 198.51.100.0/30    [0/0]             dev gi1/0/1                       [direct 02:40:37]
 C     * 203.0.113.0/30     [0/0]             dev gi1/0/2                       [direct 04:00:27]
 ```
+
+Конфигурация маршрутизатора с выключенным firewall:
+
+```
+ESR# show running-config
+router bgp log-neighbor-changes
+router bgp 1
+  router-id 198.51.100.1
+  neighbor 198.51.100.2
+    remote-as 1
+    address-family ipv4 unicast
+      enable
+    exit
+    enable
+  exit
+  neighbor 203.0.113.2
+    remote-as 1
+    address-family ipv4 unicast
+      enable
+    exit
+    enable
+  exit
+  enable
+exit
+ 
+interface gigabitethernet 1/0/1
+  ip firewall disable
+  ip address 198.51.100.1/30
+exit
+interface gigabitethernet 1/0/2
+  ip firewall disable
+  ip address 203.0.113.1/30
+exit
+```
+
+Для решения поставленной задачи необходимо настроить maximum-paths, равный 2, для всех BGP-процессов. Произведем необходимые изменения в конфигурации:
+
+```
+ESR# configure
+ESR(config)# router bgp maximum-paths 2
+ESR(config)# do commit
+ESR(config)# do confirm
+ESR(config)# exit
+```

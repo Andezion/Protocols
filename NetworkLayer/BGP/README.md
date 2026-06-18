@@ -41,3 +41,16 @@ router bgp 10
 Пример настройки multipath маршрутов для BGP:
 
 ![photo](photo/photo1.png)
+
+Настроить ECMP с ограничением до 2 multipath маршрутов. В исходной схеме  маршрутизаторы ESR, Router 1 и Router 2 находятся в одной AS 1.  От маршрутизаторов Router 1 и Router 2 анонсируется маршрут до подсети 192.0.2.0/24 с одинаковым cost на маршрутизатор ESR:
+
+```
+ESR# show bgp ipv4 unicast
+Status codes: u - unicast, b - broadcast, m - multicast, a - anycast
+              * - valid, > - best
+Origin codes: i - IGP, e - EGP, ? - incomplete
+ 
+     Network              Next Hop             Metric  LocPrf      Weight Path       
+*> u 192.0.2.0/24         198.51.100.2         --      100         0      i
+*  u 192.0.2.0/24         203.0.113.2          --      100         0      i
+```

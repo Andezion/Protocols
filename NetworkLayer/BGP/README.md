@@ -54,3 +54,19 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 *> u 192.0.2.0/24         198.51.100.2         --      100         0      i
 *  u 192.0.2.0/24         203.0.113.2          --      100         0      i
 ```
+
+Поскольку multipath для BGP по умолчанию выключен (maximum-paths = 1), то в таблице маршрутизации будет 1 наилучший маршрут до подсети 192.0.2.0/24:
+
+```
+ESR# show ip route
+ Codes: C - connected, S - static, R - RIP derived,
+        O - OSPF derived, IA - OSPF inter area route,
+        E1 - OSPF external type 1 route, E2 - OSPF external type 2 route
+        B - BGP derived, D - DHCP derived, K - kernel route, V - VRRP route
+        i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+        * - FIB route
+ 
+B     * 192.0.2.0/24       [170/0]           via 198.51.100.2 on gi1/0/1       [bgp1 04:03:09] (i)
+C     * 198.51.100.0/30    [0/0]             dev gi1/0/1                       [direct 02:40:37]
+C     * 203.0.113.0/30     [0/0]             dev gi1/0/2                       [direct 04:00:27]
+```

@@ -33,4 +33,10 @@ func main() {
 		log.Fatal(err)
 	}
 	f.Close()
+
+	fi, err := client.Lstat("/home/user/test.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(fi)
 }

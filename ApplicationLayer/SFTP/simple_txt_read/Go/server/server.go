@@ -15,4 +15,22 @@ func main() {
 		log.Fatal(err)
 	}
 	defer client.Close()
+
+	w := client.Walk("/home/user")
+	for w.Step() {
+		if w.Err() != nil {
+			continue
+		}
+		log.Println(w.Path())
+	}
+
+	f, err := client.Create("/home/user/test.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := f.Write([]byte("Hello, SFTP!")); err != nil {
+		log.Fatal(err)
+	}
+	f.Close()
 }

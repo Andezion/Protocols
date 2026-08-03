@@ -16,7 +16,7 @@
 ## Теория 
 
 Попробуем подумать как бы выглядело сообщение, работает оно по принципу протобаф:
-```
+```c
 // Эквивалент сообщения Data из protobuf
 typedef struct _meshtastic_Data {
     uint32_t portnum; // ID порта приложения (например, 1 для TEXT_MESSAGE)
@@ -27,7 +27,7 @@ typedef struct _meshtastic_Data {
 ```
 
 Либо же 
-```
+```c
 // Эквивалент сообщения MeshPacket
 typedef struct _meshtastic_MeshPacket {
     uint32_t to; // ID получателя (0xFFFFFFFF - бродкаст)

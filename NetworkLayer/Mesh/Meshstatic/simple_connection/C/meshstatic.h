@@ -9,3 +9,5 @@ extern void sx1262_send_packet(uint8_t *buffer, size_t len);
 
 // Собственно сама отправка сообщения в Meshtastic (текстовый чат)
 void send_mesh_text_message(const char* text);
+
+void send_data();

@@ -20,7 +20,7 @@
 // Эквивалент сообщения Data из protobuf
 typedef struct _meshtastic_Data {
     uint32_t portnum; // ID порта приложения (например, 1 для TEXT_MESSAGE)
-    pb_callback_t payload;  // Массив байт (текст сообщения)
+    pb_bytes_t payload;  // Массив байт (текст сообщения)
     uint32_t id;
     bool want_response;
 } meshtastic_Data;
@@ -32,7 +32,7 @@ typedef struct _meshtastic_Data {
 typedef struct _meshtastic_MeshPacket {
     uint32_t to; // ID получателя (0xFFFFFFFF - бродкаст)
     uint32_t from; // ID отправителя
-    pb_callback_t encrypted;// Зашифрованные данные или сырой Data (если без шифрования)
+    pb_bytes_t encrypted;// Зашифрованные данные или сырой Data (если без шифрования)
     uint32_t id; // Случайный ID пакета
     uint32_t hop_limit; // Ограничение по прыжкам ретрансляции
 } meshtastic_MeshPacket;

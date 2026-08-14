@@ -70,3 +70,25 @@ yggdrasil -useconffile /etc/yggdrasil.conf
 ```
 
 Всё. На устройстве появится сетевой интерфейс с IPv6-адресом 200::/7. Можно пинговать другие узлы, открывать сайты в сети Yggdrasil, запускать свои сервисы. Но, лучше, конечно, запустить yggdrasil потом как сервис.
+
+**Как собрать и запустить `simple_connection/C`**
+```bash
+cd NetworkLayer/Mesh/Yggdrasil/simple_connection/C
+gcc yggdrasil.c client1.c -o client1 -lsodium
+gcc yggdrasil.c client2.c -o client2 -lsodium
+
+# В одном терминале запустить первый узел:
+./client1
+# В другом - второй:
+./client2
+```
+
+**Как собрать и запустить `simple_connection/Go`**
+```bash
+cd NetworkLayer/Mesh/Yggdrasil/simple_connection/Go
+
+# В одном терминале запустить первый узел:
+go run ./client1
+# В другом - второй:
+go run ./client2
+```

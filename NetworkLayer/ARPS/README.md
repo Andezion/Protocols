@@ -24,4 +24,4 @@ ARPS (Automatic Packet Reporting System)
 ## Практика
 
 
-Если хочется почитать больше то вот прикольная (статья)[https://habr.com/ru/articles/249901/]
+Если хочется почитать больше то вот прикольная [статья](https://habr.com/ru/articles/249901/)
